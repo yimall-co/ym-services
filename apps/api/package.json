@@ -1,0 +1,24 @@
+{
+    "name": "yimall-service",
+    "version": "0.1.0",
+    "description": "yiMall API",
+    "type": "module",
+    "scripts": {
+        "dev": "tsx --env-file=.env.local ./src/server.ts"
+    },
+    "dependencies": {
+        "pg": "catalog:",
+        "zod": "catalog:",
+        "dotenv": "catalog:",
+        "fastify": "catalog:",
+        "tsyringe": "catalog:",
+        "drizzle-orm": "catalog:",
+        "reflect-metadata": "catalog:"
+    },
+    "devDependencies": {
+        "@types/pg": "catalog:",
+        "@types/node": "catalog:",
+        "drizzle-kit": "catalog:",
+        "typescript": "catalog:"
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "name": "yimall-monorepo",
+    "version": "1.0.0",
+    "description": "",
+    "keywords": [],
+    "author": {
+        "name": "Brian Castro",
+        "email": "brian.castro.bedoya@gmail.com",
+        "url": "https://github.com/briancastro-bc"
+    },
+    "private": true,
+    "license": "UNLICENSED",
+    "packageManager": "pnpm@10.29.2",
+    "engines": {
+        "node": ">=20",
+        "pnpm": ">=8"
+    },
+    "scripts": {
+        "build": "turbo run build",
+        "start": "turbo run start",
+        "dev": "turbo run dev",
+        "lint": "turbo run lint"
+    },
+    "devDependencies": {
+        "turbo": "^2.8.5"
+    }
+}
