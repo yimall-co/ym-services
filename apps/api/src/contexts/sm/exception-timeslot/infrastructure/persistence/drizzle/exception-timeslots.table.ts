@@ -2,7 +2,7 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
-import { exceptions } from './exceptions.table';
+import { exceptions } from 'sm/exception/infrastructure/persistence/drizzle/exceptions.table';
 
 export const exceptionTimeSlots = p.pgTable(
     'exception_time_slots',

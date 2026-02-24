@@ -3,10 +3,14 @@ import { StringValueObject } from 'shared/domain/value-object/string.value-objec
 export class WorkspaceDescription extends StringValueObject {
     private readonly MAX_LENGTH = 2000;
 
-    constructor(value: string) {
-        super(value);
+    constructor(value: string | null) {
+        super(value ?? '');
 
         this.ensureMaxLength();
+    }
+
+    isEmpty(): boolean {
+        return this.value.length === 0;
     }
 
     private ensureMaxLength(): void {

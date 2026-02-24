@@ -8,9 +8,9 @@ import { offerImages } from 'vm/offer-image/infrastructure/persistence/drizzle/o
 import { offerOptionGroups } from 'vm/offer-option-group/infrastructure/persistence/drizzle/offer-option-groups.table';
 import { workspaces } from 'wm/workspace/infrastructure/persistence/drizzle/workspaces.table';
 import { categories } from 'lm/category/infrastructure/persistence/drizzle/categories.table';
-import { subcategories } from 'lm/infrastructure/persistence/drizzle/subcategories.table';
-import { cartItems } from 'cm/infrastructure/persistence/drizzle/cart-items.table';
-import { appointments } from 'bm/infrastructure/persistence/drizzle/appointments.table';
+import { subcategories } from 'lm/subcategory/infrastructure/persistence/drizzle/subcategories.table';
+import { cartItems } from 'cm/cart-item/infrastructure/persistence/drizzle/cart-items.table';
+import { appointments } from 'bm/appointment/infrastructure/persistence/drizzle/appointments.table';
 
 export const offers = p.pgTable(
     'offers',

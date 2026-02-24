@@ -2,7 +2,7 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
-import { cartItemOptions } from 'cm/infrastructure/persistence/drizzle/cart-item-options.table';
+import { cartItemOptions } from 'cm/cart-item-option/infrastructure/persistence/drizzle/cart-item-options.table';
 
 import { options } from 'vm/option/infrastructure/persistence/drizzle/options.table';
 import { offerOptionGroups } from 'vm/offer-option-group/infrastructure/persistence/drizzle/offer-option-groups.table';

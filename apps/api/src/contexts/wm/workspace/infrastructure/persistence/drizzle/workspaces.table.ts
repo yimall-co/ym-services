@@ -2,11 +2,11 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
-import { users } from 'iam/infrastructure/persistence/drizzle/users.table';
-import { shops } from 'vm/infrastructure/persistence/drizzle/shops.table';
-import { offers } from 'vm/infrastructure/persistence/drizzle/offers.table';
+import { users } from 'iam/user/infrastructure/persistence/drizzle/users.table';
+import { shops } from 'vm/shop/infrastructure/persistence/drizzle/shops.table';
+import { offers } from 'vm/offer/infrastructure/persistence/drizzle/offers.table';
 import { categories } from 'lm/category/infrastructure/persistence/drizzle/categories.table';
-import { subcategories } from 'lm/infrastructure/persistence/drizzle/subcategories.table';
+import { subcategories } from 'lm/subcategory/infrastructure/persistence/drizzle/subcategories.table';
 
 import { segments } from 'wm/segment/infrastructure/persistence/drizzle/segments.table';
 import { customizations } from 'wm/customization/infrastructure/persistence/drizzle/customizations.table';

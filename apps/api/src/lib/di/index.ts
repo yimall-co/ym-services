@@ -5,14 +5,15 @@ import { container, instanceCachingFactory } from 'tsyringe';
 import { DrizzleClientFactory } from 'shared/infrastructure/persistence/drizzle/client-factory';
 
 container
-    .register('db', {
+    .register('Drizzle', {
         useFactory: instanceCachingFactory(
-        () => {
-            const pool = DrizzleClientFactory.createPool({
-                connectionString: process.env.DATABASE_URL,
-            });
-            const client = DrizzleClientFactory.createClient(pool);
-
-            return client;
-        }),
+            () => {
+                const pool = DrizzleClientFactory.createPool({
+                    connectionString: process.env.DATABASE_URL,
+                });
+                return DrizzleClientFactory.createClient(pool);
+            }),
     })
+    .register('', {
+        useFactory: () => { },
+    });
