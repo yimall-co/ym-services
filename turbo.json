@@ -1,9 +1,14 @@
 {
     "$schema": "https://turborepo.dev/schema.json",
+    "globalEnv": [
+        "NODE_ENV",
+        "APP_PORT",
+        "PORT"
+    ],
     "tasks": {
         "build": {
             "dependsOn": ["^build"],
-            "outputs": ["dist/**"]
+            "outputs": ["dist/**", "build/**"]
         },
         "dev": {
             "dependsOn": ["^dev"],
@@ -12,6 +17,9 @@
         },
         "start": {
             "dependsOn": ["build"]
+        },
+        "lint": {
+            "dependsOn": ["^lint"]
         }
     }
 }

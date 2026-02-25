@@ -1,0 +1,87 @@
+{
+    "name": "service",
+    "version": "0.0.1",
+    "description": "",
+    "author": "",
+    "private": true,
+    "license": "UNLICENSED",
+    "scripts": {
+        "build": "nest build",
+        "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+        "start": "nest start",
+        "dev": "pnpm start:dev",
+        "start:dev": "nest start --watch",
+        "start:debug": "nest start --debug --watch",
+        "start:prod": "node dist/main",
+        "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:cov": "jest --coverage",
+        "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+        "test:e2e": "jest --config ./test/jest-e2e.json"
+    },
+    "dependencies": {
+        "@nestjs/common": "catalog:nestjs",
+        "@nestjs/core": "catalog:nestjs",
+        "@nestjs/config": "catalog:nestjs",
+        "@nestjs/platform-express": "catalog:nestjs",
+        "@nestjs/platform-fastify": "catalog:nestjs",
+        "@nestjs/swagger": "catalog:nestjs",
+        "@fastify/helmet": "catalog:fastify",
+        "@fastify/compress": "catalog:fastify",
+        "@fastify/static": "catalog:fastify",
+        "class-validator": "catalog:",
+        "class-transformer": "catalog:",
+        "reflect-metadata": "catalog:",
+        "rxjs": "catalog:",
+        "pg": "catalog:",
+        "zod": "catalog:",
+        "dotenv": "catalog:",
+        "tsyringe": "catalog:",
+        "drizzle-orm": "catalog:",
+        "nestjs-i18n": "catalog:nestjs"
+    },
+    "devDependencies": {
+        "@eslint/eslintrc": "catalog:eslint",
+        "@eslint/js": "catalog:eslint",
+        "@nestjs/cli": "catalog:nestjs",
+        "@nestjs/schematics": "catalog:nestjs",
+        "@nestjs/testing": "catalog:nestjs",
+        "@types/pg": "catalog:types",
+        "@types/express": "catalog:types",
+        "@types/node": "catalog:types",
+        "@types/supertest": "catalog:types",
+        "eslint": "catalog:eslint",
+        "eslint-config-prettier": "catalog:eslint",
+        "eslint-plugin-prettier": "catalog:eslint",
+        "globals": "catalog:",
+        "jest": "catalog:",
+        "prettier": "catalog:",
+        "drizzle-kit": "catalog:",
+        "source-map-support": "catalog:",
+        "supertest": "catalog:",
+        "ts-jest": "catalog:",
+        "ts-loader": "catalog:",
+        "ts-node": "catalog:",
+        "tsconfig-paths": "catalog:",
+        "typescript": "catalog:",
+        "typescript-eslint": "catalog:eslint"
+    },
+    "jest": {
+        "moduleFileExtensions": [
+            "js",
+            "json",
+            "ts"
+        ],
+        "rootDir": "src",
+        "testRegex": ".*\\.spec\\.ts$",
+        "transform": {
+            "^.+\\.(t|j)s$": "ts-jest"
+        },
+        "collectCoverageFrom": [
+            "**/*.(t|j)s"
+        ],
+        "coverageDirectory": "../coverage",
+        "testEnvironment": "node"
+    }
+}

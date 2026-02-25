@@ -4,12 +4,12 @@ export abstract class StringValueObject extends ValueObject<string> {
     constructor(value: string) {
         super(value);
 
-        this.ensureIsNotEmpty();
+        this.ensureIsDefined();
     }
 
-    private ensureIsNotEmpty(): void {
-        if (this.value === '') {
-            throw new Error('Empty string');
+    private ensureIsDefined(): void {
+        if (typeof this.value === 'undefined' || this.value === null) {
+            throw new Error('Empty string or not defined');
         }
     }
 }

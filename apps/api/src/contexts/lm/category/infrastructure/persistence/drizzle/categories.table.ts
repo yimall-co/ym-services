@@ -2,10 +2,9 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
-import { offers } from 'vm/infrastructure/persistence/drizzle/offers.table';
+import { offers } from 'vm/offer/infrastructure/persistence/drizzle/offers.table';
 import { workspaces } from 'wm/workspace/infrastructure/persistence/drizzle/workspaces.table';
-
-import { subcategories } from './subcategories.table';
+import { subcategories } from 'lm/subcategory/infrastructure/persistence/drizzle/subcategories.table';
 
 export const categories = p.pgTable(
     'categories',

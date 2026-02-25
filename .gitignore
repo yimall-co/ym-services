@@ -7,6 +7,7 @@
 .opencode/
 data/
 dist/
+build/
 node_modules/
 target/
 tests_output/

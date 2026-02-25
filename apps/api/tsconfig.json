@@ -1,43 +1,61 @@
 {
     "compilerOptions": {
-        "target": "ES2020",
-        "module": "commonjs",
-        "lib": ["ES2020"],
-        "moduleResolution": "node",
-
-        "strict": true,
-        "noEmit": true,
-        "noImplicitAny": true,
-
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "skipLibCheck": true,
-        "resolveJsonModule": true,
-        "allowImportingTsExtensions": true,
-
+        "outDir": "build",
+        "sourceMap": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-
-        "outDir": "dist",
+        "strict": true,
+        "noEmit": true,
+        "noImplicitAny": false,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "strictPropertyInitialization": false,
+        "module": "commonjs",
+        "target": "es2023",
         "rootDir": "src",
-
-        "useDefineForClassFields": false,
-
-        "types": ["node"],
-
+        "lib": [
+            "es2023",
+            "dom"
+        ],
         "paths": {
-            "lib/*": ["./src/lib/*"],
-            "bm/*": ["./src/contexts/bm/*"],
-            "cm/*": ["./src/contexts/cm/*"],
-            "iam/*": ["./src/contexts/iam/*"],
-            "lm/*": ["./src/contexts/lm/*"],
-            "shared/*": ["./src/contexts/shared/*"],
-            "sm/*": ["./src/contexts/sm/*"],
-            "vm/*": ["./src/contexts/vm/*"],
-            "wm/*": ["./src/contexts/wm/*"],
-            "presentation/*": ["./src/presentation/*"]
+            "lib/*": [
+                "./src/lib/*"
+            ],
+            "bm/*": [
+                "./src/contexts/bm/*"
+            ],
+            "cm/*": [
+                "./src/contexts/cm/*"
+            ],
+            "iam/*": [
+                "./src/contexts/iam/*"
+            ],
+            "lm/*": [
+                "./src/contexts/lm/*"
+            ],
+            "shared/*": [
+                "./src/contexts/shared/*"
+            ],
+            "sm/*": [
+                "./src/contexts/sm/*"
+            ],
+            "vm/*": [
+                "./src/contexts/vm/*"
+            ],
+            "wm/*": [
+                "./src/contexts/wm/*"
+            ],
+            "presentation/*": [
+                "./src/presentation/*"
+            ]
         }
     },
-    "include": ["src"],
-    "exclude": ["node_modules", "dist"]
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
 }

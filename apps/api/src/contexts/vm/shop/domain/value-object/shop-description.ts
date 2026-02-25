@@ -1,4 +1,4 @@
-import { StringValueObject } from "shared/domain/value-object/string.value-object";
+import { StringValueObject } from 'shared/domain/value-object/string.value-object';
 
 export class ShopDescription extends StringValueObject {
     private readonly MAX_LENGTH = 500;

@@ -2,9 +2,8 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { sql, relations } from 'drizzle-orm';
 
-import { shops } from 'vm/infrastructure/persistence/drizzle/shops.table';
-
-import { scheduleTimeSlots } from './schedules-timeslots.table';
+import { shops } from 'vm/shop/infrastructure/persistence/drizzle/shops.table';
+import { scheduleTimeSlots } from 'sm/schedule-timeslot/infrastructure/persistence/drizzle/schedule-timeslots.table';
 
 export const schedules = p.pgTable(
     'schedules',

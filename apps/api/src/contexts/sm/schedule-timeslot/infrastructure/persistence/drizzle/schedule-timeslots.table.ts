@@ -2,7 +2,7 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
-import { schedules } from './schedules.table';
+import { schedules } from 'sm/schedule/infrastructure/persistence/drizzle/schedules.table';
 
 export const scheduleTimeSlots = p.pgTable(
     'schedule_time_slots',
