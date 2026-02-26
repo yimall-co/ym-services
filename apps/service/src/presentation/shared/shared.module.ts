@@ -1,6 +1,6 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 
-import { queryHandlersProvider, queryBusProvider, drizzleInstanceProvider } from './adapters';
+import { drizzleInstanceProvider } from './adapters';
 
 @Global()
 @Module({

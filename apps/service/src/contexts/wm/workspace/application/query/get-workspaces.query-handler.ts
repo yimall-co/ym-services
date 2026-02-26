@@ -1,6 +1,7 @@
+import { Query } from 'shared/domain/query';
 import { QueryHandler } from 'shared/domain/query-handler';
 import { WorkspaceRepository } from 'wm/workspace/domain/workspace.repository';
-import { GetWorkspacesQuery } from 'wm/workspace/domain/get-workspaces.query';
+import { GetWorkspacesQuery } from 'wm/workspace/application/query/get-workspaces.query';
 
 import { WorkspacesResult } from '../workspaces-result';
 
@@ -10,7 +11,7 @@ export class GetWorkspacesQueryHandler implements QueryHandler<
 > {
     constructor(private readonly workspaceRepository: WorkspaceRepository) { }
 
-    subscribedTo(): GetWorkspacesQuery {
+    subscribedTo(): Query {
         return GetWorkspacesQuery;
     }
 

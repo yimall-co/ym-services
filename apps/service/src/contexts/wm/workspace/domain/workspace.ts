@@ -63,6 +63,28 @@ export class Workspace extends AggregateRoot {
         this.ownerId = ownerId;
     }
 
+    static create(
+        name: WorkspaceName,
+        slug: WorkspaceSlug,
+        description: WorkspaceDescription,
+        tin: WorkspaceTin,
+        segmentId: SegmentId,
+        ownerId: WorkspaceOwnerId,
+    ): Workspace {
+        return new Workspace(
+            WorkspaceId.random(),
+            name,
+            slug,
+            description,
+            tin,
+            new WorkspaceIsVerified(false),
+            new WorkspaceCreatedAt(new Date()),
+            new WorkspaceUpdatedAt(new Date()),
+            segmentId,
+            ownerId,
+        );
+    }
+
     static fromPrimitives(primitives: WorkspacePrimitves): Workspace {
         return new Workspace(
             new WorkspaceId(primitives.id),

@@ -1,28 +1,49 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-// import { QueryBus } from 'shared/domain/query-bus';
-import type { QueryHandler } from 'shared/domain/query-handler';
+import type { QueryBus } from 'shared/domain/query-bus';
+import type { CommandBus } from 'shared/domain/command-bus';
+import { WorkspaceResult } from 'wm/workspace/application/workspace-result';
 import { WorkspacesResult } from 'wm/workspace/application/workspaces-result';
-import { GetWorkspacesQuery } from 'wm/workspace/domain/get-workspaces.query';
+import { GetWorkspacesQuery } from 'wm/workspace/application/query/get-workspaces.query';
+import { GetWorkspaceByIdQuery } from 'wm/workspace/application/query/get-workspace-by-id.query';
+import { CreateWorkspaceCommand } from 'wm/workspace/application/command/create-workspace.command';
 
-import { GET_WORKSPACES_QUERY_HANDLER } from './adapters/workspace.adapter';
+import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+
+import { CreateWorkspaceDto } from './dtos/create-workspace.dto';
 
 @Injectable()
 export class WorkspaceService {
     constructor(
-        @Inject(GET_WORKSPACES_QUERY_HANDLER)
-        private readonly getWorkspacesQueryHandler: QueryHandler<
-            GetWorkspacesQuery,
-            WorkspacesResult
-        >,
+        @Inject(QUERY_BUS)
+        private readonly queryBus: QueryBus,
+        @Inject(COMMAND_BUS)
+        private readonly commandBus: CommandBus,
     ) { }
 
-    async getAllWorkspaces(): Promise<Array<any>> {
-        const query = new GetWorkspacesQuery();
+    async getAllWorkspaces(top: number, skip: number) {
+        const query = new GetWorkspacesQuery(top, skip);
 
-        // await this.queryBus.ask<WorkspacesResult>(query);
-        const result = await this.getWorkspacesQueryHandler.handle(query);
-        const workspaces = result.workspaces.map((w) => ({ ...w }));
-        return workspaces;
+        const result = await this.queryBus.ask<WorkspacesResult>(query);
+        return result.workspaces.map((w) => ({ ...w }));
     }
+
+    async getOneWorkspace(id: string) {
+        const query = new GetWorkspaceByIdQuery(id);
+
+        const result = await this.queryBus.ask<WorkspaceResult>(query);
+        return { ...result };
+    }
+
+    async createWorkspace(dto: CreateWorkspaceDto) {
+        const { name, description, tin, segmentId, ownerId } = dto;
+
+        const command = new CreateWorkspaceCommand(name, description, tin, segmentId, ownerId);
+
+        await this.commandBus.dispatch(command);
+    }
+
+    async updateWorkspace() { }
+
+    async deleteWorkspace() { }
 }

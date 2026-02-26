@@ -34,6 +34,7 @@
         "class-transformer": "catalog:",
         "reflect-metadata": "catalog:",
         "rxjs": "catalog:",
+        "uuid": "catalog:",
         "pg": "catalog:",
         "zod": "catalog:",
         "dotenv": "catalog:",

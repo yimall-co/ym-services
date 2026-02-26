@@ -1,3 +1,3 @@
-import { StringValueObject } from 'shared/domain/value-object/string.value-object';
+import { UuidValueObject } from 'shared/domain/value-object/uuid.value-object';
 
-export class WorkspaceId extends StringValueObject {}
+export class WorkspaceId extends UuidValueObject { }

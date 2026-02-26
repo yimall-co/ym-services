@@ -3,14 +3,26 @@ import { DynamicModule, Module, NestModule } from '@nestjs/common';
 import { WorkspaceService } from './workspace.service';
 import { WorkspaceController } from './workspace.controller';
 import {
+    createWorkspaceCommandHandlerProvider,
+    getWorkspaceByIdQueryHandlerProvider,
     getWorkspacesQueryHandlerProvider,
     workspaceRepositoryProvider,
-} from './adapters/workspace.adapter';
+} from './adapters';
 
 @Module({
     controllers: [WorkspaceController],
-    providers: [workspaceRepositoryProvider, getWorkspacesQueryHandlerProvider, WorkspaceService],
-    exports: [workspaceRepositoryProvider, getWorkspacesQueryHandlerProvider],
+    providers: [
+        WorkspaceService,
+        workspaceRepositoryProvider,
+        getWorkspacesQueryHandlerProvider,
+        getWorkspaceByIdQueryHandlerProvider,
+        createWorkspaceCommandHandlerProvider,
+    ],
+    exports: [
+        getWorkspacesQueryHandlerProvider,
+        getWorkspaceByIdQueryHandlerProvider,
+        createWorkspaceCommandHandlerProvider,
+    ],
 })
 export class WorkspaceModule implements NestModule {
     static forRoot(): DynamicModule {

@@ -1,10 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+import { v4 } from 'uuid';
+
 import { StringValueObject } from './string.value-object';
 
-export abstract class UuidValueObject extends StringValueObject {
+export class UuidValueObject extends StringValueObject {
     constructor(value: string) {
         super(value);
 
         this.ensureIsValidUuid();
+    }
+
+    static random(): UuidValueObject {
+        const randomUuid = v4();
+        return new UuidValueObject(randomUuid);
     }
 
     private ensureIsValidUuid(): void {
