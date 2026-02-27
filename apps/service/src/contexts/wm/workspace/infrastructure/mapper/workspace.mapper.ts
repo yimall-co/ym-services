@@ -10,6 +10,7 @@ export class WorkspaceMapper {
             description: row.description ?? '',
             tin: row.tin ?? '',
             isVerified: row.isVerified ?? false,
+            isActive: row.isActive ?? true,
             createdAt: row.createdAt,
             updatedAt: row.updatedAt,
             segmentId: row.segmentId,

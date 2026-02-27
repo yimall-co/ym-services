@@ -9,10 +9,6 @@ export class WorkspaceDescription extends StringValueObject {
         this.ensureMaxLength();
     }
 
-    isEmpty(): boolean {
-        return this.value.length === 0;
-    }
-
     private ensureMaxLength(): void {
         if (this.value.length > WorkspaceDescription.maxLength) {
             throw new Error('Description is too long');

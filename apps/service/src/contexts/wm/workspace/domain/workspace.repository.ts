@@ -6,5 +6,5 @@ export interface WorkspaceRepository {
     findAll(): Promise<Array<Workspace>>;
     findById(id: WorkspaceId): Promise<Workspace>;
     save(workspace: Workspace): Promise<void>;
-    update(workspace: Workspace): Promise<void>;
+    update(id: WorkspaceId, workspace: Workspace): Promise<void>;
 }

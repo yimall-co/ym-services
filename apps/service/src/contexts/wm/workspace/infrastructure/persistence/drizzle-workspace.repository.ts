@@ -31,10 +31,18 @@ export class DrizzleWorkspaceRepository
     }
 
     async save(workspace: Workspace): Promise<void> {
-        throw new Error('Method not implemented.');
+        await this.client.insert(this.table).values(workspace.toPrimitives());
     }
 
-    async update(workspace: Workspace): Promise<void> {
-        throw new Error('Method not implemented.');
+    async update(id: WorkspaceId, workspace: Workspace): Promise<void> {
+        const primitives = workspace.toPrimitives();
+
+        await this.client
+            .update(this.table)
+            .set({
+                name: primitives.name,
+                description: primitives.description,
+            })
+            .where(eq(this.table.id, id.value));
     }
 }

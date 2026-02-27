@@ -21,7 +21,8 @@ export const workspaces = p.pgTable(
         tin: p.varchar('tin', {
             length: 15,
         }),
-        isVerified: p.boolean('is_verified').default(false),
+        isVerified: p.boolean('is_verified').notNull().default(false),
+        isActive: p.boolean('is_active').notNull().default(true),
         createdAt: p.timestamp('created_at').defaultNow().notNull(),
         updatedAt: p
             .timestamp('updated_at')

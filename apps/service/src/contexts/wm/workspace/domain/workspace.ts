@@ -8,6 +8,7 @@ import { WorkspaceSlug } from './value-object/workspace-slug';
 import { WorkspaceDescription } from './value-object/workspace-description';
 import { WorkspaceTin } from './value-object/workspace-tin';
 import { WorkspaceIsVerified } from './value-object/workspace-is-verified';
+import { WorkspaceIsActive } from './value-object/workspace-is-active';
 import { WorkspaceCreatedAt } from './value-object/workspace-created-at';
 import { WorkspaceUpdatedAt } from './value-object/workspace-updated-at';
 import { WorkspaceOwnerId } from './value-object/workspace-owner-id';
@@ -19,6 +20,7 @@ export interface WorkspacePrimitves {
     description: string;
     tin: string;
     isVerified: boolean;
+    isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
     segmentId: string;
@@ -26,16 +28,17 @@ export interface WorkspacePrimitves {
 }
 
 export class Workspace extends AggregateRoot {
-    readonly id: WorkspaceId;
-    readonly name: WorkspaceName;
-    readonly slug: WorkspaceSlug;
-    readonly description: WorkspaceDescription;
-    readonly tin: WorkspaceTin;
-    readonly isVerified: WorkspaceIsVerified;
-    readonly createdAt: WorkspaceCreatedAt;
-    readonly updatedAt: WorkspaceUpdatedAt;
-    readonly segmentId: SegmentId;
-    readonly ownerId: WorkspaceOwnerId;
+    private readonly id: WorkspaceId;
+    private name: WorkspaceName;
+    private readonly slug: WorkspaceSlug;
+    private description: WorkspaceDescription;
+    private tin: WorkspaceTin;
+    private isVerified: WorkspaceIsVerified;
+    private isActive: WorkspaceIsActive;
+    private createdAt: WorkspaceCreatedAt;
+    private updatedAt: WorkspaceUpdatedAt;
+    private segmentId: SegmentId;
+    private ownerId: WorkspaceOwnerId;
 
     constructor(
         id: WorkspaceId,
@@ -44,6 +47,7 @@ export class Workspace extends AggregateRoot {
         description: WorkspaceDescription,
         tin: WorkspaceTin,
         isVerified: WorkspaceIsVerified,
+        isActive: WorkspaceIsActive,
         createdAt: WorkspaceCreatedAt,
         updatedAt: WorkspaceUpdatedAt,
         segmentId: SegmentId,
@@ -57,6 +61,7 @@ export class Workspace extends AggregateRoot {
         this.description = description;
         this.tin = tin;
         this.isVerified = isVerified;
+        this.isActive = isActive;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.segmentId = segmentId;
@@ -78,6 +83,7 @@ export class Workspace extends AggregateRoot {
             description,
             tin,
             new WorkspaceIsVerified(false),
+            new WorkspaceIsActive(true),
             new WorkspaceCreatedAt(new Date()),
             new WorkspaceUpdatedAt(new Date()),
             segmentId,
@@ -93,11 +99,33 @@ export class Workspace extends AggregateRoot {
             new WorkspaceDescription(primitives.description),
             new WorkspaceTin(primitives.tin),
             new WorkspaceIsVerified(primitives.isVerified),
+            new WorkspaceIsActive(primitives.isActive),
             new WorkspaceCreatedAt(primitives.createdAt),
             new WorkspaceUpdatedAt(primitives.updatedAt),
             new SegmentId(primitives.segmentId),
             new WorkspaceOwnerId(primitives.ownerId),
         );
+    }
+
+    changeName(newName: WorkspaceName): void {
+        if (newName.isEmpty()) return;
+        if (this.name.equals(newName)) return;
+
+        this.name = newName;
+        this.updatedAt = new WorkspaceUpdatedAt(new Date());
+    }
+
+    changeDescription(newDescription: WorkspaceDescription): void {
+        if (newDescription.isEmpty()) return;
+        if (this.description.equals(newDescription)) return;
+
+        this.description = newDescription;
+        // Optionally we can add domain events
+        // or call existing events
+    }
+
+    verify(): void {
+        this.isVerified = new WorkspaceIsVerified(true);
     }
 
     toPrimitives(): WorkspacePrimitves {
@@ -108,6 +136,7 @@ export class Workspace extends AggregateRoot {
             description: this.description.value,
             tin: this.tin.value,
             isVerified: this.isVerified.value,
+            isActive: this.isActive.value,
             createdAt: this.createdAt.value,
             updatedAt: this.updatedAt.value,
             segmentId: this.segmentId.value,

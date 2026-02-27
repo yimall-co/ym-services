@@ -1,10 +1,13 @@
 import {
+    BadRequestException,
     Body,
     Controller,
     Delete,
     Get,
     HttpCode,
     HttpStatus,
+    Logger,
+    NotFoundException,
     Param,
     Patch,
     Post,
@@ -21,9 +24,15 @@ import {
 
 import { WorkspaceService } from './workspace.service';
 import { CreateWorkspaceDto } from './dtos/create-workspace.dto';
+import { UpdateWorkspaceDto } from './dtos/update-workspace.dto';
 
-@Controller('/workspaces')
+@Controller({
+    path: '/workspaces',
+    version: '1',
+})
 export class WorkspaceController {
+    private readonly logger: Logger = new Logger('WorkspaceController');
+
     constructor(private readonly workspaceService: WorkspaceService) { }
 
     @Get()
@@ -31,8 +40,13 @@ export class WorkspaceController {
     @ApiNotFoundResponse({ description: 'Workspaces not found' })
     @HttpCode(HttpStatus.OK)
     async getAll(@Query('top') top: number, @Query('skip') skip: number) {
-        const workspaces = await this.workspaceService.getAllWorkspaces(top, skip);
-        return workspaces;
+        try {
+            const workspaces = await this.workspaceService.getAllWorkspaces(top, skip);
+            return workspaces;
+        } catch (error) {
+            this.logger.error(error);
+            throw new NotFoundException();
+        }
     }
 
     @Get(':id')
@@ -40,8 +54,13 @@ export class WorkspaceController {
     @ApiNotFoundResponse({ description: 'Workspace not found' })
     @HttpCode(HttpStatus.OK)
     async getById(@Param('id') id: string) {
-        const workspace = await this.workspaceService.getOneWorkspace(id);
-        return workspace;
+        try {
+            const workspace = await this.workspaceService.getOneWorkspace(id);
+            return workspace;
+        } catch (error) {
+            this.logger.error(error);
+            throw new NotFoundException();
+        }
     }
 
     @Post()
@@ -49,14 +68,28 @@ export class WorkspaceController {
     @ApiBadRequestResponse({ description: 'Cant create workspace' })
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() createWorkspaceDto: CreateWorkspaceDto) {
-        await this.workspaceService.createWorkspace(createWorkspaceDto);
+        try {
+            await this.workspaceService.createWorkspace(createWorkspaceDto);
+            return { message: 'Workspace created successfully' };
+        } catch (error) {
+            this.logger.error(error);
+            throw new BadRequestException();
+        }
     }
 
     @Put(':id')
     @ApiOkResponse({ description: 'Workspace updated' })
     @ApiBadRequestResponse({ description: 'Cant update workspace' })
     @HttpCode(HttpStatus.OK)
-    update(): void { }
+    async update(@Param('id') id: string, @Body() updateWorkspaceDto: UpdateWorkspaceDto) {
+        try {
+            await this.workspaceService.updateWorkspace(id, updateWorkspaceDto);
+            return { message: 'Workspace updated successfully' };
+        } catch (error) {
+            this.logger.error(error);
+            throw new BadRequestException();
+        }
+    }
 
     @Patch(':id')
     @ApiOkResponse({ description: 'Workspace updated' })

@@ -1,4 +1,0 @@
-{
-  "port": "env(PORT)",
-  "settings": {}
-}

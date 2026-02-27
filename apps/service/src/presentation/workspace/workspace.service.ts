@@ -4,13 +4,15 @@ import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
 import { WorkspaceResult } from 'wm/workspace/application/workspace-result';
 import { WorkspacesResult } from 'wm/workspace/application/workspaces-result';
-import { GetWorkspacesQuery } from 'wm/workspace/application/query/get-workspaces.query';
-import { GetWorkspaceByIdQuery } from 'wm/workspace/application/query/get-workspace-by-id.query';
-import { CreateWorkspaceCommand } from 'wm/workspace/application/command/create-workspace.command';
+import { GetWorkspacesQuery } from 'wm/workspace/application/query/get-workspaces/get-workspaces.query';
+import { GetWorkspaceByIdQuery } from 'wm/workspace/application/query/get-workspace-by-id/get-workspace-by-id.query';
+import { CreateWorkspaceCommand } from 'wm/workspace/application/command/create/create-workspace.command';
+import { UpdateWorkspaceCommand } from 'wm/workspace/application/command/update/update-workspace.command';
 
 import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
 
 import { CreateWorkspaceDto } from './dtos/create-workspace.dto';
+import { UpdateWorkspaceDto } from './dtos/update-workspace.dto';
 
 @Injectable()
 export class WorkspaceService {
@@ -43,7 +45,12 @@ export class WorkspaceService {
         await this.commandBus.dispatch(command);
     }
 
-    async updateWorkspace() { }
+    async updateWorkspace(id: string, dto: UpdateWorkspaceDto) {
+        const { name, description } = dto;
+
+        const command = new UpdateWorkspaceCommand(id, name, description);
+        await this.commandBus.dispatch(command);
+    }
 
     async deleteWorkspace() { }
 }

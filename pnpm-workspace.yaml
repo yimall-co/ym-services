@@ -3,6 +3,8 @@ packages:
     - "packages/*"
 
 catalog:
+    "@keyv/redis": ^5.1.6
+    "keyv": ^5.6.0
     "pg": ^8.18.0
     "zod": ^4.3.6
     "uuid": ^13.0.0
@@ -13,6 +15,7 @@ catalog:
     "jest": ^30.0.0
     "prettier": ^3.4.2
     "tsyringe": ^4.10.0
+    "cacheable": ^2.3.2
     "class-validator": ^0.14.3
     "class-transformer": ^0.5.1
     "reflect-metadata": ^0.2.2
@@ -32,6 +35,7 @@ catalog:
     "eslint": ~8.48.0
     "copy": ~0.3.2
     "concurrently": ~9.1.2
+    "cache-manager": ^7.2.8
     "sqlite3": ^5.1.7
 
 catalogs:
@@ -49,12 +53,13 @@ catalogs:
         "@nestjs/common": ^11.1.14
         "@nestjs/core": ^11.1.14
         "@nestjs/config": ^4.0.3
+        "@nestjs/cli": ^11.0.16
         "@nestjs/platform-express": ^11.1.14
         "@nestjs/platform-fastify": ^11.1.14
-        "@nestjs/cli": ^11.0.16
-        "@nestjs/testing": ^11.1.14
         "@nestjs/swagger": ^11.2.6
         "@nestjs/schematics": ^11.0.9
+        "@nestjs/testing": ^11.1.14
+        "@nestjs/cache-manager": ^3.1.0
         "nestjs-i18n": ^10.6.0
     fastify:
         "@fastify/helmet": ^13.0.2

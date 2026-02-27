@@ -7,9 +7,9 @@ import { InMemoryQueryBus } from 'shared/infrastructure/query-bus/in-memory.quer
 import { CommandHandlers } from 'shared/infrastructure/command-bus/command-handlers';
 import { InMemoryCommandBus } from 'shared/infrastructure/command-bus/in-memory.command-bus';
 import { DrizzleClientFactory } from 'shared/infrastructure/persistence/drizzle/client-factory';
-import { GetWorkspacesQueryHandler } from 'wm/workspace/application/query/get-workspaces.query-handler';
-import { GetWorkspaceByIdQueryHandler } from 'wm/workspace/application/query/get-workspace-by-id.query-handler';
-import { CreateWorkspaceCommandHandler } from 'wm/workspace/application/command/create-workspace.command-handler';
+import { GetWorkspacesQueryHandler } from 'wm/workspace/application/query/get-workspaces/get-workspaces.query-handler';
+import { GetWorkspaceByIdQueryHandler } from 'wm/workspace/application/query/get-workspace-by-id/get-workspace-by-id.query-handler';
+import { CreateWorkspaceCommandHandler } from 'wm/workspace/application/command/create/create-workspace.command-handler';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,
@@ -38,10 +38,7 @@ export const queryHandlersProvider: Provider = {
 export const queryBusProvider: Provider = {
     provide: QUERY_BUS,
     inject: [QUERY_HANDLERS],
-    useFactory: (handlers: QueryHandlers) => {
-        console.log('QUERY_BUS CREATED');
-        return new InMemoryQueryBus(handlers);
-    },
+    useFactory: (handlers: QueryHandlers) => new InMemoryQueryBus(handlers),
     scope: Scope.DEFAULT,
 };
 

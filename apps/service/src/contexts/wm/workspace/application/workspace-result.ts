@@ -1,12 +1,13 @@
-import { Workspace, WorkspacePrimitves } from 'wm/workspace/domain/workspace';
+import { Workspace } from 'wm/workspace/domain/workspace';
 
-export class WorkspaceResult implements WorkspacePrimitves {
+export class WorkspaceResult {
     readonly id: string;
     readonly name: string;
     readonly slug: string;
     readonly description: string;
     readonly tin: string;
     readonly isVerified: boolean;
+    // readonly isActive: boolean;
     readonly createdAt: Date;
     readonly updatedAt: Date;
     readonly segmentId: string;
@@ -21,6 +22,7 @@ export class WorkspaceResult implements WorkspacePrimitves {
         this.description = primitives.description;
         this.tin = primitives.tin;
         this.isVerified = primitives.isVerified;
+        // this.isActive = primitives.isActive;
         this.createdAt = primitives.createdAt;
         this.updatedAt = primitives.updatedAt;
         this.segmentId = primitives.segmentId;
