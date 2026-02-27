@@ -5,4 +5,9 @@ export interface WorkspaceByIdDto {
     tin: string | null;
     segmentId: string;
     ownerId: string;
+    owner: {
+        id: string;
+        name: string;
+        email: string;
+    };
 }
