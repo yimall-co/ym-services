@@ -1,14 +1,15 @@
-import { AnyPgTable, PgTable } from 'drizzle-orm/pg-core';
+import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+
+import { PgSelect, AnyPgTable } from 'drizzle-orm/pg-core';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
 export abstract class DrizzleRepository<TTable extends AnyPgTable> {
-    constructor(protected readonly db: NodePgDatabase) {}
+    constructor(protected readonly db: NodePgDatabase<typeof import('./schema')>) { }
 
     protected abstract readonly table: TTable;
 
     protected select() {
-        return this.db.select().from<PgTable>(this.table);
+        return this.db.select().from<any>(this.table);
     }
 
     protected insert() {
@@ -23,7 +24,16 @@ export abstract class DrizzleRepository<TTable extends AnyPgTable> {
         return this.db.delete(this.table);
     }
 
-    protected get client(): NodePgDatabase {
+    // eslint-disable-next-line prettier/prettier
+    protected withPagination<T extends PgSelect>(
+        query: T,
+        page: number = 1,
+        pageSize: number = 10,
+    ) {
+        return query.limit(pageSize).offset((page - 1) * pageSize);
+    }
+
+    protected get client() {
         return this.db;
     }
 

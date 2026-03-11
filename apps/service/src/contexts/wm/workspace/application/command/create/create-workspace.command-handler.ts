@@ -9,16 +9,20 @@ import { WorkspaceDescription } from 'wm/workspace/domain/value-object/workspace
 import { WorkspaceTin } from 'wm/workspace/domain/value-object/workspace-tin';
 import { WorkspaceOwnerId } from 'wm/workspace/domain/value-object/workspace-owner-id';
 
+import { CreateWorkspaceResultDto } from './create-workspace-result.dto';
 import { CreateWorkspaceCommand } from './create-workspace.command';
 
-export class CreateWorkspaceCommandHandler implements CommandHandler<CreateWorkspaceCommand> {
+export class CreateWorkspaceCommandHandler implements CommandHandler<
+    CreateWorkspaceCommand,
+    CreateWorkspaceResultDto
+> {
     constructor(private readonly workspaceRepository: WorkspaceRepository) { }
 
     subscribedTo(): Command {
         return CreateWorkspaceCommand;
     }
 
-    async handle(command: CreateWorkspaceCommand): Promise<void> {
+    async handle(command: CreateWorkspaceCommand): Promise<CreateWorkspaceResultDto> {
         const slugify = (value: string) => {
             return value.split(' ').join('-').trim().toLocaleLowerCase();
         };
@@ -35,5 +39,9 @@ export class CreateWorkspaceCommandHandler implements CommandHandler<CreateWorks
         );
 
         await this.workspaceRepository.save(workspace);
+
+        const workspaceId = workspace.getId();
+
+        return { workspaceId: workspaceId.value };
     }
 }

@@ -66,7 +66,11 @@ export class Customization extends AggregateRoot {
             new CustomizationFontPrimary(primitives.fontPrimary),
             new CustomizationFontSecondary(primitives.fontSecondary),
             new CustomizationShowName(primitives.showName),
-            new SocialMediaCollection(primitives.socialMedia.map(SocialMedia.fromPrimitives)),
+            new SocialMediaCollection(
+                primitives.socialMedia.map((socialMedia) =>
+                    SocialMedia.fromPrimitives(socialMedia),
+                ),
+            ),
             new CustomizationCreatedAt(primitives.createdAt),
             new CustomizationUpdatedAt(primitives.updatedAt),
             new WorkspaceId(primitives.workspaceId),

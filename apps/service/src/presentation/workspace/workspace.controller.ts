@@ -13,6 +13,7 @@ import {
     Post,
     Put,
     Query,
+    UseGuards,
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse,
@@ -22,12 +23,14 @@ import {
     ApiOkResponse,
 } from '@nestjs/swagger';
 
+import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
+
 import { WorkspaceService } from './workspace.service';
 import { CreateWorkspaceDto } from './dtos/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dtos/update-workspace.dto';
 
 @Controller({
-    path: '/workspaces',
+    path: 'workspaces',
     version: '1',
 })
 export class WorkspaceController {
@@ -41,8 +44,7 @@ export class WorkspaceController {
     @HttpCode(HttpStatus.OK)
     async getAll(@Query('top') top: number, @Query('skip') skip: number) {
         try {
-            const workspaces = await this.workspaceService.getAllWorkspaces(top, skip);
-            return workspaces;
+            return await this.workspaceService.getAllWorkspaces(top, skip);
         } catch (error) {
             this.logger.error(error);
             throw new NotFoundException();
@@ -55,15 +57,28 @@ export class WorkspaceController {
     @HttpCode(HttpStatus.OK)
     async getById(@Param('id') id: string) {
         try {
-            const workspace = await this.workspaceService.getOneWorkspace(id);
-            return workspace;
+            return await this.workspaceService.getWorkspaceById(id);
         } catch (error) {
             this.logger.error(error);
             throw new NotFoundException();
         }
     }
 
+    @Get(':id/statistics')
+    @ApiOkResponse({ description: '' })
+    @ApiNotFoundResponse({ description: '' })
+    @HttpCode(HttpStatus.OK)
+    async getStatistics(@Param('id') id: string) {
+        try {
+            return await this.workspaceService.getStatistics(id);
+        } catch (error: any) {
+            this.logger.error(error);
+            throw new NotFoundException(error.message);
+        }
+    }
+
     @Post()
+    @UseGuards(JwtAuthGuard)
     @ApiCreatedResponse({ description: 'Workspace created' })
     @ApiBadRequestResponse({ description: 'Cant create workspace' })
     @HttpCode(HttpStatus.CREATED)
@@ -78,6 +93,7 @@ export class WorkspaceController {
     }
 
     @Put(':id')
+    @UseGuards(JwtAuthGuard)
     @ApiOkResponse({ description: 'Workspace updated' })
     @ApiBadRequestResponse({ description: 'Cant update workspace' })
     @HttpCode(HttpStatus.OK)
@@ -92,12 +108,14 @@ export class WorkspaceController {
     }
 
     @Patch(':id')
+    @UseGuards(JwtAuthGuard)
     @ApiOkResponse({ description: 'Workspace updated' })
     @ApiBadRequestResponse({ description: 'Cant update workspace' })
     @HttpCode(HttpStatus.OK)
     upgrade(): void { }
 
     @Delete(':id')
+    @UseGuards(JwtAuthGuard)
     @ApiNoContentResponse({ description: 'Workspace deleted' })
     @ApiBadRequestResponse({ description: 'Cant delete workspace' })
     @HttpCode(HttpStatus.NO_CONTENT)

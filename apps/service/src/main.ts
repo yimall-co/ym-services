@@ -1,9 +1,9 @@
 import helmet from '@fastify/helmet';
+import cookie from '@fastify/cookie';
 import compress from '@fastify/compress';
 
 import {
     ClassSerializerInterceptor,
-    // ConsoleLogger,
     HttpStatus,
     RequestMethod,
     UnprocessableEntityException,
@@ -24,13 +24,9 @@ async function bootstrap() {
 
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter, {
         bufferLogs: true,
-        // logger: new ConsoleLogger({
-        //     json: true,
-        //     timestamp: true,
-        // }),
     });
 
-    await Promise.all([app.register(helmet), app.register(compress)]);
+    await Promise.all([app.register(helmet), app.register(cookie), app.register(compress)]);
 
     // app.useGlobalFilters(
     //     new GlobalException

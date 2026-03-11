@@ -16,7 +16,6 @@ export class DrizzleWorkspaceRepository
 
     async findAll(): Promise<Array<Workspace>> {
         const rows = await this.client.select().from(this.table);
-
         return rows.map(WorkspaceMapper.toDomain);
     }
 

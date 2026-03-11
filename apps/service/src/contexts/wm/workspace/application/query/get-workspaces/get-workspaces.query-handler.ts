@@ -1,22 +1,19 @@
 import { Query } from 'shared/domain/query';
 import { QueryHandler } from 'shared/domain/query-handler';
-import { WorkspaceRepository } from 'wm/workspace/domain/workspace.repository';
 import { GetWorkspacesQuery } from 'wm/workspace/application/query/get-workspaces/get-workspaces.query';
 
-import { WorkspacesResult } from '../../workspaces-result';
+import { WorkspaceDto } from './get-workspaces.dto';
+import { WorkspaceQueryRepository } from '../workspace-query.repository';
 
-export class GetWorkspacesQueryHandler implements QueryHandler<
-    GetWorkspacesQuery,
-    WorkspacesResult
-> {
-    constructor(private readonly workspaceRepository: WorkspaceRepository) { }
+export class GetWorkspacesQueryHandler implements QueryHandler<GetWorkspacesQuery, WorkspaceDto[]> {
+    constructor(private readonly workspaceQueryRepository: WorkspaceQueryRepository) { }
 
     subscribedTo(): Query {
         return GetWorkspacesQuery;
     }
 
-    async handle(): Promise<WorkspacesResult> {
-        const workspaces = await this.workspaceRepository.findAll();
-        return new WorkspacesResult(workspaces);
+    async handle(): Promise<WorkspaceDto[]> {
+        const workspaces = await this.workspaceQueryRepository.findAll();
+        return workspaces;
     }
 }

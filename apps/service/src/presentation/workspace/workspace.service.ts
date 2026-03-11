@@ -2,8 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { WorkspaceResult } from 'wm/workspace/application/workspace-result';
-import { WorkspacesResult } from 'wm/workspace/application/workspaces-result';
+import type { Response } from 'shared/domain/response';
+import { WorkspaceDto } from 'wm/workspace/application/query/get-workspaces/get-workspaces.dto';
+import { WorkspaceByIdDto } from 'wm/workspace/application/query/get-workspace-by-id/get-workspace-by-id.dto';
 import { GetWorkspacesQuery } from 'wm/workspace/application/query/get-workspaces/get-workspaces.query';
 import { GetWorkspaceByIdQuery } from 'wm/workspace/application/query/get-workspace-by-id/get-workspace-by-id.query';
 import { CreateWorkspaceCommand } from 'wm/workspace/application/command/create/create-workspace.command';
@@ -25,31 +26,28 @@ export class WorkspaceService {
 
     async getAllWorkspaces(top: number, skip: number) {
         const query = new GetWorkspacesQuery(top, skip);
-
-        const result = await this.queryBus.ask<WorkspacesResult>(query);
-        return result.workspaces.map((w) => ({ ...w }));
+        return await this.queryBus.ask<WorkspaceDto[]>(query);
     }
 
-    async getOneWorkspace(id: string) {
+    async getWorkspaceById(id: string) {
         const query = new GetWorkspaceByIdQuery(id);
-
-        const result = await this.queryBus.ask<WorkspaceResult>(query);
-        return { ...result };
+        return await this.queryBus.ask<WorkspaceByIdDto>(query);
     }
+
+    async getStatistics(id: string) { }
 
     async createWorkspace(dto: CreateWorkspaceDto) {
         const { name, description, tin, segmentId, ownerId } = dto;
 
         const command = new CreateWorkspaceCommand(name, description, tin, segmentId, ownerId);
-
-        await this.commandBus.dispatch(command);
+        return await this.commandBus.dispatch<CreateWorkspaceDto>(command);
     }
 
     async updateWorkspace(id: string, dto: UpdateWorkspaceDto) {
         const { name, description } = dto;
 
         const command = new UpdateWorkspaceCommand(id, name, description);
-        await this.commandBus.dispatch(command);
+        return await this.commandBus.dispatch<Response>(command);
     }
 
     async deleteWorkspace() { }

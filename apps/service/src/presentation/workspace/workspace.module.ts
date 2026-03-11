@@ -1,4 +1,4 @@
-import { DynamicModule, Module, NestModule } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 
 import { WorkspaceService } from './workspace.service';
 import { WorkspaceController } from './workspace.controller';
@@ -29,12 +29,10 @@ import {
         updateWorkspaceCommandHandlerProvider,
     ],
 })
-export class WorkspaceModule implements NestModule {
+export class WorkspaceModule {
     static forRoot(): DynamicModule {
         return {
             module: WorkspaceModule,
         };
     }
-
-    configure() { }
 }

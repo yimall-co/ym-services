@@ -1,10 +1,16 @@
 import { registerAs } from '@nestjs/config';
 
-export default registerAs('database', () => ({
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT),
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    url: process.env.DB_URL,
-}));
+import { createSecret } from 'lib/locker';
+
+export default registerAs('database', async () => {
+    const lockerRead = createSecret({
+        accessKeyId: process.env.LOCKER_READ_ACCESS_KEY!,
+        secretAccessKey: process.env.LOCKER_READ_SECRET_KEY!,
+    });
+
+    const url = await lockerRead.get('DB_URL');
+
+    return {
+        url,
+    };
+});

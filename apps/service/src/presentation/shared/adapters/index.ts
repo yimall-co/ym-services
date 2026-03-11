@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Provider, Scope } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Provider, Scope } from '@nestjs/common';
 
 import { QueryHandlers } from 'shared/infrastructure/query-bus/query-handlers';
 import { InMemoryQueryBus } from 'shared/infrastructure/query-bus/in-memory.query-bus';
@@ -10,28 +10,43 @@ import { DrizzleClientFactory } from 'shared/infrastructure/persistence/drizzle/
 import { GetWorkspacesQueryHandler } from 'wm/workspace/application/query/get-workspaces/get-workspaces.query-handler';
 import { GetWorkspaceByIdQueryHandler } from 'wm/workspace/application/query/get-workspace-by-id/get-workspace-by-id.query-handler';
 import { CreateWorkspaceCommandHandler } from 'wm/workspace/application/command/create/create-workspace.command-handler';
+import { CreateSegmentCommandHandler } from 'wm/segment/application/command/create/create-segment.command-handler';
+import { GetCustomizationByWorkspaceQueryHandler } from 'wm/customization/application/query/get-customization-by-workspace/get-customization-by-workspace.query-handler';
+import { GetUserByEmailQueryHandler } from 'iam/user/application/query/get-user-by-email/get-user-by-email.query-handler';
+import { CreateUserCommandHandler } from 'iam/user/application/command/create/create-user.command-handler';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,
     GET_WORKSPACES_QUERY_HANDLER,
     GET_WORKSPACE_BY_ID_QUERY_HANDLER,
 } from 'presentation/workspace/adapters/constants';
+import { CREATE_SEGMENT_COMMAND_HANDLER } from 'presentation/segment/adapters/constants';
+import { GET_CUSTOMIZATION_BY_WORKSPACE_QUERY_HANDLER } from 'presentation/customization/adapters/constants';
+import { CREATE_ACCOUNT_COMMAND_HANDLER, CREATE_USER_COMMAND_HANDLER, GET_USER_BY_EMAIl_QUERY_HANDLER } from 'presentation/auth/adapters/constants';
 
-import {
-    COMMAND_BUS,
-    COMMAND_HANDLERS,
-    DRIZZLE_INSTANCE,
-    QUERY_BUS,
-    QUERY_HANDLERS,
-} from './constants';
+import { COMMAND_BUS, COMMAND_HANDLERS, DRIZZLE_INSTANCE, QUERY_BUS, QUERY_HANDLERS } from './constants';
+import { CreateAccountCommandHandler } from 'iam/account/application/command/create/create-account.command-handler';
 
 export const queryHandlersProvider: Provider = {
     provide: QUERY_HANDLERS,
-    inject: [GET_WORKSPACES_QUERY_HANDLER, GET_WORKSPACE_BY_ID_QUERY_HANDLER],
+    inject: [
+        GET_WORKSPACES_QUERY_HANDLER,
+        GET_WORKSPACE_BY_ID_QUERY_HANDLER,
+        GET_CUSTOMIZATION_BY_WORKSPACE_QUERY_HANDLER,
+        GET_USER_BY_EMAIl_QUERY_HANDLER,
+    ],
     useFactory: (
         getWorkspacesQueryHandler: GetWorkspacesQueryHandler,
         getWorkspaceByIdQueryHandler: GetWorkspaceByIdQueryHandler,
-    ) => new QueryHandlers([getWorkspacesQueryHandler, getWorkspaceByIdQueryHandler]),
+        getCustomizationByWorkspaceQueryHandler: GetCustomizationByWorkspaceQueryHandler,
+        getUserByEmailQueryHandler: GetUserByEmailQueryHandler,
+    ) =>
+        new QueryHandlers([
+            getWorkspacesQueryHandler,
+            getWorkspaceByIdQueryHandler,
+            getCustomizationByWorkspaceQueryHandler,
+            getUserByEmailQueryHandler,
+        ]),
     scope: Scope.DEFAULT,
 };
 
@@ -44,9 +59,24 @@ export const queryBusProvider: Provider = {
 
 export const commandHandlersProvider: Provider = {
     provide: COMMAND_HANDLERS,
-    inject: [CREATE_WORKSPACE_COMMAND_HANDLER],
-    useFactory: (createWorkspaceCommandHandler: CreateWorkspaceCommandHandler) =>
-        new CommandHandlers([createWorkspaceCommandHandler]),
+    inject: [
+        CREATE_WORKSPACE_COMMAND_HANDLER,
+        CREATE_SEGMENT_COMMAND_HANDLER,
+        CREATE_USER_COMMAND_HANDLER,
+        CREATE_ACCOUNT_COMMAND_HANDLER,
+    ],
+    useFactory: (
+        createWorkspaceCommandHandler: CreateWorkspaceCommandHandler,
+        createSegmentCommandHandler: CreateSegmentCommandHandler,
+        createUserCommandHandler: CreateUserCommandHandler,
+        createAccountCommandHandler: CreateAccountCommandHandler,
+    ) =>
+        new CommandHandlers([
+            createWorkspaceCommandHandler,
+            createSegmentCommandHandler,
+            createUserCommandHandler,
+            createAccountCommandHandler,
+        ]),
     scope: Scope.DEFAULT,
 };
 
@@ -62,6 +92,7 @@ export const drizzleInstanceProvider: Provider = {
     inject: [ConfigService],
     useFactory: (configService: ConfigService) => {
         const connection = configService.getOrThrow<string>('database.url');
+
         const pool = DrizzleClientFactory.createPool({
             connectionString: connection,
         });

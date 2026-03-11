@@ -1,7 +1,7 @@
 import { StringValueObject } from 'shared/domain/value-object/string.value-object';
 
 export class SegmentDescription extends StringValueObject {
-    private readonly MAX_LENGTH = 500;
+    static readonly maxLength = 500;
 
     constructor(value: string) {
         super(value);
@@ -10,7 +10,7 @@ export class SegmentDescription extends StringValueObject {
     }
 
     private ensureIsValidLength(): void {
-        if (this.value.length > this.MAX_LENGTH) {
+        if (this.value.length > SegmentDescription.maxLength) {
             throw new Error('Description is too long');
         }
     }

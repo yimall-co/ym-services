@@ -6,12 +6,12 @@ import { CommandHandlers } from './command-handlers';
 export class InMemoryCommandBus implements CommandBus {
     constructor(private readonly commandHandlers: CommandHandlers) { }
 
-    async dispatch(command: Command): Promise<void> {
+    dispatch<TResult = void>(command: Command): TResult {
         const commandHandler = this.commandHandlers.get(command);
         if (!commandHandler) {
             throw new Error('Command handler not found');
         }
 
-        return commandHandler.handle(command);
+        return commandHandler.handle(command) as TResult;
     }
 }

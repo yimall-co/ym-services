@@ -10,4 +10,8 @@ export interface WorkspaceByIdDto {
         name: string;
         email: string;
     };
+    categories: {
+        id: string;
+        label: string;
+    }[];
 }

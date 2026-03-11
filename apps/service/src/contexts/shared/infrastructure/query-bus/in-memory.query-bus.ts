@@ -7,7 +7,7 @@ import { QueryHandlers } from './query-handlers';
 export class InMemoryQueryBus implements QueryBus {
     constructor(private readonly queryHandlers: QueryHandlers) { }
 
-    async ask<R extends Response>(query: Query): Promise<R> {
+    async ask<R extends Response>(query: Query): Promise<R | null> {
         const queryHandler = this.queryHandlers.get(query);
         if (!queryHandler) {
             throw new Error('Query handler not found');

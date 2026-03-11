@@ -4,6 +4,7 @@ packages:
 
 catalog:
     "@keyv/redis": ^5.1.6
+    "argon2": ^0.44.0
     "keyv": ^5.6.0
     "pg": ^8.18.0
     "zod": ^4.3.6
@@ -37,6 +38,9 @@ catalog:
     "concurrently": ~9.1.2
     "cache-manager": ^7.2.8
     "sqlite3": ^5.1.7
+    "lockersm": ^1.2.6
+    "passport": ^0.7.0
+    "passport-jwt": ^4.0.1
 
 catalogs:
     types:
@@ -46,6 +50,8 @@ catalogs:
         "@types/jest": ^30.0.0
         "@types/supertest": ^6.0.2
         "@types/express": ^5.0.6
+        "@types/passport": ^1.0.17
+        "@types/passport-jwt": ^4.0.1
     foalts:
         "@foal/core": ^5.0.0
         "@foal/cli": ^5.0.0
@@ -54,17 +60,21 @@ catalogs:
         "@nestjs/core": ^11.1.14
         "@nestjs/config": ^4.0.3
         "@nestjs/cli": ^11.0.16
+        "@nestjs/jwt": ^11.0.2
         "@nestjs/platform-express": ^11.1.14
         "@nestjs/platform-fastify": ^11.1.14
         "@nestjs/swagger": ^11.2.6
         "@nestjs/schematics": ^11.0.9
         "@nestjs/testing": ^11.1.14
         "@nestjs/cache-manager": ^3.1.0
+        "@nestjs/throttler": ^6.5.0
+        "@nestjs/passport": ^11.0.5
         "nestjs-i18n": ^10.6.0
     fastify:
         "@fastify/helmet": ^13.0.2
         "@fastify/compress": ^8.3.1
         "@fastify/static": ^9.0.0
+        "@fastify/cookie": ^11.0.2
     eslint:
         "@eslint/eslintrc": ^3.2.0
         "@eslint/js": ^9.18.0

@@ -19,14 +19,14 @@ export interface SegmentPrimitives {
     updatedAt: Date;
 }
 
-export class Segment extends AggregateRoot {
-    readonly id: SegmentId;
-    readonly name: SegmentName;
-    readonly slug: SegmentSlug;
-    readonly description: SegmentDescription;
-    readonly isActive: SegmentIsActive;
-    readonly createdAt: SegmentCreatedAt;
-    readonly updatedAt: SegmentUpdatedAt;
+export class Segment extends AggregateRoot<SegmentPrimitives> {
+    private readonly id: SegmentId;
+    private name: SegmentName;
+    private readonly slug: SegmentSlug;
+    private description: SegmentDescription;
+    private isActive: SegmentIsActive;
+    private createdAt: SegmentCreatedAt;
+    private updatedAt: SegmentUpdatedAt;
 
     constructor(
         id: SegmentId,
@@ -48,6 +48,23 @@ export class Segment extends AggregateRoot {
         this.updatedAt = updatedAt;
     }
 
+    static create(
+        name: SegmentName,
+        slug: SegmentSlug,
+        description: SegmentDescription,
+        isActive: SegmentIsActive,
+    ): Segment {
+        return new Segment(
+            SegmentId.random(),
+            name,
+            slug,
+            description,
+            isActive,
+            new SegmentCreatedAt(new Date()),
+            new SegmentUpdatedAt(new Date()),
+        );
+    }
+
     static fromPrimitives(primitives: SegmentPrimitives): Segment {
         return new Segment(
             new SegmentId(primitives.id),
@@ -60,6 +77,20 @@ export class Segment extends AggregateRoot {
         );
     }
 
+    getId(): SegmentId {
+        return this.id;
+    }
+
+    changeName(newName: SegmentName) {
+        if (newName.equals(this.name)) {
+            throw new Error('The new segment name is the same of current');
+        }
+
+        this.name = newName;
+
+        this.touch();
+    }
+
     toPrimitives(): SegmentPrimitives {
         return {
             id: this.id.value,
@@ -70,5 +101,9 @@ export class Segment extends AggregateRoot {
             createdAt: this.createdAt.value,
             updatedAt: this.updatedAt.value,
         };
+    }
+
+    private touch(): void {
+        this.updatedAt = new SegmentUpdatedAt(new Date());
     }
 }

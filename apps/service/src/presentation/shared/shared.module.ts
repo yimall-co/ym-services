@@ -1,8 +1,7 @@
-import { DynamicModule, Global, Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 
 import { drizzleInstanceProvider } from './adapters';
 
-@Global()
 @Module({
     providers: [drizzleInstanceProvider],
     exports: [drizzleInstanceProvider],

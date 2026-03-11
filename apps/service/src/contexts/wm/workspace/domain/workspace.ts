@@ -27,7 +27,7 @@ export interface WorkspacePrimitves {
     ownerId: string;
 }
 
-export class Workspace extends AggregateRoot {
+export class Workspace extends AggregateRoot<WorkspacePrimitves> {
     private readonly id: WorkspaceId;
     private name: WorkspaceName;
     private readonly slug: WorkspaceSlug;
@@ -107,25 +107,68 @@ export class Workspace extends AggregateRoot {
         );
     }
 
+    getId(): WorkspaceId {
+        return this.id;
+    }
+
     changeName(newName: WorkspaceName): void {
-        if (newName.isEmpty()) return;
-        if (this.name.equals(newName)) return;
+        if (this.name.equals(newName)) {
+            throw new Error('Workspace name already set');
+        }
 
         this.name = newName;
-        this.updatedAt = new WorkspaceUpdatedAt(new Date());
+
+        this.touch();
     }
 
     changeDescription(newDescription: WorkspaceDescription): void {
-        if (newDescription.isEmpty()) return;
-        if (this.description.equals(newDescription)) return;
+        if (newDescription.isEmpty()) {
+            throw new Error('Workspace description is invalid');
+        }
+
+        if (this.description.equals(newDescription)) {
+            throw new Error('Workspace description already set');
+        }
 
         this.description = newDescription;
         // Optionally we can add domain events
         // or call existing events
+
+        this.touch();
+    }
+
+    changeTin(newTin: WorkspaceTin): void {
+        if (this.isVerified.value) {
+            throw new Error('Verified workspace cannot change tin');
+        }
+
+        this.tin = newTin;
+
+        this.touch();
     }
 
     verify(): void {
+        if (!this.isActive.value) {
+            throw new Error('Inactive workspace cannot be verified');
+        }
+
+        if (this.isVerified.value) return;
+
         this.isVerified = new WorkspaceIsVerified(true);
+
+        this.touch();
+    }
+
+    inactive(ownerId: WorkspaceOwnerId): void {
+        if (!this.isActive.value) return;
+
+        if (this.ownerId.value !== ownerId.value) {
+            throw new Error('You arent the Owner');
+        }
+
+        this.isActive = new WorkspaceIsActive(false);
+
+        this.touch();
     }
 
     toPrimitives(): WorkspacePrimitves {
@@ -142,5 +185,9 @@ export class Workspace extends AggregateRoot {
             segmentId: this.segmentId.value,
             ownerId: this.ownerId.value,
         };
+    }
+
+    private touch(): void {
+        this.updatedAt = new WorkspaceUpdatedAt(new Date());
     }
 }

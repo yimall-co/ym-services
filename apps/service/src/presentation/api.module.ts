@@ -1,17 +1,34 @@
 import { DynamicModule, Module } from '@nestjs/common';
 
-import { WorkspaceModule } from './workspace/workspace.module';
 import {
     commandBusProvider,
     commandHandlersProvider,
     queryBusProvider,
     queryHandlersProvider,
 } from './shared/adapters';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { WorkspaceModule } from './workspace/workspace.module';
+import { SegmentModule } from './segment/segment.module';
+import { CustomizationModule } from './customization/customization.module';
+import { OfferModule } from './offer/offer.module';
 
+const authModule = AuthModule.forRoot();
+const userModule = UserModule.forRoot();
 const workspaceModule = WorkspaceModule.forRoot();
+const segmentModule = SegmentModule.forRoot();
+const customizationModule = CustomizationModule.forRoot();
+const offerModule = OfferModule.forRoot();
 
 @Module({
-    imports: [workspaceModule],
+    imports: [
+        authModule,
+        userModule,
+        workspaceModule,
+        segmentModule,
+        customizationModule,
+        offerModule,
+    ],
     providers: [
         queryHandlersProvider,
         queryBusProvider,

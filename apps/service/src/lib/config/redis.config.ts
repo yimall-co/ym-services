@@ -1,6 +1,18 @@
 import { registerAs } from '@nestjs/config';
 
-export default registerAs('redis', () => ({
-    url: process.env.REDIS_URL,
-    ttl: process.env.REDIS_TTL,
-}));
+import { createSecret } from 'lib/locker';
+
+export default registerAs('redis', async () => {
+    const lockerRead = createSecret({
+        accessKeyId: process.env.LOCKER_READ_ACCESS_KEY!,
+        secretAccessKey: process.env.LOCKER_READ_SECRET_KEY!,
+    });
+
+    const url = await lockerRead.get('REDIS_URL');
+    const ttl = await lockerRead.get('REDIS_TTL');
+
+    return {
+        url,
+        ttl: Number(ttl),
+    };
+});

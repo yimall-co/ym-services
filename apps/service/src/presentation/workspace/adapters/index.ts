@@ -5,11 +5,11 @@ import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { WorkspaceRepository } from 'wm/workspace/domain/workspace.repository';
 import { GetWorkspacesQueryHandler } from 'wm/workspace/application/query/get-workspaces/get-workspaces.query-handler';
 import { GetWorkspaceByIdQueryHandler } from 'wm/workspace/application/query/get-workspace-by-id/get-workspace-by-id.query-handler';
-import { WorkspaceQueryRepository } from 'wm/workspace/application/query/get-workspace-by-id/workspace.query.repository';
+import { WorkspaceQueryRepository } from 'wm/workspace/application/query/workspace-query.repository';
 import { DrizzleWorkspaceRepository } from 'wm/workspace/infrastructure/persistence/drizzle-workspace.repository';
 import { CreateWorkspaceCommandHandler } from 'wm/workspace/application/command/create/create-workspace.command-handler';
 import { UpdateWorkspaceCommandHandler } from 'wm/workspace/application/command/update/update-workspace.command-handler';
-import { DrizzleWorkspaceQueryRepository } from 'wm/workspace/infrastructure/queries/drizzle-workspace-query.repository';
+import { DrizzleWorkspaceQueryRepository } from 'wm/workspace/infrastructure/drizzle-workspace-query.repository';
 
 import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
 
@@ -22,25 +22,29 @@ import {
     WORKSPACE_QUERY_REPOSITORY,
 } from './constants';
 
+import * as schema from 'shared/infrastructure/persistence/drizzle/schema';
+
 export const workspaceRepositoryProvider: Provider = {
     provide: WORKSPACE_REPOSITORY,
     inject: [DRIZZLE_INSTANCE],
-    useFactory: (database: NodePgDatabase) => new DrizzleWorkspaceRepository(database),
+    useFactory: (database: NodePgDatabase<typeof schema>) =>
+        new DrizzleWorkspaceRepository(database),
     scope: Scope.DEFAULT,
 };
 
 export const workspaceQueryRepositoryProvider: Provider = {
     provide: WORKSPACE_QUERY_REPOSITORY,
     inject: [DRIZZLE_INSTANCE],
-    useFactory: (database: NodePgDatabase) => new DrizzleWorkspaceQueryRepository(database),
+    useFactory: (database: NodePgDatabase<typeof schema>) =>
+        new DrizzleWorkspaceQueryRepository(database),
     scope: Scope.DEFAULT,
 };
 
 export const getWorkspacesQueryHandlerProvider: Provider = {
     provide: GET_WORKSPACES_QUERY_HANDLER,
-    inject: [WORKSPACE_REPOSITORY],
-    useFactory: (workspaceRepository: WorkspaceRepository) =>
-        new GetWorkspacesQueryHandler(workspaceRepository),
+    inject: [WORKSPACE_QUERY_REPOSITORY],
+    useFactory: (workspaceQueryRepository: WorkspaceQueryRepository) =>
+        new GetWorkspacesQueryHandler(workspaceQueryRepository),
     scope: Scope.DEFAULT,
 };
 
