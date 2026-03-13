@@ -25,6 +25,22 @@ services:
         networks:
             - yimall-network
 
+    presidio-analyzer:
+        image: mcr.microsoft.com/presidio-analyzer:latest
+        container_name: presidio-analyzer
+        ports:
+            - "5002:3000"
+        networks:
+            - yimall-network
+
+    presidio-anonymizer:
+        image: mcr.microsoft.com/presidio-anonymizer:latest
+        container_name: presidio-anonymizer
+        ports:
+            - "5003:3000"
+        networks:
+            - yimall-network
+
 networks:
     yimall-network:
         driver: bridge
