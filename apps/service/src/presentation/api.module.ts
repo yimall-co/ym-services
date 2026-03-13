@@ -12,6 +12,8 @@ import { WorkspaceModule } from './workspace/workspace.module';
 import { SegmentModule } from './segment/segment.module';
 import { CustomizationModule } from './customization/customization.module';
 import { OfferModule } from './offer/offer.module';
+import { CategoryModule } from './category/category.module';
+import { ShopModule } from './shop/shop.module';
 
 const authModule = AuthModule.forRoot();
 const userModule = UserModule.forRoot();
@@ -19,6 +21,8 @@ const workspaceModule = WorkspaceModule.forRoot();
 const segmentModule = SegmentModule.forRoot();
 const customizationModule = CustomizationModule.forRoot();
 const offerModule = OfferModule.forRoot();
+const categoryModule = CategoryModule.forRoot();
+const shopModule = ShopModule.forRoot();
 
 @Module({
     imports: [
@@ -28,6 +32,8 @@ const offerModule = OfferModule.forRoot();
         segmentModule,
         customizationModule,
         offerModule,
+        categoryModule,
+        shopModule,
     ],
     providers: [
         queryHandlersProvider,

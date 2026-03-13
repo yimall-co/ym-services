@@ -5,14 +5,17 @@ import { GetWorkspacesQuery } from 'wm/workspace/application/query/get-workspace
 import { WorkspaceDto } from './get-workspaces.dto';
 import { WorkspaceQueryRepository } from '../workspace-query.repository';
 
-export class GetWorkspacesQueryHandler implements QueryHandler<GetWorkspacesQuery, WorkspaceDto[]> {
+export class GetWorkspacesQueryHandler implements QueryHandler<
+    GetWorkspacesQuery,
+    Array<WorkspaceDto>
+> {
     constructor(private readonly workspaceQueryRepository: WorkspaceQueryRepository) { }
 
     subscribedTo(): Query {
         return GetWorkspacesQuery;
     }
 
-    async handle(): Promise<WorkspaceDto[]> {
+    async handle(): Promise<Array<WorkspaceDto>> {
         const workspaces = await this.workspaceQueryRepository.findAll();
         return workspaces;
     }

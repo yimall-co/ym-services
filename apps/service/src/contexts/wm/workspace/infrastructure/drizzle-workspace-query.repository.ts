@@ -19,7 +19,7 @@ export class DrizzleWorkspaceQueryRepository
     implements WorkspaceQueryRepository {
     protected readonly table = workspaces;
 
-    async findAll(): Promise<WorkspaceDto[]> {
+    async findAll(): Promise<Array<WorkspaceDto>> {
         let query = this.client
             .select({
                 id: this.table.id,
@@ -92,7 +92,6 @@ export class DrizzleWorkspaceQueryRepository
         query = this.withCategories(query);
 
         query = query
-            // eslint-disable-next-line prettier/prettier
             .where(
                 and(
                     eq(this.table.id, id),
@@ -109,16 +108,6 @@ export class DrizzleWorkspaceQueryRepository
     }
 
     findOne(id: string): Promise<WorkspaceByIdDto | null> {
-        // await this.client.query.workspaces.findFirst({
-        //     with: {
-        //         segment: true,
-        //         categories: {
-        //             where: (fields, { eq }) => eq(fields.isActive, true),
-        //         },
-        //     },
-        //     where: (fields, { eq, and }) => and(eq(fields.id, id), eq(fields.isVerified, true)),
-        // });
-        // return null;
         throw new Error('Not implemented');
     }
 

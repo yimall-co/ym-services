@@ -31,20 +31,20 @@ export interface ShopPrimitives {
     workspaceId: string;
 }
 
-export class Shop extends AggregateRoot {
-    readonly id: ShopId;
-    readonly name: ShopName;
-    readonly slug: ShopSlug;
-    readonly description: ShopDescription;
-    readonly banner: ShopBanner;
-    readonly phone: ShopPhone;
-    readonly isPrimary: ShopIsPrimary;
-    readonly isVerified: ShopIsVerified;
-    readonly createdAt: ShopCreatedAt;
-    readonly updatedAt: ShopUpdatedAt;
-    readonly addressId: AddressId;
-    readonly geolocationId: GeolocationId;
-    readonly workspaceId: ShopWorkspaceId;
+export class Shop extends AggregateRoot<ShopPrimitives> {
+    private readonly id: ShopId;
+    private name: ShopName;
+    private slug: ShopSlug;
+    private description: ShopDescription;
+    private banner: ShopBanner;
+    private phone: ShopPhone;
+    private isPrimary: ShopIsPrimary;
+    private isVerified: ShopIsVerified;
+    private readonly createdAt: ShopCreatedAt;
+    private updatedAt: ShopUpdatedAt;
+    private addressId: AddressId;
+    private geolocationId: GeolocationId;
+    private workspaceId: ShopWorkspaceId;
 
     constructor(
         id: ShopId,
@@ -78,6 +78,34 @@ export class Shop extends AggregateRoot {
         this.workspaceId = workspaceId;
     }
 
+    static create(
+        name: ShopName,
+        slug: ShopSlug,
+        description: ShopDescription,
+        banner: ShopBanner,
+        phone: ShopPhone,
+        isPrimary: ShopIsPrimary,
+        addressId: AddressId,
+        geolocationId: GeolocationId,
+        workspaceId: ShopWorkspaceId,
+    ): Shop {
+        return new Shop(
+            ShopId.random(),
+            name,
+            slug,
+            description,
+            banner,
+            phone,
+            isPrimary,
+            new ShopIsVerified(false),
+            new ShopCreatedAt(new Date()),
+            new ShopUpdatedAt(new Date()),
+            addressId,
+            geolocationId,
+            workspaceId,
+        );
+    }
+
     static fromPrimitives(primitives: ShopPrimitives): Shop {
         return new Shop(
             new ShopId(primitives.id),
@@ -96,6 +124,10 @@ export class Shop extends AggregateRoot {
         );
     }
 
+    getId(): ShopId {
+        return this.id;
+    }
+
     toPrimitives(): ShopPrimitives {
         return {
             id: this.id.value,
@@ -112,5 +144,9 @@ export class Shop extends AggregateRoot {
             geolocationId: this.geolocationId.value,
             workspaceId: this.workspaceId.value,
         };
+    }
+
+    private touch(): void {
+        this.updatedAt = new ShopUpdatedAt(new Date());
     }
 }

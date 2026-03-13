@@ -18,7 +18,7 @@ export class DrizzleClientFactory {
     static createClientWithReplica<
         TPrimary extends NodePgDatabase,
         TReplica extends NodePgDatabase,
-    >(primary: TPrimary, replicas: TReplica[]): ReturnType<typeof withReplicas> {
+    >(primary: TPrimary, replicas: Array<TReplica>): ReturnType<typeof withReplicas> {
         const db = withReplicas(primary, replicas as any);
         return db;
     }

@@ -19,7 +19,8 @@
         "build": "turbo run build",
         "start": "turbo run start",
         "dev": "turbo run dev",
-        "lint": "turbo run lint"
+        "lint": "turbo run lint",
+        "compose": "docker-compose up -d"
     },
     "devDependencies": {
         "turbo": "^2.8.10"

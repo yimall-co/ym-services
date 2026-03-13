@@ -20,13 +20,13 @@ export interface CustomizationColorPrimitives {
 }
 
 export class CustomizationColor extends AggregateRoot {
-    readonly id: CustomizationColorId;
-    readonly label: CustomizationColorLabel;
-    readonly value: CustomizationColorValue;
-    readonly isDefault: CustomizationColorIsDefault;
-    readonly createdAt: CustomizationColorCreatedAt;
-    readonly updatedAt: CustomizationColorUpdatedAt;
-    readonly customizationId: CustomizationId;
+    private readonly id: CustomizationColorId;
+    private label: CustomizationColorLabel;
+    private value: CustomizationColorValue;
+    private isDefault: CustomizationColorIsDefault;
+    private readonly createdAt: CustomizationColorCreatedAt;
+    private updatedAt: CustomizationColorUpdatedAt;
+    private customizationId: CustomizationId;
 
     constructor(
         id: CustomizationColorId,
@@ -48,6 +48,23 @@ export class CustomizationColor extends AggregateRoot {
         this.customizationId = customizationId;
     }
 
+    static create(
+        label: CustomizationColorLabel,
+        value: CustomizationColorValue,
+        isDefault: CustomizationColorIsDefault,
+        customizationId: CustomizationId,
+    ): CustomizationColor {
+        return new CustomizationColor(
+            CustomizationColorId.random(),
+            label,
+            value,
+            isDefault,
+            new CustomizationColorCreatedAt(new Date()),
+            new CustomizationColorUpdatedAt(new Date()),
+            customizationId,
+        );
+    }
+
     static fromPrimitives(primitives: CustomizationColorPrimitives): CustomizationColor {
         return new CustomizationColor(
             new CustomizationColorId(primitives.id),
@@ -60,6 +77,10 @@ export class CustomizationColor extends AggregateRoot {
         );
     }
 
+    getId(): CustomizationColorId {
+        return this.id;
+    }
+
     toPrimitives(): CustomizationColorPrimitives {
         return {
             id: this.id.value,
@@ -70,5 +91,9 @@ export class CustomizationColor extends AggregateRoot {
             updatedAt: this.updatedAt.value,
             customizationId: this.customizationId.value,
         };
+    }
+
+    private touch(): void {
+        this.updatedAt = new CustomizationColorUpdatedAt(new Date());
     }
 }

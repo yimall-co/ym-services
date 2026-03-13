@@ -14,6 +14,8 @@ import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
 
 import { CreateWorkspaceDto } from './dtos/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dtos/update-workspace.dto';
+import { GetCategoriesByWorkspaceIdQuery } from 'lm/category/application/query/get-categories-by-workspace-id/get-categories-by-workspace-id.query';
+import { CategoryByWorkspaceIdDto } from 'lm/category/application/query/get-categories-by-workspace-id/get-categories-by-workspace-id.dto';
 
 @Injectable()
 export class WorkspaceService {
@@ -26,7 +28,7 @@ export class WorkspaceService {
 
     async getAllWorkspaces(top: number, skip: number) {
         const query = new GetWorkspacesQuery(top, skip);
-        return await this.queryBus.ask<WorkspaceDto[]>(query);
+        return await this.queryBus.ask<Array<WorkspaceDto>>(query);
     }
 
     async getWorkspaceById(id: string) {
@@ -35,6 +37,11 @@ export class WorkspaceService {
     }
 
     async getStatistics(id: string) { }
+
+    async getWorkspaceCategoriesById(id: string) {
+        const query = new GetCategoriesByWorkspaceIdQuery(id);
+        return await this.queryBus.ask<Array<CategoryByWorkspaceIdDto>>(query);
+    }
 
     async createWorkspace(dto: CreateWorkspaceDto) {
         const { name, description, tin, segmentId, ownerId } = dto;

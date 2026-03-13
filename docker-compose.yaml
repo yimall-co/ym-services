@@ -1,0 +1,35 @@
+services:
+    db:
+        image: postgres:15
+        container_name: postgres
+        restart: always
+        environment:
+            - POSTGRES_USER=${DB_USER:-yito}
+            - POSTGRES_PASSWORD=${DB_PASSWORD:-2004}
+            - POSTGRES_DB=${DB_NAME:-tindb}
+        ports:
+            - "5432:5432"
+        volumes:
+            - pg_data:/var/lib/postgresql/data
+        networks:
+            - yimall-network
+
+    redis:
+        image: redis:8-alpine
+        container_name: redis
+        restart: always
+        ports:
+            - "6379:6379"
+        volumes:
+            - redis_data:/data
+        networks:
+            - yimall-network
+
+networks:
+    yimall-network:
+        driver: bridge
+
+volumes:
+    pg_data:
+    redis_data:
+        driver: local

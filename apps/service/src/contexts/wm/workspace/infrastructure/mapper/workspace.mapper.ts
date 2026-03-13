@@ -1,5 +1,6 @@
 import { Workspace } from 'wm/workspace/domain/workspace';
-import { workspaces } from 'wm/workspace/infrastructure/persistence/drizzle/workspaces.table';
+
+import { workspaces } from '../persistence/drizzle/workspaces.table';
 
 export class WorkspaceMapper {
     static toDomain(row: typeof workspaces.$inferSelect): Workspace {
@@ -23,8 +24,8 @@ export class WorkspaceMapper {
 
         return {
             ...primitives,
-            description: primitives.description || null,
-            tin: primitives.tin || null,
+            description: primitives.description ?? null,
+            tin: primitives.tin ?? null,
         };
     }
 }

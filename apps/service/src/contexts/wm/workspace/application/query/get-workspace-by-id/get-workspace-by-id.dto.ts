@@ -10,8 +10,8 @@ export interface WorkspaceByIdDto {
         name: string;
         email: string;
     };
-    categories: {
+    categories: Array<{
         id: string;
         label: string;
-    }[];
+    }>;
 }

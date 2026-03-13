@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateSegmentDto {
     @ApiProperty()
@@ -9,9 +9,11 @@ export class CreateSegmentDto {
 
     @ApiProperty()
     @IsNotEmpty()
+    @IsString()
     description: string;
 
     @ApiProperty()
     @IsOptional()
+    @IsBoolean()
     isActive: boolean = true;
 }

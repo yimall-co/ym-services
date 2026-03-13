@@ -14,11 +14,6 @@ export class DrizzleWorkspaceRepository
     implements WorkspaceRepository {
     protected readonly table = workspaces;
 
-    async findAll(): Promise<Array<Workspace>> {
-        const rows = await this.client.select().from(this.table);
-        return rows.map(WorkspaceMapper.toDomain);
-    }
-
     async findById(id: WorkspaceId): Promise<Workspace> {
         const [row] = await this.client
             .select()
@@ -30,18 +25,13 @@ export class DrizzleWorkspaceRepository
     }
 
     async save(workspace: Workspace): Promise<void> {
-        await this.client.insert(this.table).values(workspace.toPrimitives());
+        await this.client.insert(this.table).values(WorkspaceMapper.toPersistence(workspace));
     }
 
     async update(id: WorkspaceId, workspace: Workspace): Promise<void> {
-        const primitives = workspace.toPrimitives();
-
         await this.client
             .update(this.table)
-            .set({
-                name: primitives.name,
-                description: primitives.description,
-            })
+            .set(WorkspaceMapper.toPersistence(workspace))
             .where(eq(this.table.id, id.value));
     }
 }

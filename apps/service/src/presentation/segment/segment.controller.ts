@@ -18,7 +18,7 @@ import { CreateSegmentDto } from './dtos/create-segment.dto';
     version: '1',
 })
 export class SegmentController {
-    private readonly logger = new Logger('SegmentController');
+    private readonly logger = new Logger(SegmentController.name);
 
     constructor(private readonly segmentService: SegmentService) { }
 
@@ -34,8 +34,8 @@ export class SegmentController {
         try {
             await this.segmentService.createSegment(createSegmentDto);
             return { message: 'Segment created successfully' };
-        } catch (error) {
-            this.logger.error(error);
+        } catch (error: any) {
+            this.logger.error(error.message);
             throw new BadRequestException();
         }
     }

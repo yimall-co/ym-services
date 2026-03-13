@@ -11,11 +11,32 @@ import {
 } from 'wm/customization/application/query/get-customization-by-workspace/get-customization-by-workspace.dto';
 
 import { customizations } from './persistence/drizzle/customizations.table';
+import { CustomizationByIdDto } from '../application/query/get-customization-by-id/get-customization-by-id.dto';
 
 export class DrizzleCustomizationQueryRepository
     extends DrizzleRepository<typeof customizations>
     implements CustomizationQueryRepository {
     protected readonly table = customizations;
+
+    async findOneById(id: string): Promise<CustomizationByIdDto | null> {
+        let query = this.client
+            .select({
+                id: this.table.id,
+                logo: this.table.logo,
+                fontPrimary: this.table.fontPrimary,
+                fontSecondary: this.table.fontSecondary,
+                showName: this.table.showName,
+            })
+            .from(this.table)
+            .$dynamic();
+
+        query = query
+            .where(eq(this.table.id, id))
+            .limit(1);
+
+        const [row] = await query;
+        return row ?? null;
+    }
 
     async findOneByWorkspace(workspaceId: string): Promise<CustomizationByWorkspaceDto> {
         let query = this.client

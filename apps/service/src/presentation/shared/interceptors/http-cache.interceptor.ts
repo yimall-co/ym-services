@@ -11,7 +11,7 @@ export class HttpCacheInterceptor extends CacheInterceptor {
         const { httpAdapter } = this.httpAdapterHost;
 
         const isGetRequest = httpAdapter.getRequestMethod(request) === 'GET';
-        const excludePaths: string[] = [
+        const excludePaths: ReadonlyArray<string> = [
             // Routes to be excluded
         ];
 

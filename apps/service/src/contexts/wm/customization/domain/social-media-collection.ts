@@ -3,7 +3,7 @@ import { ArrayValueObject } from 'shared/domain/value-object/array.value-object'
 import { SocialMedia } from './social-media';
 
 export class SocialMediaCollection extends ArrayValueObject<SocialMedia> {
-    constructor(value: SocialMedia[]) {
+    constructor(value: Array<SocialMedia>) {
         super(value);
 
         this.ensureNoDuplicates();

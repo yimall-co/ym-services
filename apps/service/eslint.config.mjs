@@ -24,6 +24,15 @@ export default tseslint.config(
             },
         },
     },
+    // {
+    //     'prettier/prettier': [
+    //         'error',
+    //         {},
+    //         {
+    //             usePrettierrc: true,
+    //         },
+    //     ],
+    // },
     {
         rules: {
             '@typescript-eslint/no-explicit-any': 'off',

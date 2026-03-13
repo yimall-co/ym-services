@@ -34,7 +34,7 @@ import { UpdateWorkspaceDto } from './dtos/update-workspace.dto';
     version: '1',
 })
 export class WorkspaceController {
-    private readonly logger: Logger = new Logger('WorkspaceController');
+    private readonly logger = new Logger(WorkspaceController.name);
 
     constructor(private readonly workspaceService: WorkspaceService) { }
 
@@ -45,8 +45,8 @@ export class WorkspaceController {
     async getAll(@Query('top') top: number, @Query('skip') skip: number) {
         try {
             return await this.workspaceService.getAllWorkspaces(top, skip);
-        } catch (error) {
-            this.logger.error(error);
+        } catch (error: any) {
+            this.logger.error(error.message);
             throw new NotFoundException();
         }
     }
@@ -58,8 +58,8 @@ export class WorkspaceController {
     async getById(@Param('id') id: string) {
         try {
             return await this.workspaceService.getWorkspaceById(id);
-        } catch (error) {
-            this.logger.error(error);
+        } catch (error: any) {
+            this.logger.error(error.message);
             throw new NotFoundException();
         }
     }
@@ -73,7 +73,20 @@ export class WorkspaceController {
             return await this.workspaceService.getStatistics(id);
         } catch (error: any) {
             this.logger.error(error);
-            throw new NotFoundException(error.message);
+            throw new NotFoundException();
+        }
+    }
+
+    @Get(':id/categories')
+    @ApiOkResponse({ description: '' })
+    @ApiNotFoundResponse({ description: '' })
+    @HttpCode(HttpStatus.OK)
+    async getCategoriesByWorkspaceId(@Param('id') workspaceId: string) {
+        try {
+            return await this.workspaceService.getWorkspaceCategoriesById(workspaceId);
+        } catch (error: any) {
+            this.logger.error(error.message);
+            throw new NotFoundException();
         }
     }
 
