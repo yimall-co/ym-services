@@ -2,6 +2,7 @@ import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
 import { PgSelect, AnyPgTable } from 'drizzle-orm/pg-core';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { ListMultipartUploads$ } from '@aws-sdk/client-s3';
 
 export abstract class DrizzleRepository<TTable extends AnyPgTable> {
     constructor(protected readonly db: NodePgDatabase<typeof import('./schema')>) { }
@@ -25,12 +26,24 @@ export abstract class DrizzleRepository<TTable extends AnyPgTable> {
     }
 
     // eslint-disable-next-line prettier/prettier
-    protected withPagination<T extends PgSelect>(
-        query: T,
+    protected withPagination<TQuery extends PgSelect>(
+        query: TQuery,
         page: number = 1,
         pageSize: number = 10,
     ) {
         return query.limit(pageSize).offset((page - 1) * pageSize);
+    }
+
+    protected withCursorPagination<TResult>(result: Array<TResult>, limit: number) {
+        const hasNextPage = result?.length > limit;
+        const data = hasNextPage ? result.slice(0, limit) : result;
+        const lastItem = data.at(-1);
+
+        return {
+            data,
+            hasNextPage,
+            lastItem,
+        };
     }
 
     protected get client() {
