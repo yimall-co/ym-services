@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/unbound-method */
 import { eq } from 'drizzle-orm';
 
@@ -25,7 +26,9 @@ export class DrizzleWorkspaceRepository
     }
 
     async save(workspace: Workspace): Promise<void> {
-        await this.client.insert(this.table).values(WorkspaceMapper.toPersistence(workspace));
+        await this.client
+            .insert(this.table)
+            .values(WorkspaceMapper.toPersistence(workspace));
     }
 
     async update(id: WorkspaceId, workspace: Workspace): Promise<void> {

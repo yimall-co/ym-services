@@ -19,14 +19,14 @@ export interface OptionPrimitives {
     optionGroupId: string;
 }
 
-export class Option extends AggregateRoot {
-    readonly id: OptionId;
-    readonly name: OptionName;
-    readonly priceDelta: OptionPriceDelta;
-    readonly isActive: OptionIsActive;
-    readonly createdAt: OptionCreatedAt;
-    readonly updatedAt: OptionUpdatedAt;
-    readonly optionGroupId: OptionGroupId;
+export class Option extends AggregateRoot<OptionPrimitives> {
+    private readonly id: OptionId;
+    private name: OptionName;
+    private priceDelta: OptionPriceDelta;
+    private isActive: OptionIsActive;
+    private readonly createdAt: OptionCreatedAt;
+    private updatedAt: OptionUpdatedAt;
+    private optionGroupId: OptionGroupId;
 
     constructor(
         id: OptionId,

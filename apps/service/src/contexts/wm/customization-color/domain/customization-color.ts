@@ -19,7 +19,7 @@ export interface CustomizationColorPrimitives {
     customizationId: string;
 }
 
-export class CustomizationColor extends AggregateRoot {
+export class CustomizationColor extends AggregateRoot<CustomizationColorPrimitives> {
     private readonly id: CustomizationColorId;
     private label: CustomizationColorLabel;
     private value: CustomizationColorValue;

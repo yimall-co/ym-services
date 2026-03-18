@@ -22,9 +22,11 @@ import config from 'lib/config';
 import { ApiModule } from 'presentation/api.module';
 import { SharedModule } from 'presentation/shared/shared.module';
 import { ResponseInterceptor } from 'presentation/shared/interceptors/response.interceptor';
+import { HttpCacheInterceptor } from 'presentation/shared/interceptors/http-cache.interceptor';
 
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
+import { minutesToMilliseconds } from 'date-fns';
 
 const configModule = ConfigModule.forRoot({
     cache: true,
@@ -64,13 +66,13 @@ const i18nModule = I18nModule.forRootAsync({
 });
 
 const cacheModule = CacheModule.registerAsync({
+    isGlobal: true,
     inject: [ConfigService],
     useFactory: (configService: ConfigService) => {
-        const ttl = configService.getOrThrow<number>('redis.ttl');
         const url = configService.getOrThrow<string>('redis.url');
+        const ttl = configService.get<number>('redis.ttl', minutesToMilliseconds(2));
 
         return {
-            isGlobal: true,
             stores: [
                 new Keyv({ store: new CacheableMemory({ ttl, lruSize: 5000 }) }),
                 new KeyvRedis(url),
@@ -116,6 +118,7 @@ const apiModule = ApiModule.forRoot();
         AppService,
         { provide: APP_GUARD, useClass: ThrottlerGuard },
         { provide: APP_INTERCEPTOR, useClass: ResponseInterceptor },
+        { provide: APP_INTERCEPTOR, useClass: HttpCacheInterceptor },
     ],
 })
 export class AppModule implements NestModule {

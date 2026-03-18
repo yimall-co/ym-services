@@ -5,8 +5,8 @@ import { DrizzleRepository } from 'shared/infrastructure/persistence/drizzle/dri
 
 import { accounts } from 'iam/account/infrastructure/persistence/drizzle/accounts.table';
 import { workspaces } from 'wm/workspace/infrastructure/persistence/drizzle/workspaces.table';
-import { UserByIdDto } from 'iam/user/application/query/get-user-by-id/get-user-by-id.dto';
-import { UserByEmailDto } from 'iam/user/application/query/get-user-by-email/get-user-by-email.dto';
+import { UserByIdDto } from 'iam/user/application/query/get-user-by-id/dto';
+import { UserByEmailDto } from 'iam/user/application/query/get-user-by-email/dto';
 import { UserQueryRepository } from 'iam/user/application/query/user-query.repository';
 
 import { users } from './persistence/drizzle/users.table';

@@ -9,6 +9,7 @@ import {
     NotFoundException,
     Param,
     Post,
+    UseGuards,
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse,
@@ -16,6 +17,8 @@ import {
     ApiNotFoundResponse,
     ApiOkResponse,
 } from '@nestjs/swagger';
+
+import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
 
 import { CustomizationService } from './customization.service';
 import { CreateColorDto } from './dtos/create-color.dto';
@@ -26,7 +29,7 @@ import { CreateCustomizationDto } from './dtos/create-customization.dto';
     version: '1',
 })
 export class CustomizationController {
-    private readonly logger: Logger = new Logger('CustomizationController');
+    private readonly logger = new Logger(CustomizationController.name);
 
     constructor(private readonly customizationService: CustomizationService) { }
 
@@ -67,6 +70,7 @@ export class CustomizationController {
     }
 
     @Post()
+    @UseGuards(JwtAuthGuard)
     @ApiCreatedResponse({ description: '' })
     @ApiBadRequestResponse({ description: '' })
     @HttpCode(HttpStatus.CREATED)
@@ -80,6 +84,7 @@ export class CustomizationController {
     }
 
     @Post(':id/colors')
+    @UseGuards(JwtAuthGuard)
     @ApiCreatedResponse({ description: '' })
     @ApiBadRequestResponse({ description: '' })
     @HttpCode(HttpStatus.CREATED)

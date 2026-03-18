@@ -27,7 +27,7 @@ export interface CustomizationColorVariantPrimitives {
     colorId: string;
 }
 
-export class CustomizationColorVariant extends AggregateRoot {
+export class CustomizationColorVariant extends AggregateRoot<CustomizationColorVariantPrimitives> {
     readonly id: CustomizationColorVariantId;
     readonly code: CustomizationColorVariantCode;
     readonly hex: CustomizationColorVariantHex;

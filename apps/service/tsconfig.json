@@ -57,6 +57,7 @@
     "include": [
         "i18n.d.ts",
         "global.d.ts",
-        "src/**/*"
+        "src/**/*",
+        "drizzle.config.ts"
     ]
 }

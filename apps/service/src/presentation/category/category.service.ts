@@ -2,12 +2,12 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { CategoryByIdDto } from 'lm/category/application/query/get-category-by-id/get-category-by-id.dto';
-import { GetCategoryByIdQuery } from 'lm/category/application/query/get-category-by-id/get-category-by-id.query';
-import { CategoryBySlugDto } from 'lm/category/application/query/get-category-by-slug/get-category-by-slug.dto';
-import { GetCategoryBySlugQuery } from 'lm/category/application/query/get-category-by-slug/get-category-by-slug.query';
-import { CategoryByWorkspaceIdDto } from 'lm/category/application/query/get-categories-by-workspace-id/get-categories-by-workspace-id.dto';
-import { GetCategoriesByWorkspaceIdQuery } from 'lm/category/application/query/get-categories-by-workspace-id/get-categories-by-workspace-id.query';
+import { CategoryByIdDto } from 'lm/category/application/query/get-category-by-id/dto';
+import { GetCategoryByIdQuery } from 'lm/category/application/query/get-category-by-id/query';
+import { CategoryBySlugDto } from 'lm/category/application/query/get-category-by-slug/dto';
+import { GetCategoryBySlugQuery } from 'lm/category/application/query/get-category-by-slug/query';
+import { CategoryByWorkspaceIdDto } from 'lm/category/application/query/get-categories-by-workspace-id/dto';
+import { GetCategoriesByWorkspaceIdQuery } from 'lm/category/application/query/get-categories-by-workspace-id/query';
 
 import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
 

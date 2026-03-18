@@ -10,9 +10,9 @@ import {
 import { DrizzleRepository } from 'shared/infrastructure/persistence/drizzle/drizzle.repository';
 
 import { shops } from './persistence/drizzle/shops.table';
-import { ShopQueryRepository } from '../application/query/shop-query.repository';
-import { ShopByWorkspaceDto } from '../application/query/get-shops-by-workspace/get-shops-by-workspace.dto';
 import { ShopBySlugDto } from '../application/query/get-shop-by-slug/get-shop-by-slug.dto';
+import { ShopByWorkspaceDto } from '../application/query/get-shops-by-workspace/dto';
+import { ShopQueryRepository } from '../application/query/shop-query.repository';
 
 export class DrizzleShopQueryRepository
     extends DrizzleRepository<typeof shops>

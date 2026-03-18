@@ -13,11 +13,11 @@ export interface ShopOfferPrimitives {
     updatedAt: Date;
 }
 
-export class ShopOffer extends AggregateRoot {
-    readonly shopId: ShopId;
-    readonly offerId: OfferId;
-    readonly createdAt: ShopOfferCreatedAt;
-    readonly updatedAt: ShopOfferUpdatedAt;
+export class ShopOffer extends AggregateRoot<ShopOfferPrimitives> {
+    private readonly shopId: ShopId;
+    private readonly offerId: OfferId;
+    private readonly createdAt: ShopOfferCreatedAt;
+    private updatedAt: ShopOfferUpdatedAt;
 
     constructor(
         shopId: ShopId,

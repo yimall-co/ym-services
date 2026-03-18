@@ -1,5 +1,5 @@
 import { ShopBySlugDto } from './get-shop-by-slug/get-shop-by-slug.dto';
-import { ShopByWorkspaceDto } from './get-shops-by-workspace/get-shops-by-workspace.dto';
+import { ShopByWorkspaceDto } from './get-shops-by-workspace/dto';
 
 export interface ShopQueryRepository {
     findAllByWorkspaceId(workspaceId: string): Promise<Array<ShopByWorkspaceDto>>;

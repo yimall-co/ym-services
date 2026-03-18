@@ -2,11 +2,15 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { CreateSegmentCommand } from 'wm/segment/application/command/create/create-segment.command';
+import { PaginatedSegment } from 'wm/segment/application/query/segment-query.repository';
+import { SegmentByCriteriaDto } from 'wm/segment/application/query/get-segments-by-criteria/dto';
+import { GetSegmentsByCriteriaQuery } from 'wm/segment/application/query/get-segments-by-criteria/query';
+import { CreateSegmentCommand } from 'wm/segment/application/command/create-segment/command';
 
 import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
 
 import { CreateSegmentDto } from './dtos/create-segment.dto';
+import { GetSegmentsByCriteriaDto } from './dtos/get-segments-by-criteria.dto';
 
 @Injectable()
 export class SegmentService {
@@ -17,7 +21,12 @@ export class SegmentService {
         private readonly commandBus: CommandBus,
     ) { }
 
-    async getAllSegments() { }
+    async getAllSegments(dto: GetSegmentsByCriteriaDto) {
+        const updatedAt = dto.updatedAt ? new Date(dto.updatedAt) : undefined;
+
+        const query = new GetSegmentsByCriteriaQuery(dto.id, dto.limit, updatedAt);
+        return await this.queryBus.ask<PaginatedSegment<Array<SegmentByCriteriaDto>>>(query);
+    }
 
     async createSegment(dto: CreateSegmentDto) {
         const { name, description, isActive } = dto;

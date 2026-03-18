@@ -8,8 +8,8 @@
         },
         "dev": {
             "persistent": true,
-            "cache": true,
-            "dependsOn": ["//#compose"]
+            "cache": true
+            // "dependsOn": ["//#compose"]
         },
         "start": {
             "dependsOn": ["build"]

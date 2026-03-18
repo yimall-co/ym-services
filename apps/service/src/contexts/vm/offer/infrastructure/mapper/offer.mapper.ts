@@ -21,6 +21,7 @@ export class OfferMapper {
             startDate: primitives.startDate,
             endDate: primitives.endDate,
             isActive: primitives.isActive ?? true,
+            isRemoved: primitives.isRemoved ?? false,
             createdAt: primitives.createdAt,
             updatedAt: primitives.updatedAt,
             categoryId: primitives.categoryId,
@@ -40,6 +41,7 @@ export class OfferMapper {
             stock: primitives.stock ?? 0,
             duration: primitives.duration ?? null,
             isActive: primitives.isActive ?? true,
+            isRemoved: primitives.isRemoved ?? false,
             subcategoryId: primitives.subcategoryId ?? null,
             shopId: primitives.shopId ?? null,
         };

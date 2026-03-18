@@ -2,11 +2,11 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { CustomizationByIdDto } from 'wm/customization/application/query/get-customization-by-id/get-customization-by-id.dto';
-import { GetCustomizationByIdQuery } from 'wm/customization/application/query/get-customization-by-id/get-customization-by-id.query';
-import { CustomizationByWorkspaceDto } from 'wm/customization/application/query/get-customization-by-workspace/get-customization-by-workspace.dto';
-import { GetCustomizationByWorkspaceQuery } from 'wm/customization/application/query/get-customization-by-workspace/get-customization-by-workspace.query';
-import { CreateCustomizationColorCommand } from 'wm/customization-color/application/command/create/create-customization-color.command';
+import { CustomizationByIdDto } from 'wm/customization/application/query/get-customization-by-id/dto';
+import { GetCustomizationByIdQuery } from 'wm/customization/application/query/get-customization-by-id/query';
+import { CustomizationByWorkspaceDto } from 'wm/customization/application/query/get-customization-by-workspace/dto';
+import { GetCustomizationByWorkspaceQuery } from 'wm/customization/application/query/get-customization-by-workspace/query';
+import { CreateCustomizationColorCommand } from 'wm/customization-color/application/command/create-customization-color/command';
 
 import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
 
@@ -32,7 +32,7 @@ export class CustomizationService {
         return await this.queryBus.ask<CustomizationByWorkspaceDto>(query);
     }
 
-    async create(customization: CreateCustomizationDto) { }
+    async create(dto: CreateCustomizationDto) { }
 
     async createColor(customizationId: string, dto: CreateColorDto) {
         const customization = await this.getCustomizationById(customizationId);

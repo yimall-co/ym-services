@@ -29,7 +29,7 @@ export interface AddressPrimitives {
     updatedAt: Date;
 }
 
-export class Address extends AggregateRoot {
+export class Address extends AggregateRoot<AddressPrimitives> {
     readonly id: AddressId;
     readonly street: AddressStreet;
     readonly number: AddressNumber;

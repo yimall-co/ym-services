@@ -24,7 +24,7 @@ export interface CustomizationPrimitives {
     updatedAt: Date;
 }
 
-export class Customization extends AggregateRoot {
+export class Customization extends AggregateRoot<CustomizationPrimitives> {
     readonly id: CustomizationId;
     readonly logo: CustomizationLogo;
     readonly fontPrimary: CustomizationFontPrimary;

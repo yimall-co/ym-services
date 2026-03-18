@@ -5,6 +5,7 @@ import jwtConfig from './jwt.config';
 import redisConfig from './redis.config';
 import databaseConfig from './database.config';
 import s3Config from './s3.config';
+import agentConfig from './agent.config';
 
 const config = [
     appConfig,
@@ -12,6 +13,7 @@ const config = [
     redisConfig,
     databaseConfig,
     s3Config,
+    agentConfig,
 ] as unknown as ConfigFactory[];
 
 export default config;

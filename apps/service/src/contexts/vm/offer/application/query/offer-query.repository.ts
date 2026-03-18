@@ -1,10 +1,20 @@
+/* eslint-disable prettier/prettier */
 import { ShopId } from 'vm/shared/domain/shop-id';
 
-import { OfferByShopDto } from './get-offer-by-shop/get-offer-by-shop.dto';
+import { OfferBySlugDto } from './get-offer-by-slug/dto';
+import { OfferByShopDto } from './get-offers-by-shop/dto';
+
+export interface PaginatedOffer<T> {
+    results: Array<T>;
+    hasNextPage: boolean;
+    lastItem: T | null;
+}
 
 export interface OfferQueryRepository {
-    findAllByShopId(
-        shopId: ShopId,
-        criteria: { cursor?: { updatedAt: Date; id: string }; limit?: number },
-    ): Promise<Array<OfferByShopDto>>;
+    findBySlug(slug: string): Promise<OfferBySlugDto | null>;
+    findAllByShopId(criteria: {
+        shopId: ShopId;
+        limit?: number;
+        cursor?: { id: string, updatedAt: Date };
+    }): Promise<PaginatedOffer<OfferByShopDto>>;
 }

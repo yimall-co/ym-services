@@ -5,9 +5,9 @@ import { CustomizationQueryRepository } from 'wm/customization/application/query
 import { CustomizationColorRepository } from 'wm/customization-color/domain/customization-color.repository';
 import { DrizzleCustomizationRepository } from 'wm/customization/infrastructure/persistence/drizzle-customization.repository';
 import { DrizzleCustomizationQueryRepository } from 'wm/customization/infrastructure/drizzle-customization-query.repository';
-import { GetCustomizationByWorkspaceQueryHandler } from 'wm/customization/application/query/get-customization-by-workspace/get-customization-by-workspace.query-handler';
-import { GetCustomizationByIdQueryHandler } from 'wm/customization/application/query/get-customization-by-id/get-customization-by-id.query-handler';
-import { CreateCustomizationColorCommandHandler } from 'wm/customization-color/application/command/create/create-customization-color.command-handler';
+import { GetCustomizationByWorkspaceQueryHandler } from 'wm/customization/application/query/get-customization-by-workspace/handler';
+import { GetCustomizationByIdQueryHandler } from 'wm/customization/application/query/get-customization-by-id/handler';
+import { CreateCustomizationColorCommandHandler } from 'wm/customization-color/application/command/create-customization-color/handler';
 import { DrizzleCustomizationColorRepository } from 'wm/customization-color/infrastructure/persistence/drizzle-customization-color.repository';
 
 import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';

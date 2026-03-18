@@ -8,8 +8,8 @@ import { DrizzleRepository } from 'shared/infrastructure/persistence/drizzle/dri
 import { users } from 'iam/user/infrastructure/persistence/drizzle/users.table';
 import { categories } from 'lm/category/infrastructure/persistence/drizzle/categories.table';
 import { segments } from 'wm/segment/infrastructure/persistence/drizzle/segments.table';
-import { WorkspaceDto } from 'wm/workspace/application/query/get-workspaces/get-workspaces.dto';
-import { WorkspaceByIdDto } from 'wm/workspace/application/query/get-workspace-by-id/get-workspace-by-id.dto';
+import { WorkspaceDto } from 'wm/workspace/application/query/get-workspaces/dto';
+import { WorkspaceByIdDto } from 'wm/workspace/application/query/get-workspace-by-id/dto';
 import { WorkspaceQueryRepository } from 'wm/workspace/application/query/workspace-query.repository';
 
 import { workspaces } from './persistence/drizzle/workspaces.table';

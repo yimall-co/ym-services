@@ -1,0 +1,19 @@
+{
+    "name": "@yimall/yimo",
+    "version": "0.0.0",
+    "description": "An AI Agent manager for yimall.co",
+    "keywords": [],
+    "author": {
+        "name": "Brian Castro Bedoya",
+        "url": "https://github.com/briancastro-bc"
+    },
+    "private": true,
+    "license": "UNLICENSED",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "typescript": "catalog:"
+    }
+}

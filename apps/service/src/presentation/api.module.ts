@@ -20,9 +20,9 @@ const userModule = UserModule.forRoot();
 const workspaceModule = WorkspaceModule.forRoot();
 const segmentModule = SegmentModule.forRoot();
 const customizationModule = CustomizationModule.forRoot();
-const offerModule = OfferModule.forRoot();
 const categoryModule = CategoryModule.forRoot();
 const shopModule = ShopModule.forRoot();
+const offerModule = OfferModule.forRoot();
 
 @Module({
     imports: [
@@ -31,9 +31,9 @@ const shopModule = ShopModule.forRoot();
         workspaceModule,
         segmentModule,
         customizationModule,
-        offerModule,
         categoryModule,
         shopModule,
+        offerModule,
     ],
     providers: [
         queryHandlersProvider,

@@ -7,25 +7,31 @@ import { InMemoryQueryBus } from 'shared/infrastructure/query-bus/in-memory.quer
 import { CommandHandlers } from 'shared/infrastructure/command-bus/command-handlers';
 import { InMemoryCommandBus } from 'shared/infrastructure/command-bus/in-memory.command-bus';
 import { DrizzleClientFactory } from 'shared/infrastructure/persistence/drizzle/client-factory';
-import { GetWorkspacesQueryHandler } from 'wm/workspace/application/query/get-workspaces/get-workspaces.query-handler';
-import { GetWorkspaceByIdQueryHandler } from 'wm/workspace/application/query/get-workspace-by-id/get-workspace-by-id.query-handler';
-import { CreateWorkspaceCommandHandler } from 'wm/workspace/application/command/create/create-workspace.command-handler';
-import { CreateSegmentCommandHandler } from 'wm/segment/application/command/create/create-segment.command-handler';
-import { GetCustomizationByWorkspaceQueryHandler } from 'wm/customization/application/query/get-customization-by-workspace/get-customization-by-workspace.query-handler';
-import { CreateCustomizationColorCommandHandler } from 'wm/customization-color/application/command/create/create-customization-color.command-handler';
-import { GetUserByEmailQueryHandler } from 'iam/user/application/query/get-user-by-email/get-user-by-email.query-handler';
-import { CreateUserCommandHandler } from 'iam/user/application/command/create/create-user.command-handler';
+import { GetWorkspacesQueryHandler } from 'wm/workspace/application/query/get-workspaces/handler';
+import { GetWorkspaceByIdQueryHandler } from 'wm/workspace/application/query/get-workspace-by-id/handler';
+import { CreateWorkspaceCommandHandler } from 'wm/workspace/application/command/create-workspace/handler';
+import { CreateSegmentCommandHandler } from 'wm/segment/application/command/create-segment/handler';
+import { GetSegmentsByCriteriaQueryHandler } from 'wm/segment/application/query/get-segments-by-criteria/handler';
+import { GetCustomizationByWorkspaceQueryHandler } from 'wm/customization/application/query/get-customization-by-workspace/handler';
+import { CreateCustomizationColorCommandHandler } from 'wm/customization-color/application/command/create-customization-color/handler';
+import { GetUserByEmailQueryHandler } from 'iam/user/application/query/get-user-by-email/handler';
+import { CreateUserCommandHandler } from 'iam/user/application/command/create-user/handler';
 import { CreateAccountCommandHandler } from 'iam/account/application/command/create/create-account.command-handler';
-import { GetCategoryBySlugQueryHandler } from 'lm/category/application/query/get-category-by-slug/get-category-by-slug.query-handler';
-import { GetShopsByWorkspaceQueryHandler } from 'vm/shop/application/query/get-shops-by-workspace/get-shops-by-workspace.query-handler';
+import { GetCategoryBySlugQueryHandler } from 'lm/category/application/query/get-category-by-slug/handler';
+import { GetShopsByWorkspaceQueryHandler } from 'vm/shop/application/query/get-shops-by-workspace/handler';
 import { GetShopBySlugQueryHandler } from 'vm/shop/application/query/get-shop-by-slug/get-shop-by-slug.query-handler';
+import { GetOffersByShopQueryHandler } from 'vm/offer/application/query/get-offers-by-shop/handler';
+import { CreateOfferCommandHandler } from 'vm/offer/application/command/create-offer/handler';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,
     GET_WORKSPACES_QUERY_HANDLER,
     GET_WORKSPACE_BY_ID_QUERY_HANDLER,
 } from 'presentation/workspace/adapters/constants';
-import { CREATE_SEGMENT_COMMAND_HANDLER } from 'presentation/segment/adapters/constants';
+import {
+    CREATE_SEGMENT_COMMAND_HANDLER,
+    GET_SEGMENTS_BY_CRITERIA_QUERY_HANDLER,
+} from 'presentation/segment/adapters/constants';
 import {
     CREATE_CUSTOMIZATION_COLOR_COMMAND_HANDLER,
     GET_CUSTOMIZATION_BY_WORKSPACE_QUERY_HANDLER,
@@ -40,6 +46,10 @@ import {
     GET_SHOP_BY_SLUG_QUERY_HANDLER,
     GET_SHOPS_BY_WORKSPACE_QUERY_HANDLER,
 } from 'presentation/shop/adapters/constants';
+import {
+    CREATE_OFFER_COMMAND_HANDLER,
+    GET_OFFERS_BY_SHOP_QUERY_HANDLER,
+} from 'presentation/offer/adapters/constants';
 
 import {
     COMMAND_BUS,
@@ -48,6 +58,21 @@ import {
     QUERY_BUS,
     QUERY_HANDLERS,
 } from './constants';
+
+export const drizzleInstanceProvider: Provider = {
+    provide: DRIZZLE_INSTANCE,
+    inject: [ConfigService],
+    useFactory: (configService: ConfigService) => {
+        const connection = configService.getOrThrow<string>('database.url');
+
+        const pool = DrizzleClientFactory.createPool({
+            connectionString: connection,
+        });
+
+        return DrizzleClientFactory.createClient(pool);
+    },
+    scope: Scope.DEFAULT,
+};
 
 export const queryHandlersProvider: Provider = {
     provide: QUERY_HANDLERS,
@@ -59,6 +84,8 @@ export const queryHandlersProvider: Provider = {
         GET_CATEGORY_BY_SLUG_QUERY_HANDLER,
         GET_SHOPS_BY_WORKSPACE_QUERY_HANDLER,
         GET_SHOP_BY_SLUG_QUERY_HANDLER,
+        GET_OFFERS_BY_SHOP_QUERY_HANDLER,
+        GET_SEGMENTS_BY_CRITERIA_QUERY_HANDLER,
     ],
     useFactory: (
         getWorkspacesQueryHandler: GetWorkspacesQueryHandler,
@@ -68,6 +95,8 @@ export const queryHandlersProvider: Provider = {
         getCategoryBySlugQueryHandler: GetCategoryBySlugQueryHandler,
         getShopsByWorkspaceQueryHandler: GetShopsByWorkspaceQueryHandler,
         getShopBySlugQueryHandler: GetShopBySlugQueryHandler,
+        getOffersByShopQueryHandler: GetOffersByShopQueryHandler,
+        getSegmentsByCriteriaQueryHandler: GetSegmentsByCriteriaQueryHandler,
     ) =>
         new QueryHandlers([
             getWorkspacesQueryHandler,
@@ -77,6 +106,8 @@ export const queryHandlersProvider: Provider = {
             getCategoryBySlugQueryHandler,
             getShopsByWorkspaceQueryHandler,
             getShopBySlugQueryHandler,
+            getOffersByShopQueryHandler,
+            getSegmentsByCriteriaQueryHandler,
         ]),
     scope: Scope.DEFAULT,
 };
@@ -96,6 +127,7 @@ export const commandHandlersProvider: Provider = {
         CREATE_USER_COMMAND_HANDLER,
         CREATE_ACCOUNT_COMMAND_HANDLER,
         CREATE_CUSTOMIZATION_COLOR_COMMAND_HANDLER,
+        CREATE_OFFER_COMMAND_HANDLER,
     ],
     useFactory: (
         createWorkspaceCommandHandler: CreateWorkspaceCommandHandler,
@@ -103,6 +135,7 @@ export const commandHandlersProvider: Provider = {
         createUserCommandHandler: CreateUserCommandHandler,
         createAccountCommandHandler: CreateAccountCommandHandler,
         createCustomizationColorCommandHandler: CreateCustomizationColorCommandHandler,
+        createOfferCommandHandler: CreateOfferCommandHandler,
     ) =>
         new CommandHandlers([
             createWorkspaceCommandHandler,
@@ -110,6 +143,7 @@ export const commandHandlersProvider: Provider = {
             createUserCommandHandler,
             createAccountCommandHandler,
             createCustomizationColorCommandHandler,
+            createOfferCommandHandler,
         ]),
     scope: Scope.DEFAULT,
 };
@@ -118,20 +152,5 @@ export const commandBusProvider: Provider = {
     provide: COMMAND_BUS,
     inject: [COMMAND_HANDLERS],
     useFactory: (handlers: CommandHandlers) => new InMemoryCommandBus(handlers),
-    scope: Scope.DEFAULT,
-};
-
-export const drizzleInstanceProvider: Provider = {
-    provide: DRIZZLE_INSTANCE,
-    inject: [ConfigService],
-    useFactory: (configService: ConfigService) => {
-        const connection = configService.getOrThrow<string>('database.url');
-
-        const pool = DrizzleClientFactory.createPool({
-            connectionString: connection,
-        });
-
-        return DrizzleClientFactory.createClient(pool);
-    },
     scope: Scope.DEFAULT,
 };

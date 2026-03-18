@@ -7,11 +7,11 @@ import { hash, verify } from 'lib/utils/auth';
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { CreateUserDto } from 'iam/user/application/command/create/create-user.dto';
+import { CreateUserDto } from 'iam/user/application/command/create-user/dto';
 import { CreateAccountDto } from 'iam/account/application/command/create/create-account.dto';
-import { UserByEmailDto } from 'iam/user/application/query/get-user-by-email/get-user-by-email.dto';
-import { GetUserByEmailQuery } from 'iam/user/application/query/get-user-by-email/get-user-by-email.query';
-import { CreateUserCommand } from 'iam/user/application/command/create/create-user.command';
+import { UserByEmailDto } from 'iam/user/application/query/get-user-by-email/dto';
+import { GetUserByEmailQuery } from 'iam/user/application/query/get-user-by-email/query';
+import { CreateUserCommand } from 'iam/user/application/command/create-user/command';
 import { CreateAccountCommand } from 'iam/account/application/command/create/create-account.command';
 
 import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';

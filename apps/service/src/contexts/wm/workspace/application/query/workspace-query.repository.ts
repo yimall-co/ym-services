@@ -1,5 +1,5 @@
-import { WorkspaceDto } from './get-workspaces/get-workspaces.dto';
-import { WorkspaceByIdDto } from './get-workspace-by-id/get-workspace-by-id.dto';
+import { WorkspaceDto } from './get-workspaces/dto';
+import { WorkspaceByIdDto } from './get-workspace-by-id/dto';
 
 export interface WorkspaceQueryRepository {
     findAll(): Promise<Array<WorkspaceDto>>;

@@ -15,7 +15,7 @@ export interface OfferOptionGroupPrimitives {
     updatedAt: Date;
 }
 
-export class OfferOptionGroup extends AggregateRoot {
+export class OfferOptionGroup extends AggregateRoot<OfferOptionGroupPrimitives> {
     readonly offerId: OfferId;
     readonly optionGroupId: OptionGroupId;
     readonly sortOrder: OfferOptionGroupSortOrder;

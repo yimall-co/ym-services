@@ -11,7 +11,7 @@ import { accounts } from 'iam/account/infrastructure/persistence/drizzle/account
 export const users = p.pgTable(
     'users',
     {
-        id: p.text('id').primaryKey(),
+        id: p.uuid('id').primaryKey().defaultRandom(),
         name: p.text('name').notNull(),
         email: p.text('email').notNull(),
         emailVerified: p.boolean('email_verified').default(false).notNull(),

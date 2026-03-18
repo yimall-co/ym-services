@@ -17,7 +17,7 @@ export interface GeolocationPrimitives {
     updatedAt: Date;
 }
 
-export class Geolocation extends AggregateRoot {
+export class Geolocation extends AggregateRoot<GeolocationPrimitives> {
     readonly id: GeolocationId;
     readonly latitude: GeolocationLatitude;
     readonly longitude: GeolocationLongitude;

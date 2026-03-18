@@ -14,7 +14,9 @@ import {
     Put,
     Query,
     UseGuards,
+    UseInterceptors,
 } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import {
     ApiBadRequestResponse,
     ApiCreatedResponse,
@@ -33,6 +35,7 @@ import { UpdateWorkspaceDto } from './dtos/update-workspace.dto';
     path: 'workspaces',
     version: '1',
 })
+@UseInterceptors(CacheInterceptor)
 export class WorkspaceController {
     private readonly logger = new Logger(WorkspaceController.name);
 

@@ -43,6 +43,7 @@ export const offers = p.pgTable(
             .$default(() => new Date(9999, 11, 31))
             .notNull(),
         isActive: p.boolean('is_active').default(true),
+        isRemoved: p.boolean('is_removed').default(false).notNull(),
         createdAt: p.timestamp('created_at').defaultNow().notNull(),
         updatedAt: p
             .timestamp('updated_at')

@@ -2,7 +2,7 @@ import { Provider, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 import { CategoryQueryRepository } from 'lm/category/application/query/category-query.repository';
-import { GetCategoryBySlugQueryHandler } from 'lm/category/application/query/get-category-by-slug/get-category-by-slug.query-handler';
+import { GetCategoryBySlugQueryHandler } from 'lm/category/application/query/get-category-by-slug/handler';
 import { DrizzleCategoryRepository } from 'lm/category/infrastructure/persistence/drizzle-category.repository';
 import { DrizzleCategoryQueryRepository } from 'lm/category/infrastructure/drizzle-category-query.repository';
 
@@ -16,7 +16,7 @@ import {
 } from './constants';
 
 import * as schema from 'shared/infrastructure/persistence/drizzle/schema';
-import { GetCategoryByIdQueryHandler } from 'lm/category/application/query/get-category-by-id/get-category-by-id.query-handler';
+import { GetCategoryByIdQueryHandler } from 'lm/category/application/query/get-category-by-id/handler';
 
 export const categoryRepositoryProvider: Provider = {
     provide: CATEGORY_REPOSITORY,

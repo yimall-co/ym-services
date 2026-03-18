@@ -7,9 +7,9 @@ import { DrizzleRepository } from 'shared/infrastructure/persistence/drizzle/dri
 
 import { categories } from './persistence/drizzle/categories.table';
 import { CategoryQueryRepository } from '../application/query/category-query.repository';
-import { CategoryByIdDto } from '../application/query/get-category-by-id/get-category-by-id.dto';
-import { CategoryBySlugDto } from '../application/query/get-category-by-slug/get-category-by-slug.dto';
-import { CategoryByWorkspaceIdDto } from '../application/query/get-categories-by-workspace-id/get-categories-by-workspace-id.dto';
+import { CategoryByIdDto } from '../application/query/get-category-by-id/dto';
+import { CategoryBySlugDto } from '../application/query/get-category-by-slug/dto';
+import { CategoryByWorkspaceIdDto } from '../application/query/get-categories-by-workspace-id/dto';
 
 export class DrizzleCategoryQueryRepository
     extends DrizzleRepository<typeof categories>

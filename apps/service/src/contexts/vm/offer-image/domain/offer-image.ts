@@ -17,7 +17,7 @@ export interface OfferImagePrimitives {
     offerId: string;
 }
 
-export class OfferImage extends AggregateRoot {
+export class OfferImage extends AggregateRoot<OfferImagePrimitives> {
     readonly id: OfferImageId;
     readonly image: OfferImageImage;
     readonly description: OfferImageDescription;

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { eq, sql } from 'drizzle-orm';
 import { PgSelect } from 'drizzle-orm/pg-core';
 
@@ -8,10 +9,10 @@ import { CustomizationQueryRepository } from 'wm/customization/application/query
 import {
     Color,
     CustomizationByWorkspaceDto,
-} from 'wm/customization/application/query/get-customization-by-workspace/get-customization-by-workspace.dto';
+} from 'wm/customization/application/query/get-customization-by-workspace/dto';
 
 import { customizations } from './persistence/drizzle/customizations.table';
-import { CustomizationByIdDto } from '../application/query/get-customization-by-id/get-customization-by-id.dto';
+import { CustomizationByIdDto } from '../application/query/get-customization-by-id/dto';
 
 export class DrizzleCustomizationQueryRepository
     extends DrizzleRepository<typeof customizations>
@@ -30,11 +31,12 @@ export class DrizzleCustomizationQueryRepository
             .from(this.table)
             .$dynamic();
 
-        query = query
+        query = this.withColors(query);
+
+        const [row] = await query
             .where(eq(this.table.id, id))
             .limit(1);
 
-        const [row] = await query;
         return row ?? null;
     }
 

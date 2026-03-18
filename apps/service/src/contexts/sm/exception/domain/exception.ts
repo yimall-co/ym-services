@@ -19,7 +19,7 @@ export interface ExceptionPrimitives {
     shopId: string;
 }
 
-export class Exception extends AggregateRoot {
+export class Exception extends AggregateRoot<ExceptionPrimitives> {
     readonly id: ExceptionId;
     readonly date: ExceptionDate;
     readonly reason: ExceptionReason;

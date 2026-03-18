@@ -17,7 +17,7 @@ export interface ExceptionTimeSlotPrimitives {
     exceptionId: string;
 }
 
-export class ExceptionTimeSlot extends AggregateRoot {
+export class ExceptionTimeSlot extends AggregateRoot<ExceptionTimeSlotPrimitives> {
     readonly id: ExceptionTimeSlotId;
     readonly startTime: ExceptionTimeSlotStartTime;
     readonly endTime: ExceptionTimeSlotEndTime;

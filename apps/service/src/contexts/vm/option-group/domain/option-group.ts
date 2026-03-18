@@ -21,7 +21,7 @@ export interface OptionGroupPrimitives {
     updatedAt: Date;
 }
 
-export class OptionGroup extends AggregateRoot {
+export class OptionGroup extends AggregateRoot<OptionGroupPrimitives> {
     readonly id: OptionGroupId;
     readonly name: OptionGroupName;
     readonly description: OptionGroupDescription;

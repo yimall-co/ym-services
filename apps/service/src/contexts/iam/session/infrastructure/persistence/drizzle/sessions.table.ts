@@ -7,7 +7,7 @@ import { users } from 'iam/user/infrastructure/persistence/drizzle/users.table';
 export const sessions = p.pgTable(
     'sessions',
     {
-        id: p.text('id').primaryKey(),
+        id: p.uuid('id').primaryKey().defaultRandom(),
         expiresAt: p.timestamp('expires_at').notNull(),
         token: p.text('token').unique().notNull(),
         ipAddress: p.text('ip_address'),
