@@ -10,8 +10,7 @@ import {
     createAccountCommandHandlerProvider,
     createUserCommandHandlerProvider,
     getUserByEmailQueryHandlerProvider,
-    userQueryRepositoryProvider,
-    userRepositoryProvider,
+    userUnitOfWorkProvider,
 } from './adapters';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
@@ -39,8 +38,7 @@ const jwtModule = JwtModule.registerAsync({
     providers: [
         AuthService,
         JwtStrategy,
-        userRepositoryProvider,
-        userQueryRepositoryProvider,
+        userUnitOfWorkProvider,
         accountRepositoryProvider,
         getUserByEmailQueryHandlerProvider,
         createUserCommandHandlerProvider,

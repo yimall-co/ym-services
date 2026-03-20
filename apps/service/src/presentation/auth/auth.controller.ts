@@ -19,7 +19,7 @@ import { RefreshDto } from './dtos/refresh.dto';
     version: '1',
 })
 export class AuthController {
-    private readonly logger: Logger = new Logger('AuthController');
+    private readonly logger = new Logger(AuthController.name);
 
     constructor(private readonly authService: AuthService) { }
 
@@ -31,8 +31,8 @@ export class AuthController {
         try {
             return await this.authService.signIn(signInDto);
         } catch (error: any) {
-            this.logger.error(error);
-            throw new UnauthorizedException(error.message);
+            this.logger.error(error.message);
+            throw new UnauthorizedException();
         }
     }
 
@@ -44,8 +44,8 @@ export class AuthController {
         try {
             return await this.authService.signUp(signUpDto);
         } catch (error: any) {
-            this.logger.error(error);
-            throw new UnauthorizedException(error.message);
+            this.logger.error(error.message);
+            throw new UnauthorizedException();
         }
     }
 
@@ -58,8 +58,8 @@ export class AuthController {
             await this.authService.refresh(refreshDto);
             return { message: 'refreshing token' };
         } catch (error: any) {
-            this.logger.error(error);
-            throw new UnauthorizedException(error.message);
+            this.logger.error(error.message);
+            throw new UnauthorizedException();
         }
     }
 }

@@ -21,7 +21,7 @@ export const carts = p.pgTable(
             .$onUpdate(() => new Date())
             .notNull(),
         userId: p
-            .text('user_id')
+            .uuid('user_id')
             .notNull()
             .references(() => users.id, { onDelete: 'cascade' }),
     },

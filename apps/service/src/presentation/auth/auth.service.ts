@@ -7,7 +7,7 @@ import { hash, verify } from 'lib/utils/auth';
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { CreateUserDto } from 'iam/user/application/command/create-user/dto';
+import { CreateUserResultDto } from 'iam/user/application/command/create-user/dto';
 import { CreateAccountDto } from 'iam/account/application/command/create/create-account.dto';
 import { UserByEmailDto } from 'iam/user/application/query/get-user-by-email/dto';
 import { GetUserByEmailQuery } from 'iam/user/application/query/get-user-by-email/query';
@@ -66,16 +66,9 @@ export class AuthService {
     async signUp(dto: SignUpDto) {
         const { name, image, email, password } = dto;
 
-        const query = new GetUserByEmailQuery(email);
-
-        const user = await this.queryBus.ask<UserByEmailDto>(query);
-        if (user) {
-            throw new Error('User already signed up');
-        }
-
         const createUserCommand = new CreateUserCommand(name, image, email);
 
-        const { userId } = await this.commandBus.dispatch<CreateUserDto>(createUserCommand);
+        const { userId } = await this.commandBus.dispatch<CreateUserResultDto>(createUserCommand);
 
         const { accessToken, accessTokenExpiresAt, refreshToken, refreshTokenExpiresAt } =
             await this.generateTokens({ sub: userId, email });

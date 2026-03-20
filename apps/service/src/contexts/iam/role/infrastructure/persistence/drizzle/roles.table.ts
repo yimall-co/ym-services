@@ -2,6 +2,8 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
+import { userRoles } from 'iam/user/infrastructure/persistence/drizzle/user-roles.table';
+
 import { rolePermissions } from './role-permissions.table';
 
 export const roles = p.pgTable(
@@ -15,6 +17,9 @@ export const roles = p.pgTable(
                 length: 255,
             })
             .notNull(),
+        version: p.integer('version').default(0).notNull(),
+        isActive: p.boolean('is_active').default(true).notNull(),
+        isRemoved: p.boolean('is_removed').default(false).notNull(),
         createdAt: p.timestamp('created_at').defaultNow().notNull(),
         updatedAt: p
             .timestamp('updated_at')
@@ -26,5 +31,6 @@ export const roles = p.pgTable(
 );
 
 export const rolesRelations = relations(roles, ({ many }) => ({
+    users: many(userRoles),
     permissions: many(rolePermissions),
 }));

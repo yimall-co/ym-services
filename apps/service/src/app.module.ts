@@ -40,7 +40,7 @@ const i18nModule = I18nModule.forRootAsync({
     inject: [ConfigService],
     resolvers: [
         new CookieResolver(['lang']),
-        new HeaderResolver(['lang']),
+        new HeaderResolver(['x-lang']),
         new QueryResolver(['lang', 'l']),
         AcceptLanguageResolver,
     ],

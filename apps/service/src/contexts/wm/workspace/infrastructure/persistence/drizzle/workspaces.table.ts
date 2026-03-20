@@ -34,7 +34,7 @@ export const workspaces = p.pgTable(
             .notNull()
             .references(() => segments.id),
         ownerId: p
-            .text('owner_id')
+            .uuid('owner_id')
             .notNull()
             .references(() => users.id, {
                 onUpdate: 'cascade',

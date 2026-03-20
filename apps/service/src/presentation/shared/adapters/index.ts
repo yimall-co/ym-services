@@ -22,6 +22,10 @@ import { GetShopsByWorkspaceQueryHandler } from 'vm/shop/application/query/get-s
 import { GetShopBySlugQueryHandler } from 'vm/shop/application/query/get-shop-by-slug/get-shop-by-slug.query-handler';
 import { GetOffersByShopQueryHandler } from 'vm/offer/application/query/get-offers-by-shop/handler';
 import { CreateOfferCommandHandler } from 'vm/offer/application/command/create-offer/handler';
+import { CreateRoleCommandHandler } from 'iam/role/application/command/create-role/handler';
+import { UpdateRoleCommandHandler } from 'iam/role/application/command/update-role/handler';
+import { AddPermissionToRoleCommandHandler } from 'iam/role/application/command/add-permission-to-role/handler';
+import { CreatePermissionCommandHandler } from 'iam/permission/application/command/create-permission/handler';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,
@@ -50,6 +54,12 @@ import {
     CREATE_OFFER_COMMAND_HANDLER,
     GET_OFFERS_BY_SHOP_QUERY_HANDLER,
 } from 'presentation/offer/adapters/constants';
+import {
+    ADD_PERMISSION_TO_ROLE_COMMAND_HANDLER,
+    CREATE_ROLE_COMMAND_HANDLER,
+    UPDATE_ROLE_COMMAND_HANDLER,
+} from 'presentation/role/adapters/constants';
+import { CREATE_PERMISSION_COMMAND_HANDLER } from 'presentation/permission/adapters/constants';
 
 import {
     COMMAND_BUS,
@@ -128,6 +138,10 @@ export const commandHandlersProvider: Provider = {
         CREATE_ACCOUNT_COMMAND_HANDLER,
         CREATE_CUSTOMIZATION_COLOR_COMMAND_HANDLER,
         CREATE_OFFER_COMMAND_HANDLER,
+        CREATE_ROLE_COMMAND_HANDLER,
+        UPDATE_ROLE_COMMAND_HANDLER,
+        ADD_PERMISSION_TO_ROLE_COMMAND_HANDLER,
+        CREATE_PERMISSION_COMMAND_HANDLER,
     ],
     useFactory: (
         createWorkspaceCommandHandler: CreateWorkspaceCommandHandler,
@@ -136,6 +150,10 @@ export const commandHandlersProvider: Provider = {
         createAccountCommandHandler: CreateAccountCommandHandler,
         createCustomizationColorCommandHandler: CreateCustomizationColorCommandHandler,
         createOfferCommandHandler: CreateOfferCommandHandler,
+        createRoleCommandHandler: CreateRoleCommandHandler,
+        updateRoleCommandHandler: UpdateRoleCommandHandler,
+        addPermissionToRoleCommandHandler: AddPermissionToRoleCommandHandler,
+        createPermissionCommandHandler: CreatePermissionCommandHandler,
     ) =>
         new CommandHandlers([
             createWorkspaceCommandHandler,
@@ -144,6 +162,10 @@ export const commandHandlersProvider: Provider = {
             createAccountCommandHandler,
             createCustomizationColorCommandHandler,
             createOfferCommandHandler,
+            createRoleCommandHandler,
+            updateRoleCommandHandler,
+            addPermissionToRoleCommandHandler,
+            createPermissionCommandHandler,
         ]),
     scope: Scope.DEFAULT,
 };

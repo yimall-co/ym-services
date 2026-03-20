@@ -7,7 +7,7 @@ import { users } from 'iam/user/infrastructure/persistence/drizzle/users.table';
 export const accounts = p.pgTable(
     'accounts',
     {
-        id: p.uuid('id').primaryKey().defaultRandom(),
+        id: p.uuid('id').defaultRandom().primaryKey(),
         accountId: p.text('account_id').notNull(),
         providerId: p.text('provider_id').notNull(),
         accessToken: p.text('access_token'),
@@ -24,7 +24,7 @@ export const accounts = p.pgTable(
             .$onUpdate(() => new Date())
             .notNull(),
         userId: p
-            .text('user_id')
+            .uuid('user_id')
             .notNull()
             .references(() => users.id, { onDelete: 'cascade' }),
     },

@@ -1,6 +1,7 @@
 export * from 'iam/account/infrastructure/persistence/drizzle/accounts.table';
 export * from 'iam/session/infrastructure/persistence/drizzle/sessions.table';
 export * from 'iam/user/infrastructure/persistence/drizzle/users.table';
+export * from 'iam/user/infrastructure/persistence/drizzle/user-roles.table';
 export * from 'iam/verification/infrastructure/persistence/drizzle/verifications.table';
 export * from 'iam/role/infrastructure/persistence/drizzle/roles.table';
 export * from 'iam/role/infrastructure/persistence/drizzle/role-permissions.table';

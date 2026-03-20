@@ -15,6 +15,8 @@ export const permissions = p.pgTable(
                 length: 255,
             })
             .notNull(),
+        isActive: p.boolean('is_active').default(true).notNull(),
+        isRemoved: p.boolean('is_removed').default(false).notNull(),
         createdAt: p.timestamp('created_at').defaultNow().notNull(),
         updatedAt: p
             .timestamp('updated_at')
@@ -28,4 +30,3 @@ export const permissions = p.pgTable(
 export const permissionsRelations = relations(permissions, ({ many }) => ({
     roles: many(rolePermissions),
 }));
-

@@ -14,6 +14,8 @@ import { CustomizationModule } from './customization/customization.module';
 import { OfferModule } from './offer/offer.module';
 import { CategoryModule } from './category/category.module';
 import { ShopModule } from './shop/shop.module';
+import { RoleModule } from './role/role.module';
+import { PermissionModule } from './permission/permission.module';
 
 const authModule = AuthModule.forRoot();
 const userModule = UserModule.forRoot();
@@ -23,6 +25,8 @@ const customizationModule = CustomizationModule.forRoot();
 const categoryModule = CategoryModule.forRoot();
 const shopModule = ShopModule.forRoot();
 const offerModule = OfferModule.forRoot();
+const roleModule = RoleModule.forRoot();
+const permissionModule = PermissionModule.forRoot();
 
 @Module({
     imports: [
@@ -34,6 +38,8 @@ const offerModule = OfferModule.forRoot();
         categoryModule,
         shopModule,
         offerModule,
+        roleModule,
+        permissionModule,
     ],
     providers: [
         queryHandlersProvider,

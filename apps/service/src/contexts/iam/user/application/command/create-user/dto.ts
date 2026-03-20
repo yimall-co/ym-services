@@ -1,3 +1,3 @@
-export interface CreateUserDto {
+export interface CreateUserResultDto {
     userId: string;
 }

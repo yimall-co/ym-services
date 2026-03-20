@@ -1,1 +1,0 @@
-ALTER TABLE "offers" ADD COLUMN "is_removed" boolean DEFAULT false NOT NULL;

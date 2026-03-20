@@ -36,7 +36,10 @@ export const appointments = p.pgTable(
             .defaultNow()
             .$onUpdate(() => new Date())
             .notNull(),
-        clientId: p.text('client_id').references(() => users.id),
+        clientId: p
+            .uuid('client_id')
+            .notNull()
+            .references(() => users.id),
         resourceId: p
             .uuid('resource_id')
             .notNull()
