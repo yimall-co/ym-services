@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { ShopId } from 'vm/shared/domain/shop-id';
 
 import { OfferBySlugDto } from './get-offer-by-slug/dto';
@@ -15,6 +14,6 @@ export interface OfferQueryRepository {
     findAllByShopId(criteria: {
         shopId: ShopId;
         limit?: number;
-        cursor?: { id: string, updatedAt: Date };
+        cursor?: { id: string; updatedAt: Date };
     }): Promise<PaginatedOffer<OfferByShopDto>>;
 }

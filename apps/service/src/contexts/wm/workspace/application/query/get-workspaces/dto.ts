@@ -5,6 +5,7 @@ export interface WorkspaceDto {
     description: string | null;
     tin: string | null;
     isVerified: boolean;
+    isRemoved: boolean;
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;

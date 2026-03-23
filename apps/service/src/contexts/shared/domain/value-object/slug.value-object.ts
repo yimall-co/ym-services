@@ -1,10 +1,22 @@
 import { StringValueObject } from './string.value-object';
 
-export abstract class SlugValueObject extends StringValueObject {
+export class SlugValueObject extends StringValueObject {
     constructor(value: string) {
-        super(value.trim().toLowerCase());
+        super(value);
 
         this.ensureIsValidSlug();
+    }
+
+    static fromRaw(raw: string) {
+        const slug = raw
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .split(' ')
+            .join('-')
+            .trim()
+            .toLocaleLowerCase();
+
+        return new SlugValueObject(slug);
     }
 
     private ensureIsValidSlug(): void {

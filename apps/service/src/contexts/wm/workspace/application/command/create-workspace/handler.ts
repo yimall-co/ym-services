@@ -1,9 +1,9 @@
 import { Command } from 'shared/domain/command';
 import { CommandHandler } from 'shared/domain/command-handler';
+import { UnitOfWork } from 'shared/infrastructure/unit-of-work';
 
 import { SegmentId } from 'wm/shared/domain/segment-id';
 import { Workspace } from 'wm/workspace/domain/workspace';
-import { WorkspaceRepository } from 'wm/workspace/domain/workspace.repository';
 import { WorkspaceName } from 'wm/workspace/domain/value-object/workspace-name';
 import { WorkspaceSlug } from 'wm/workspace/domain/value-object/workspace-slug';
 import { WorkspaceDescription } from 'wm/workspace/domain/value-object/workspace-description';
@@ -12,37 +12,43 @@ import { WorkspaceOwnerId } from 'wm/workspace/domain/value-object/workspace-own
 
 import { CreateWorkspaceResultDto } from './dto';
 import { CreateWorkspaceCommand } from './command';
+import { WorkspaceRepositoryScope } from '../../workspace.repository-scope';
 
 export class CreateWorkspaceCommandHandler implements CommandHandler<
     CreateWorkspaceCommand,
     CreateWorkspaceResultDto
 > {
-    constructor(private readonly workspaceRepository: WorkspaceRepository) { }
+    constructor(private readonly uow: UnitOfWork<WorkspaceRepositoryScope>) { }
 
     subscribedTo(): Command {
         return CreateWorkspaceCommand;
     }
 
     async handle(command: CreateWorkspaceCommand): Promise<CreateWorkspaceResultDto> {
-        const slugify = (value: string) => {
-            return value.split(' ').join('-').trim().toLocaleLowerCase();
-        };
-
-        const slug = slugify(command.name);
-
         const workspace = Workspace.create(
             new WorkspaceName(command.name),
-            new WorkspaceSlug(slug),
+            WorkspaceSlug.fromRaw(command.name),
             new WorkspaceDescription(command.description),
             new WorkspaceTin(command.tin ?? ''),
             new SegmentId(command.segmentId),
             new WorkspaceOwnerId(command.ownerId),
         );
 
-        await this.workspaceRepository.save(workspace);
+        return this.uow.withTransaction(async (scope) => {
+            const workspaceRepository = scope.getWorkspaceRepository();
 
-        const workspaceId = workspace.getId();
+            const existsBySlug = await workspaceRepository.existsActiveBySlug(workspace.getSlug());
+            if (existsBySlug) {
+                throw new Error('Workspace already exists');
+            }
 
-        return { workspaceId: workspaceId.value };
+            // TODO: owner cannot have more than 3 workspaces.
+
+            await workspaceRepository.save(workspace);
+
+            const workspaceId = workspace.getId();
+
+            return { workspaceId: workspaceId.value };
+        });
     }
 }

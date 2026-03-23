@@ -1,6 +1,6 @@
 import * as p from 'drizzle-orm/pg-core';
 
-import { relations } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 
 import { users } from 'iam/user/infrastructure/persistence/drizzle/users.table';
 import { shops } from 'vm/shop/infrastructure/persistence/drizzle/shops.table';
@@ -17,11 +17,21 @@ export const workspaces = p.pgTable(
         id: p.uuid('id').primaryKey().defaultRandom(),
         name: p.text('name').notNull(),
         slug: p.text('slug').notNull(),
-        description: p.text('description'),
+        description: p
+            .varchar('description', {
+                length: 1000,
+            })
+            .notNull(),
         tin: p.varchar('tin', {
             length: 15,
         }),
+        version: p
+            .integer('version')
+            .notNull()
+            .default(0)
+            .$onUpdateFn(() => sql`version + 1`),
         isVerified: p.boolean('is_verified').notNull().default(false),
+        isRemoved: p.boolean('is_removed').notNull().default(false),
         isActive: p.boolean('is_active').notNull().default(true),
         createdAt: p.timestamp('created_at').defaultNow().notNull(),
         updatedAt: p

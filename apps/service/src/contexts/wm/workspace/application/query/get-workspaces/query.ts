@@ -1,13 +1,15 @@
 import { Query } from 'shared/domain/query';
 
 export class GetWorkspacesQuery extends Query {
-    readonly top: number;
-    readonly skip: number;
+    readonly id?: string;
+    readonly updatedAt?: Date;
+    readonly limit?: number;
 
-    constructor(top: number, skip: number) {
+    constructor(id?: string, updatedAt?: Date, limit?: number) {
         super();
 
-        this.top = top;
-        this.skip = skip;
+        this.id = id;
+        this.updatedAt = updatedAt;
+        this.limit = limit;
     }
 }

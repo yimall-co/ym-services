@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 import { and, eq, inArray, sql, SQL } from 'drizzle-orm';
 
@@ -185,7 +184,7 @@ export class DrizzleUserRepository
                                 'isActive', ${roles.isActive},
                                 'isRemoved', ${roles.isRemoved},
                                 'createdAt', ${roles.createdAt},
-                                'updatedAt', ${roles.updatedAt},
+                                'updatedAt', ${roles.updatedAt}
                             )
                         ) filter (where ${roles.id} is not null),
                         '[]'::json

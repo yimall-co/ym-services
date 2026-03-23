@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
@@ -10,12 +9,12 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrKey: configService.getOrThrow<string>('jwt.accessSecret'),
+            algorithms: ['RS256', 'RS384', 'RS512', 'HS256', 'HS384', 'HS512'],
+            secretOrKey: configService.getOrThrow<string>('jwt.accessPublicKey'),
         });
     }
 
     validate(payload: any) {
-        console.log('payload', payload);
-        return { userId: payload.sub };
+        return { userId: payload.sub, userEmail: payload.email };
     }
 }

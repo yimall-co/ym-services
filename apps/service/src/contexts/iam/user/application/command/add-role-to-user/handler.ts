@@ -29,7 +29,10 @@ export class AddRoleToUserCommandHandler implements CommandHandler<
             const roleRepository = scope.getRoleRepository();
 
             const user = await userRepository.findById(userId);
-            await roleRepository.existsActiveById(roleId);
+            const existsRoleById = await roleRepository.existsActiveById(roleId);
+            if (!existsRoleById) {
+                throw new Error('Role not found');
+            }
 
             user.addRole(roleId);
 

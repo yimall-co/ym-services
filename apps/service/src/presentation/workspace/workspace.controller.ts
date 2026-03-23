@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
     BadRequestException,
     Body,
@@ -23,6 +24,7 @@ import {
     ApiNoContentResponse,
     ApiNotFoundResponse,
     ApiOkResponse,
+    ApiQuery,
 } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
@@ -42,12 +44,19 @@ export class WorkspaceController {
     constructor(private readonly workspaceService: WorkspaceService) { }
 
     @Get()
+    @ApiQuery({ name: 'id', required: false })
+    @ApiQuery({ name: 'updatedAt', required: false })
+    @ApiQuery({ name: 'limit', required: false })
     @ApiOkResponse({ description: 'List of workspaces' })
     @ApiNotFoundResponse({ description: 'Workspaces not found' })
     @HttpCode(HttpStatus.OK)
-    async getAll(@Query('top') top: number, @Query('skip') skip: number) {
+    async getAllWorkspaces(
+        @Query('id') id?: string,
+        @Query('updatedAt') updatedAt?: string,
+        @Query('limit') limit?: number
+    ) {
         try {
-            return await this.workspaceService.getAllWorkspaces(top, skip);
+            return await this.workspaceService.getAllWorkspaces({ id, updatedAt, limit });
         } catch (error: any) {
             this.logger.error(error.message);
             throw new NotFoundException();
@@ -100,8 +109,7 @@ export class WorkspaceController {
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() createWorkspaceDto: CreateWorkspaceDto) {
         try {
-            await this.workspaceService.createWorkspace(createWorkspaceDto);
-            return { message: 'Workspace created successfully' };
+            return await this.workspaceService.createWorkspace(createWorkspaceDto);
         } catch (error) {
             this.logger.error(error);
             throw new BadRequestException();

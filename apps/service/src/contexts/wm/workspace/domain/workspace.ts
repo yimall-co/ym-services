@@ -8,10 +8,12 @@ import { WorkspaceSlug } from './value-object/workspace-slug';
 import { WorkspaceDescription } from './value-object/workspace-description';
 import { WorkspaceTin } from './value-object/workspace-tin';
 import { WorkspaceIsVerified } from './value-object/workspace-is-verified';
+import { WorkspaceIsRemoved } from './value-object/workspace-is-removed';
 import { WorkspaceIsActive } from './value-object/workspace-is-active';
 import { WorkspaceCreatedAt } from './value-object/workspace-created-at';
 import { WorkspaceUpdatedAt } from './value-object/workspace-updated-at';
 import { WorkspaceOwnerId } from './value-object/workspace-owner-id';
+import { WorkspaceVersion } from './value-object/workspace-version';
 
 export interface WorkspacePrimitves {
     id: string;
@@ -19,7 +21,9 @@ export interface WorkspacePrimitves {
     slug: string;
     description: string;
     tin: string;
+    version: number;
     isVerified: boolean;
+    isRemoved: boolean;
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
@@ -30,12 +34,14 @@ export interface WorkspacePrimitves {
 export class Workspace extends AggregateRoot<WorkspacePrimitves> {
     private readonly id: WorkspaceId;
     private name: WorkspaceName;
-    private readonly slug: WorkspaceSlug;
+    private slug: WorkspaceSlug;
     private description: WorkspaceDescription;
     private tin: WorkspaceTin;
+    private version: WorkspaceVersion;
     private isVerified: WorkspaceIsVerified;
+    private isRemoved: WorkspaceIsRemoved;
     private isActive: WorkspaceIsActive;
-    private createdAt: WorkspaceCreatedAt;
+    private readonly createdAt: WorkspaceCreatedAt;
     private updatedAt: WorkspaceUpdatedAt;
     private segmentId: SegmentId;
     private ownerId: WorkspaceOwnerId;
@@ -46,7 +52,9 @@ export class Workspace extends AggregateRoot<WorkspacePrimitves> {
         slug: WorkspaceSlug,
         description: WorkspaceDescription,
         tin: WorkspaceTin,
+        version: WorkspaceVersion,
         isVerified: WorkspaceIsVerified,
+        isRemoved: WorkspaceIsRemoved,
         isActive: WorkspaceIsActive,
         createdAt: WorkspaceCreatedAt,
         updatedAt: WorkspaceUpdatedAt,
@@ -60,7 +68,9 @@ export class Workspace extends AggregateRoot<WorkspacePrimitves> {
         this.slug = slug;
         this.description = description;
         this.tin = tin;
+        this.version = version;
         this.isVerified = isVerified;
+        this.isRemoved = isRemoved;
         this.isActive = isActive;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -82,7 +92,9 @@ export class Workspace extends AggregateRoot<WorkspacePrimitves> {
             slug,
             description,
             tin,
+            new WorkspaceVersion(0),
             new WorkspaceIsVerified(false),
+            new WorkspaceIsRemoved(false),
             new WorkspaceIsActive(true),
             new WorkspaceCreatedAt(new Date()),
             new WorkspaceUpdatedAt(new Date()),
@@ -98,7 +110,9 @@ export class Workspace extends AggregateRoot<WorkspacePrimitves> {
             new WorkspaceSlug(primitives.slug),
             new WorkspaceDescription(primitives.description),
             new WorkspaceTin(primitives.tin),
+            new WorkspaceVersion(primitives.version),
             new WorkspaceIsVerified(primitives.isVerified),
+            new WorkspaceIsRemoved(primitives.isRemoved),
             new WorkspaceIsActive(primitives.isActive),
             new WorkspaceCreatedAt(primitives.createdAt),
             new WorkspaceUpdatedAt(primitives.updatedAt),
@@ -109,6 +123,30 @@ export class Workspace extends AggregateRoot<WorkspacePrimitves> {
 
     getId(): WorkspaceId {
         return this.id;
+    }
+
+    getName(): WorkspaceName {
+        return this.name;
+    }
+
+    getSlug(): WorkspaceSlug {
+        return this.slug;
+    }
+
+    getDescription(): WorkspaceDescription {
+        return this.description;
+    }
+
+    getTin(): WorkspaceTin {
+        return this.tin;
+    }
+
+    getOwnerId(): WorkspaceOwnerId {
+        return this.ownerId;
+    }
+
+    getVersion(): WorkspaceVersion {
+        return this.version;
     }
 
     changeName(newName: WorkspaceName): void {
@@ -178,7 +216,9 @@ export class Workspace extends AggregateRoot<WorkspacePrimitves> {
             slug: this.slug.value,
             description: this.description.value,
             tin: this.tin.value,
+            version: this.version.value,
             isVerified: this.isVerified.value,
+            isRemoved: this.isRemoved.value,
             isActive: this.isActive.value,
             createdAt: this.createdAt.value,
             updatedAt: this.updatedAt.value,

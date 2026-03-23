@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { permissions } from 'shared/infrastructure/persistence/drizzle/schema';
 
 import { Role } from 'iam/role/domain/role';

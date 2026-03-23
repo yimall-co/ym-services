@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ConfigService } from '@nestjs/config';
 import { Provider, Scope } from '@nestjs/common';
 
@@ -26,6 +25,7 @@ import { CreateRoleCommandHandler } from 'iam/role/application/command/create-ro
 import { UpdateRoleCommandHandler } from 'iam/role/application/command/update-role/handler';
 import { AddPermissionToRoleCommandHandler } from 'iam/role/application/command/add-permission-to-role/handler';
 import { CreatePermissionCommandHandler } from 'iam/permission/application/command/create-permission/handler';
+import { AddRoleToUserCommandHandler } from 'iam/user/application/command/add-role-to-user/handler';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,
@@ -60,6 +60,7 @@ import {
     UPDATE_ROLE_COMMAND_HANDLER,
 } from 'presentation/role/adapters/constants';
 import { CREATE_PERMISSION_COMMAND_HANDLER } from 'presentation/permission/adapters/constants';
+import { ADD_ROLE_TO_USER_COMMAND_HANDLER } from 'presentation/user/adapters/constants';
 
 import {
     COMMAND_BUS,
@@ -142,6 +143,7 @@ export const commandHandlersProvider: Provider = {
         UPDATE_ROLE_COMMAND_HANDLER,
         ADD_PERMISSION_TO_ROLE_COMMAND_HANDLER,
         CREATE_PERMISSION_COMMAND_HANDLER,
+        ADD_ROLE_TO_USER_COMMAND_HANDLER,
     ],
     useFactory: (
         createWorkspaceCommandHandler: CreateWorkspaceCommandHandler,
@@ -154,6 +156,7 @@ export const commandHandlersProvider: Provider = {
         updateRoleCommandHandler: UpdateRoleCommandHandler,
         addPermissionToRoleCommandHandler: AddPermissionToRoleCommandHandler,
         createPermissionCommandHandler: CreatePermissionCommandHandler,
+        addRoleToUserCommandHandler: AddRoleToUserCommandHandler,
     ) =>
         new CommandHandlers([
             createWorkspaceCommandHandler,
@@ -166,6 +169,7 @@ export const commandHandlersProvider: Provider = {
             updateRoleCommandHandler,
             addPermissionToRoleCommandHandler,
             createPermissionCommandHandler,
+            addRoleToUserCommandHandler,
         ]),
     scope: Scope.DEFAULT,
 };

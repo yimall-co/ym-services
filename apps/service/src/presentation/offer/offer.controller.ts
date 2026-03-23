@@ -37,8 +37,8 @@ export class OfferController {
     @ApiQuery({ name: 'id', required: false })
     @ApiQuery({ name: 'updatedAt', required: false })
     @ApiQuery({ name: 'limit', required: false })
-    @ApiOkResponse({ description: '' })
-    @ApiNotFoundResponse({ description: '' })
+    @ApiOkResponse({ description: 'List of offers' })
+    @ApiNotFoundResponse({ description: 'Offers not found' })
     @HttpCode(HttpStatus.OK)
     async getOffersByShop(
         @Param('shopId') shopId: string,

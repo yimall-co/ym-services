@@ -7,6 +7,14 @@ export abstract class NumberValueObject extends ValueObject<number> {
         this.ensureIsValidNumber(value);
     }
 
+    isInteger(): boolean {
+        return Number.isInteger(this.value);
+    }
+
+    isDecimal(): boolean {
+        return !this.isInteger();
+    }
+
     isGreatherThan(value: number): boolean {
         return this.value > value;
     }

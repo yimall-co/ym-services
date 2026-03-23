@@ -9,12 +9,14 @@ import {
     getWorkspaceByIdQueryHandlerProvider,
     getWorkspacesQueryHandlerProvider,
     updateWorkspaceCommandHandlerProvider,
+    workspaceUnitOfWorkProvider,
 } from './adapters';
 
 @Module({
     controllers: [WorkspaceController],
     providers: [
         WorkspaceService,
+        workspaceUnitOfWorkProvider,
         workspaceRepositoryProvider,
         workspaceQueryRepositoryProvider,
         getWorkspacesQueryHandlerProvider,

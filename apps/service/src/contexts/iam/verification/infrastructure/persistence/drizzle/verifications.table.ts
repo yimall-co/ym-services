@@ -19,4 +19,4 @@ export const verifications = p.pgTable(
     (table) => [p.index().on(table.identifier)],
 );
 
-export const verificationsRelations = relations(verifications, ({}) => ({}));
+export const verificationsRelations = relations(verifications, ({ }) => ({}));

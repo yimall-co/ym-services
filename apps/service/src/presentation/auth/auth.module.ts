@@ -1,6 +1,6 @@
-import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
+import { DynamicModule, Module } from '@nestjs/common';
+import { JwtModule, JwtSecretRequestType } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
 import { AuthService } from './auth.service';
@@ -22,11 +22,23 @@ const jwtModule = JwtModule.registerAsync({
     inject: [ConfigService],
     useFactory: (configService: ConfigService) => {
         const jwtSecret = configService.getOrThrow<string>('jwt.accessSecret');
+        const jwtPublicKey = configService.getOrThrow<string>('jwt.accessPublicKey');
+        const jwtPrivateKey = configService.getOrThrow<string>('jwt.accessPrivateKey');
 
         return {
-            secret: jwtSecret,
             signOptions: {
                 expiresIn: '2h',
+                algorithm: 'RS256',
+            },
+            secretOrKeyProvider: (requestType: JwtSecretRequestType) => {
+                switch (requestType) {
+                    case JwtSecretRequestType.SIGN:
+                        return jwtPrivateKey;
+                    case JwtSecretRequestType.VERIFY:
+                        return jwtPublicKey;
+                    default:
+                        return jwtSecret;
+                }
             },
         };
     },

@@ -106,15 +106,12 @@ export class AuthService {
         // 2 hours
         const accessTokenExpiresIn = minutesToSeconds(120);
         const accessTokenExpiresAt = getExpiresAt(accessTokenExpiresIn);
-        const accessToken = await this.jwtService.signAsync(dto, {
-            secret: this.configService.getOrThrow<string>('jwt.accessSecret'),
-        });
+        const accessToken = await this.jwtService.signAsync(dto);
 
         // 7 days
         const refreshTokenExpiresIn = minutesToSeconds(10080);
         const refreshTokenExpiresAt = getExpiresAt(refreshTokenExpiresIn);
         const refreshToken = await this.jwtService.signAsync(dto, {
-            secret: this.configService.getOrThrow<string>('jwt.refreshSecret'),
             expiresIn: '7d',
         });
 

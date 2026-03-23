@@ -24,12 +24,15 @@ export class AddPermissionToRoleCommandHandler implements CommandHandler<
         const roleId = new RoleId(command.roleId);
         const permissionId = new PermissionId(command.permissionId);
 
-        return this.uwo.withTransaction(async (repos) => {
-            const roleRepository = repos.getRoleRepository();
-            const permissionRepository = repos.getPermissionRepository();
+        return this.uwo.withTransaction(async (scope) => {
+            const roleRepository = scope.getRoleRepository();
+            const permissionRepository = scope.getPermissionRepository();
 
             const role = await roleRepository.findById(roleId);
-            await permissionRepository.existsActiveById(permissionId);
+            const existsPermissionById = await permissionRepository.existsActiveById(permissionId);
+            if (!existsPermissionById) {
+                throw new Error('Permission not found');
+            }
 
             role.addPermission(permissionId);
 

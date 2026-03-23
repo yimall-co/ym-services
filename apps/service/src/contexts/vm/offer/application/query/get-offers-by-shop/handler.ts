@@ -17,15 +17,15 @@ export class GetOffersByShopQueryHandler implements QueryHandler<
         return GetOffersByShopQuery;
     }
 
-    async handle(query: GetOffersByShopQuery) {
+    async handle(query: GetOffersByShopQuery): Promise<PaginatedOffer<OfferByShopDto>> {
         const shopId = new ShopId(query.shopId);
 
-        const pagination = await this.offerQueryRepository.findAllByShopId({
+        const paginatedOffers = await this.offerQueryRepository.findAllByShopId({
             shopId,
             limit: query.limit,
             cursor: { id: query.id, updatedAt: query.updatedAt },
         });
 
-        return pagination;
+        return paginatedOffers;
     }
 }

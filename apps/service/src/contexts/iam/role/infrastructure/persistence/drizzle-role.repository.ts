@@ -24,7 +24,7 @@ export class DrizzleRoleRepository
             .select()
             .from(this.table)
             .where(
-                this.withValidRoles(
+                this.withValid(
                     eq(this.table.id, id.value)
                 ),
             )
@@ -39,7 +39,7 @@ export class DrizzleRoleRepository
 
         const [row] = await query
             .where(
-                this.withValidRoles(
+                this.withValid(
                     eq(this.table.id, id.value)
                 ),
             )
@@ -58,7 +58,7 @@ export class DrizzleRoleRepository
 
         const [row] = await query
             .where(
-                this.withValidRoles(
+                this.withValid(
                     eq(this.table.codeName, codeName.value)
                 ),
             )
@@ -179,10 +179,10 @@ export class DrizzleRoleRepository
                                 'isActive', ${permissions.isActive},
                                 'isRemoved', ${permissions.isRemoved},
                                 'createdAt', ${permissions.createdAt},
-                                'updatedAt', ${permissions.updatedAt},
+                                'updatedAt', ${permissions.updatedAt}
                             )
                         ) filter (where ${permissions.id} is not null),
-                         '[]'::json
+                        '[]'::json
                     )
                 `,
             })
@@ -200,7 +200,7 @@ export class DrizzleRoleRepository
             .$dynamic();
     }
 
-    private withValidRoles(condition?: SQL) {
+    private withValid(condition?: SQL) {
         return and(
             condition ? condition : undefined,
             eq(this.table.isActive, true),

@@ -19,6 +19,12 @@ export const users = p.pgTable(
         email: p.text('email').notNull(),
         emailVerified: p.boolean('email_verified').default(false).notNull(),
         image: p.text('image'),
+        // TODO: add birthDate and gender, possible to use enum for gender and new profile table.
+        // birthDate: p.date('birth_date'),
+        // gender: p.text('gender'), // male, female, prefer not to say, other.
+        // customGender: p.text('custom_gender'),
+        // pronouns: p.text('pronouns'), // she/her, he/him, they/them, other.
+        // customPronouns: p.text('custom_pronouns'),
         isActive: p.boolean('is_active').default(true).notNull(),
         isRemoved: p.boolean('is_removed').default(false).notNull(),
         createdAt: p.timestamp('created_at').defaultNow().notNull(),
