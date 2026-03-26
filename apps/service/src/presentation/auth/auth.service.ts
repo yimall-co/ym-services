@@ -1,5 +1,4 @@
 import { minutesToSeconds, secondsToMilliseconds } from 'date-fns';
-import { ConfigService } from '@nestjs/config';
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
@@ -29,18 +28,13 @@ export class AuthService {
         @Inject(COMMAND_BUS)
         private readonly commandBus: CommandBus,
         private readonly jwtService: JwtService,
-        private readonly configService: ConfigService,
     ) { }
 
     async signIn(dto: SignInDto) {
         const { emailOrUsername, password } = dto;
 
         const query = new GetUserByEmailQuery(emailOrUsername);
-
         const user = await this.queryBus.ask<UserByEmailDto>(query);
-        if (!user) {
-            throw new Error('Users doesnt exists');
-        }
 
         const account = user.accounts.find((acc) => acc.providerId === 'credential');
         if (!account) {
@@ -66,7 +60,7 @@ export class AuthService {
     async signUp(dto: SignUpDto) {
         const { name, image, email, password } = dto;
 
-        const createUserCommand = new CreateUserCommand(name, image, email);
+        const createUserCommand = new CreateUserCommand(name, image ?? '', email);
 
         const { userId } = await this.commandBus.dispatch<CreateUserResultDto>(createUserCommand);
 

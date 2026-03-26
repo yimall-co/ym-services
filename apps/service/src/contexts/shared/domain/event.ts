@@ -36,10 +36,9 @@ export abstract class Event {
 export type EventClass = {
     EVENT_NAME: string;
     fromPrimitives: (primitives: {
-        eventName: string;
         aggregateId: string;
         occurredOn?: Date;
         eventId?: string;
-        attributes: EventAttributes;
+        attributes: any;
     }) => Event;
 };

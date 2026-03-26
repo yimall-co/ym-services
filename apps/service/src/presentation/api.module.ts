@@ -3,6 +3,8 @@ import { DynamicModule, Module } from '@nestjs/common';
 import {
     commandBusProvider,
     commandHandlersProvider,
+    eventBusProvider,
+    eventSubscribersProvider,
     queryBusProvider,
     queryHandlersProvider,
 } from './shared/adapters';
@@ -16,6 +18,7 @@ import { CategoryModule } from './category/category.module';
 import { ShopModule } from './shop/shop.module';
 import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
+import { ProfileModule } from './profile/profile.module';
 
 const authModule = AuthModule.forRoot();
 const userModule = UserModule.forRoot();
@@ -27,6 +30,7 @@ const shopModule = ShopModule.forRoot();
 const offerModule = OfferModule.forRoot();
 const roleModule = RoleModule.forRoot();
 const permissionModule = PermissionModule.forRoot();
+const profileModule = ProfileModule.forRoot();
 
 @Module({
     imports: [
@@ -40,14 +44,24 @@ const permissionModule = PermissionModule.forRoot();
         offerModule,
         roleModule,
         permissionModule,
+        profileModule,
     ],
     providers: [
         queryHandlersProvider,
         queryBusProvider,
         commandHandlersProvider,
         commandBusProvider,
+        eventSubscribersProvider,
+        eventBusProvider,
     ],
-    exports: [queryHandlersProvider, queryBusProvider, commandHandlersProvider, commandBusProvider],
+    exports: [
+        queryHandlersProvider,
+        queryBusProvider,
+        commandHandlersProvider,
+        commandBusProvider,
+        eventSubscribersProvider,
+        eventBusProvider,
+    ],
 })
 export class ApiModule {
     static forRoot(): DynamicModule {

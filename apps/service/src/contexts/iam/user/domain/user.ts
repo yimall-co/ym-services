@@ -11,6 +11,7 @@ import { UserIsActive } from './value-object/user-is-active';
 import { UserIsRemoved } from './value-object/user-is-removed';
 import { UserCreatedAt } from './value-object/user-created-at';
 import { UserUpdatedAt } from './value-object/user-updated-at';
+import { UserCreatedEvent } from './event/user-created.event';
 
 export interface UserPrimitives {
     id: string;
@@ -64,7 +65,7 @@ export class User extends AggregateRoot<UserPrimitives> {
     }
 
     static create(name: UserName, email: UserEmail, image: UserImage, roles: Array<RoleId>): User {
-        return new User(
+        const user = new User(
             UserId.random(),
             name,
             email,
@@ -76,6 +77,17 @@ export class User extends AggregateRoot<UserPrimitives> {
             new UserUpdatedAt(new Date()),
             roles,
         );
+
+        user.record(
+            new UserCreatedEvent({
+                name: name.value,
+                email: email.value,
+                image: image.value,
+                aggregateId: user.id.value,
+            }),
+        );
+
+        return user;
     }
 
     static fromPrimitives(primitives: UserPrimitives): User {

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { and, desc, eq, lt, or, SQL, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, lt, or, SQL, sql } from 'drizzle-orm';
 import { PgSelect } from 'drizzle-orm/pg-core';
 
 import { DrizzleRepository } from 'shared/infrastructure/persistence/drizzle/drizzle.repository';
@@ -9,6 +9,7 @@ import { categories } from 'lm/category/infrastructure/persistence/drizzle/categ
 import { segments } from 'wm/segment/infrastructure/persistence/drizzle/segments.table';
 import { WorkspaceDto } from 'wm/workspace/application/query/get-workspaces/dto';
 import { WorkspaceByIdDto } from 'wm/workspace/application/query/get-workspace-by-id/dto';
+import { WorkspaceByUserDto } from 'wm/workspace/application/query/get-workspaces-by-user-id/dto';
 import {
     PaginatedWorkspace,
     WorkspaceQueryRepository,
@@ -110,6 +111,25 @@ export class DrizzleWorkspaceQueryRepository
 
     findOne(id: string): Promise<WorkspaceByIdDto | null> {
         throw new Error('Not implemented');
+    }
+
+    async findWorkspacesByUserId(userId: string): Promise<Array<WorkspaceByUserDto>> {
+        const rows = await this.client
+            .select({
+                id: this.table.id,
+                name: this.table.name,
+                slug: this.table.slug,
+                createdAt: this.table.createdAt,
+            })
+            .from(this.table)
+            .where(
+                this.withValid(
+                    eq(this.table.ownerId, userId),
+                ),
+            )
+            .orderBy(asc(this.table.createdAt));
+
+        return rows;
     }
 
     private getBaseQuery() {

@@ -1,7 +1,7 @@
 export interface UserByIdDto {
     id: string;
     name: string;
-    image: string;
+    image: string | null;
     email: string;
-    emailVerified: string;
+    emailVerified: boolean;
 }

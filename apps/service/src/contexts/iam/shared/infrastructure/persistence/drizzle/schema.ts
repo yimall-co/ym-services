@@ -6,3 +6,4 @@ export * from 'iam/verification/infrastructure/persistence/drizzle/verifications
 export * from 'iam/role/infrastructure/persistence/drizzle/roles.table';
 export * from 'iam/role/infrastructure/persistence/drizzle/role-permissions.table';
 export * from 'iam/permission/infrastructure/persistence/drizzle/permissions.table';
+export * from 'iam/profiles/infrastructure/persistence/drizzle/profiles.table';

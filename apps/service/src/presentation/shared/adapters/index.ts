@@ -5,6 +5,9 @@ import { QueryHandlers } from 'shared/infrastructure/query-bus/query-handlers';
 import { InMemoryQueryBus } from 'shared/infrastructure/query-bus/in-memory.query-bus';
 import { CommandHandlers } from 'shared/infrastructure/command-bus/command-handlers';
 import { InMemoryCommandBus } from 'shared/infrastructure/command-bus/in-memory.command-bus';
+import { EventBus } from 'shared/domain/event-bus';
+import { EventSubscribers } from 'shared/infrastructure/event-bus/event-subscribers';
+import { LoggerSubscriber } from 'shared/infrastructure/event-bus/logger-subscriber';
 import { DrizzleClientFactory } from 'shared/infrastructure/persistence/drizzle/client-factory';
 import { GetWorkspacesQueryHandler } from 'wm/workspace/application/query/get-workspaces/handler';
 import { GetWorkspaceByIdQueryHandler } from 'wm/workspace/application/query/get-workspace-by-id/handler';
@@ -13,6 +16,8 @@ import { CreateSegmentCommandHandler } from 'wm/segment/application/command/crea
 import { GetSegmentsByCriteriaQueryHandler } from 'wm/segment/application/query/get-segments-by-criteria/handler';
 import { GetCustomizationByWorkspaceQueryHandler } from 'wm/customization/application/query/get-customization-by-workspace/handler';
 import { CreateCustomizationColorCommandHandler } from 'wm/customization-color/application/command/create-customization-color/handler';
+import { GetUserByIdQueryHandler } from 'iam/user/application/query/get-user-by-id/handler';
+import { GetUserInfoByIdQueryHandler } from 'iam/user/application/query/get-user-info-by-id/handler';
 import { GetUserByEmailQueryHandler } from 'iam/user/application/query/get-user-by-email/handler';
 import { CreateUserCommandHandler } from 'iam/user/application/command/create-user/handler';
 import { CreateAccountCommandHandler } from 'iam/account/application/command/create/create-account.command-handler';
@@ -26,6 +31,8 @@ import { UpdateRoleCommandHandler } from 'iam/role/application/command/update-ro
 import { AddPermissionToRoleCommandHandler } from 'iam/role/application/command/add-permission-to-role/handler';
 import { CreatePermissionCommandHandler } from 'iam/permission/application/command/create-permission/handler';
 import { AddRoleToUserCommandHandler } from 'iam/user/application/command/add-role-to-user/handler';
+import { CreateProfileCommandHandler } from 'iam/profiles/application/command/create-profile/handler';
+import { GetWorkspacesByUserIdQueryHandler } from 'wm/workspace/application/query/get-workspaces-by-user-id/handler';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,
@@ -60,15 +67,24 @@ import {
     UPDATE_ROLE_COMMAND_HANDLER,
 } from 'presentation/role/adapters/constants';
 import { CREATE_PERMISSION_COMMAND_HANDLER } from 'presentation/permission/adapters/constants';
-import { ADD_ROLE_TO_USER_COMMAND_HANDLER } from 'presentation/user/adapters/constants';
+import {
+    ADD_ROLE_TO_USER_COMMAND_HANDLER,
+    GET_USER_BY_ID_QUERY_HANDLER,
+    GET_USER_INFO_BY_ID_QUERY_HANDLER,
+    GET_WORKSPACES_BY_OWNER_ID_QUERY_HANDLER,
+} from 'presentation/user/adapters/constants';
+import { CREATE_PROFILE_COMMAND_HANDLER } from 'presentation/profile/adapters/constants';
 
 import {
     COMMAND_BUS,
     COMMAND_HANDLERS,
     DRIZZLE_INSTANCE,
+    EVENT_BUS,
+    EVENT_SUBSCRIBERS,
     QUERY_BUS,
     QUERY_HANDLERS,
 } from './constants';
+import { InMemoryEventBus } from 'shared/infrastructure/event-bus/in-memory.event-bus';
 
 export const drizzleInstanceProvider: Provider = {
     provide: DRIZZLE_INSTANCE,
@@ -91,34 +107,43 @@ export const queryHandlersProvider: Provider = {
         GET_WORKSPACES_QUERY_HANDLER,
         GET_WORKSPACE_BY_ID_QUERY_HANDLER,
         GET_CUSTOMIZATION_BY_WORKSPACE_QUERY_HANDLER,
+        GET_USER_BY_ID_QUERY_HANDLER,
+        GET_USER_INFO_BY_ID_QUERY_HANDLER,
         GET_USER_BY_EMAIl_QUERY_HANDLER,
         GET_CATEGORY_BY_SLUG_QUERY_HANDLER,
         GET_SHOPS_BY_WORKSPACE_QUERY_HANDLER,
         GET_SHOP_BY_SLUG_QUERY_HANDLER,
         GET_OFFERS_BY_SHOP_QUERY_HANDLER,
         GET_SEGMENTS_BY_CRITERIA_QUERY_HANDLER,
+        GET_WORKSPACES_BY_OWNER_ID_QUERY_HANDLER,
     ],
     useFactory: (
         getWorkspacesQueryHandler: GetWorkspacesQueryHandler,
         getWorkspaceByIdQueryHandler: GetWorkspaceByIdQueryHandler,
         getCustomizationByWorkspaceQueryHandler: GetCustomizationByWorkspaceQueryHandler,
+        getUserByIdQueryHandler: GetUserByIdQueryHandler,
+        getUserInfoByIdQueryHandler: GetUserInfoByIdQueryHandler,
         getUserByEmailQueryHandler: GetUserByEmailQueryHandler,
         getCategoryBySlugQueryHandler: GetCategoryBySlugQueryHandler,
         getShopsByWorkspaceQueryHandler: GetShopsByWorkspaceQueryHandler,
         getShopBySlugQueryHandler: GetShopBySlugQueryHandler,
         getOffersByShopQueryHandler: GetOffersByShopQueryHandler,
         getSegmentsByCriteriaQueryHandler: GetSegmentsByCriteriaQueryHandler,
+        getWorkspacesByOwnerIdQueryHandler: GetWorkspacesByUserIdQueryHandler,
     ) =>
         new QueryHandlers([
             getWorkspacesQueryHandler,
             getWorkspaceByIdQueryHandler,
             getCustomizationByWorkspaceQueryHandler,
+            getUserByIdQueryHandler,
+            getUserInfoByIdQueryHandler,
             getUserByEmailQueryHandler,
             getCategoryBySlugQueryHandler,
             getShopsByWorkspaceQueryHandler,
             getShopBySlugQueryHandler,
             getOffersByShopQueryHandler,
             getSegmentsByCriteriaQueryHandler,
+            getWorkspacesByOwnerIdQueryHandler,
         ]),
     scope: Scope.DEFAULT,
 };
@@ -144,6 +169,8 @@ export const commandHandlersProvider: Provider = {
         ADD_PERMISSION_TO_ROLE_COMMAND_HANDLER,
         CREATE_PERMISSION_COMMAND_HANDLER,
         ADD_ROLE_TO_USER_COMMAND_HANDLER,
+        CREATE_PROFILE_COMMAND_HANDLER,
+        EVENT_BUS,
     ],
     useFactory: (
         createWorkspaceCommandHandler: CreateWorkspaceCommandHandler,
@@ -157,11 +184,16 @@ export const commandHandlersProvider: Provider = {
         addPermissionToRoleCommandHandler: AddPermissionToRoleCommandHandler,
         createPermissionCommandHandler: CreatePermissionCommandHandler,
         addRoleToUserCommandHandler: AddRoleToUserCommandHandler,
+        createProfileCommandHandler: CreateProfileCommandHandler,
+        eventBus: EventBus,
     ) =>
         new CommandHandlers([
             createWorkspaceCommandHandler,
             createSegmentCommandHandler,
-            createUserCommandHandler,
+            new CreateUserCommandHandler(
+                createUserCommandHandler['uow'], // This is a bit hacky, but consistent with the existing setup if we don't want to change provided instances
+                eventBus,
+            ),
             createAccountCommandHandler,
             createCustomizationColorCommandHandler,
             createOfferCommandHandler,
@@ -170,6 +202,7 @@ export const commandHandlersProvider: Provider = {
             addPermissionToRoleCommandHandler,
             createPermissionCommandHandler,
             addRoleToUserCommandHandler,
+            createProfileCommandHandler,
         ]),
     scope: Scope.DEFAULT,
 };
@@ -179,4 +212,24 @@ export const commandBusProvider: Provider = {
     inject: [COMMAND_HANDLERS],
     useFactory: (handlers: CommandHandlers) => new InMemoryCommandBus(handlers),
     scope: Scope.DEFAULT,
+};
+
+export const eventSubscribersProvider: Provider = {
+    provide: EVENT_SUBSCRIBERS,
+    inject: [LoggerSubscriber],
+    useFactory: (loggerSubscriber: LoggerSubscriber) => new EventSubscribers([loggerSubscriber]),
+    scope: Scope.DEFAULT,
+};
+
+export const eventBusProvider: Provider = {
+    provide: EVENT_BUS,
+    inject: [EVENT_SUBSCRIBERS],
+    useFactory: (subscribers: EventSubscribers) =>
+        new InMemoryEventBus().addSubscriber(subscribers),
+    scope: Scope.DEFAULT,
+};
+
+export const loggerSubscriberProvider: Provider = {
+    provide: LoggerSubscriber,
+    useClass: LoggerSubscriber,
 };

@@ -5,7 +5,9 @@ import { AccountRepository } from 'iam/account/domain/account.repository';
 
 import { accounts } from './drizzle/accounts.table';
 
-export class DrizzleAccountRepository extends DrizzleRepository<typeof accounts> implements AccountRepository {
+export class DrizzleAccountRepository
+    extends DrizzleRepository<typeof accounts>
+    implements AccountRepository {
     protected readonly table = accounts;
 
     async save(account: Account): Promise<void> {

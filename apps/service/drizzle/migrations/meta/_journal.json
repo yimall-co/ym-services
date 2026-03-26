@@ -29,6 +29,20 @@
       "when": 1774112879682,
       "tag": "0003_silly_bill_hollister",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1774332032348,
+      "tag": "0004_fuzzy_brother_voodoo",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1774332481143,
+      "tag": "0005_burly_mantis",
+      "breakpoints": true
     }
   ]
 }

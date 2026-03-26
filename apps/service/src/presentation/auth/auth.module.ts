@@ -27,7 +27,8 @@ const jwtModule = JwtModule.registerAsync({
 
         return {
             signOptions: {
-                expiresIn: '2h',
+                // expiresIn: '2h', // TODO: set to this.
+                expiresIn: '7d', // just for testing
                 algorithm: 'RS256',
             },
             secretOrKeyProvider: (requestType: JwtSecretRequestType) => {

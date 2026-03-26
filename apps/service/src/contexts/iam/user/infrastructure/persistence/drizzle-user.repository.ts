@@ -1,16 +1,17 @@
 /* eslint-disable prettier/prettier */
 import { and, eq, inArray, sql, SQL } from 'drizzle-orm';
+import { PgSelect } from 'drizzle-orm/pg-core';
 
+import { roles, userRoles } from 'shared/infrastructure/persistence/drizzle/schema';
 import { DrizzleRepository } from 'shared/infrastructure/persistence/drizzle/drizzle.repository';
 
 import { User } from 'iam/user/domain/user';
 import { UserRepository } from 'iam/user/domain/user.repository';
+import { UserNotFound } from 'iam/user/domain/error/user-not-found';
 import { UserId } from 'iam/shared/domain/user-id';
 import { UserEmail } from 'iam/user/domain/value-object/user-email';
 
 import { users } from './drizzle/users.table';
-import { roles, userRoles } from 'shared/infrastructure/persistence/drizzle/schema';
-import { PgSelect } from 'drizzle-orm/pg-core';
 import { UserMapper } from '../mapper/user.mapper';
 
 export class DrizzleUserRepository
@@ -59,7 +60,7 @@ export class DrizzleUserRepository
             .limit(1);
 
         if (!row) {
-            throw new Error('User not found');
+            throw new UserNotFound();
         }
 
         return UserMapper.toDomain(row);
@@ -78,7 +79,7 @@ export class DrizzleUserRepository
             .limit(1);
 
         if (!row) {
-            throw new Error('User not found');
+            throw new UserNotFound();
         }
 
         return UserMapper.toDomain(row);
@@ -88,7 +89,7 @@ export class DrizzleUserRepository
         await this.client.transaction(async (transaction) => {
             const tx = this.client ?? transaction;
 
-            const { id, ...rest } = UserMapper.toPersistence(user);
+            const { id, email, ...rest } = UserMapper.toPersistence(user);
 
             await tx
                 .insert(this.table)

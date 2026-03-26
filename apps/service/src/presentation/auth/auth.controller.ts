@@ -36,7 +36,7 @@ export class AuthController {
         }
     }
 
-    @Post('signup')
+    @Post('sign-up')
     @ApiCreatedResponse({ description: 'User sign up' })
     @ApiUnauthorizedResponse({ description: 'Cant signup user' })
     @HttpCode(HttpStatus.CREATED)

@@ -3,9 +3,11 @@ import {
     IsEmail,
     IsNotEmpty,
     IsOptional,
+    IsString,
     IsStrongPassword,
     IsUrl,
     MaxLength,
+    MinLength,
 } from 'class-validator';
 
 export class SignUpDto {
@@ -21,13 +23,15 @@ export class SignUpDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @IsStrongPassword({
-        minLength: 6,
-    })
+    @IsString()
+    @MinLength(6)
+    // @IsStrongPassword({
+    //     minLength: 6,
+    // })
     password: string;
 
     @ApiProperty()
     @IsOptional()
     @IsUrl()
-    image: string;
+    image?: string;
 }
