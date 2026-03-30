@@ -7,7 +7,7 @@ import { AccountRepository } from 'iam/account/domain/account.repository';
 import { UserRepositoryScope } from 'iam/user/application/user.repository-scope';
 import { CreateUserCommandHandler } from 'iam/user/application/command/create-user/handler';
 import { GetUserByEmailQueryHandler } from 'iam/user/application/query/get-user-by-email/handler';
-import { DrizzleUserUnitOfWork } from 'iam/user/infrastructure/persistence/drizzle-user.uow';
+import { UserUnitOfWork } from 'iam/user/infrastructure/persistence/user.uow';
 import { CreateAccountCommandHandler } from 'iam/account/application/command/create/create-account.command-handler';
 import { DrizzleAccountRepository } from 'iam/account/infrastructure/persistence/drizzle-account.repository';
 
@@ -26,7 +26,7 @@ import * as schema from 'shared/infrastructure/persistence/drizzle/schema';
 export const userUnitOfWorkProvider: Provider = {
     provide: USER_UNIT_OF_WORK,
     inject: [DRIZZLE_INSTANCE],
-    useFactory: (database: NodePgDatabase<typeof schema>) => new DrizzleUserUnitOfWork(database),
+    useFactory: (database: NodePgDatabase<typeof schema>) => new UserUnitOfWork(database),
     scope: Scope.REQUEST,
 };
 

@@ -8,7 +8,7 @@ import { GetUserInfoByIdQueryHandler } from 'iam/user/application/query/get-user
 import { AddRoleToUserCommandHandler } from 'iam/user/application/command/add-role-to-user/handler';
 import { GetWorkspacesByUserIdQueryHandler } from 'wm/workspace/application/query/get-workspaces-by-user-id/handler';
 import { WorkspaceRepositoryScope } from 'wm/workspace/application/workspace.repository-scope';
-import { DrizzleUserUnitOfWork } from 'iam/user/infrastructure/persistence/drizzle-user.uow';
+import { UserUnitOfWork } from 'iam/user/infrastructure/persistence/user.uow';
 import { DrizzleWorkspaceUnitOfWork } from 'wm/workspace/infrastructure/persistence/drizzle-workspace.uow';
 
 import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
@@ -27,7 +27,7 @@ import * as schema from 'shared/infrastructure/persistence/drizzle/schema';
 export const userUnitOfWorkProvider: Provider = {
     provide: USER_UNIT_OF_WORK,
     inject: [DRIZZLE_INSTANCE],
-    useFactory: (database: NodePgDatabase<typeof schema>) => new DrizzleUserUnitOfWork(database),
+    useFactory: (database: NodePgDatabase<typeof schema>) => new UserUnitOfWork(database),
     scope: Scope.REQUEST,
 };
 

@@ -1,6 +1,6 @@
 import { Command } from 'shared/domain/command';
-import { CommandHandler } from 'shared/domain/command-handler';
 import { Response } from 'shared/domain/response';
+import { CommandHandler } from 'shared/domain/command-handler';
 
 export class CommandHandlers extends Map<Command, CommandHandler<Command, Response>> {
     constructor(private readonly handlers: Array<CommandHandler<Command, Response>>) {

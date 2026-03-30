@@ -1,4 +1,4 @@
-import { Event } from 'shared/domain/event';
+import { Event, EventClass } from 'shared/domain/event';
 import { EventSubscriber } from 'shared/domain/event-subscriber';
 
 export class EventSubscribers {

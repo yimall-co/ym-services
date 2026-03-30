@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Command } from 'shared/domain/command';
 import { CommandHandler } from 'shared/domain/command-handler';
-import { EventBus } from 'shared/domain/event-bus';
+// import { EventBus } from 'shared/domain/event-bus';
 import { UnitOfWork } from 'shared/infrastructure/unit-of-work';
 
 import { RoleId } from 'iam/shared/domain/role-id';
@@ -24,7 +24,7 @@ export class CreateUserCommandHandler implements CommandHandler<
 > {
     constructor(
         private readonly uow: UnitOfWork<UserRepositoryScope>,
-        private readonly eventBus: EventBus,
+        // private readonly eventBus: EventBus,
     ) { }
 
     subscribedTo(): Command {
@@ -61,7 +61,7 @@ export class CreateUserCommandHandler implements CommandHandler<
             return { userId: user.getId().value };
         });
 
-        await this.eventBus.publish(user.pull());
+        // await this.eventBus.publish(user.pullEvents());
 
         return result;
     }

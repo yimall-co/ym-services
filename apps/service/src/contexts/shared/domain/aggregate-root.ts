@@ -18,7 +18,7 @@ export abstract class AggregateRoot<TPrimitives = any> {
     /**
      * @returns - Array of current events and sets current events to empty list.
      */
-    pull(): Array<Event> {
+    pullEvents(): Array<Event> {
         const events = this.events.slice();
         this.events = [];
 

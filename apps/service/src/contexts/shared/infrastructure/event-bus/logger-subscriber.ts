@@ -3,8 +3,8 @@ import { EventSubscriber } from 'shared/domain/event-subscriber';
 import { UserCreatedEvent } from 'iam/user/domain/event/user-created.event';
 
 export class LoggerSubscriber implements EventSubscriber<UserCreatedEvent> {
-    subscribedTo(): Array<EventClass> {
-        return [UserCreatedEvent];
+    subscribedTo(): EventClass {
+        return UserCreatedEvent;
     }
 
     async on(event: UserCreatedEvent): Promise<void> {

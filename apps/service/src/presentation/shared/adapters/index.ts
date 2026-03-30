@@ -1,13 +1,13 @@
 import { ConfigService } from '@nestjs/config';
 import { Provider, Scope } from '@nestjs/common';
 
+// import { EventBus } from 'shared/domain/event-bus';
 import { QueryHandlers } from 'shared/infrastructure/query-bus/query-handlers';
 import { InMemoryQueryBus } from 'shared/infrastructure/query-bus/in-memory.query-bus';
 import { CommandHandlers } from 'shared/infrastructure/command-bus/command-handlers';
 import { InMemoryCommandBus } from 'shared/infrastructure/command-bus/in-memory.command-bus';
-import { EventBus } from 'shared/domain/event-bus';
+import { InMemoryEventBus } from 'shared/infrastructure/event-bus/in-memory.event-bus';
 import { EventSubscribers } from 'shared/infrastructure/event-bus/event-subscribers';
-import { LoggerSubscriber } from 'shared/infrastructure/event-bus/logger-subscriber';
 import { DrizzleClientFactory } from 'shared/infrastructure/persistence/drizzle/client-factory';
 import { GetWorkspacesQueryHandler } from 'wm/workspace/application/query/get-workspaces/handler';
 import { GetWorkspaceByIdQueryHandler } from 'wm/workspace/application/query/get-workspace-by-id/handler';
@@ -84,7 +84,6 @@ import {
     QUERY_BUS,
     QUERY_HANDLERS,
 } from './constants';
-import { InMemoryEventBus } from 'shared/infrastructure/event-bus/in-memory.event-bus';
 
 export const drizzleInstanceProvider: Provider = {
     provide: DRIZZLE_INSTANCE,
@@ -98,6 +97,20 @@ export const drizzleInstanceProvider: Provider = {
 
         return DrizzleClientFactory.createClient(pool);
     },
+    scope: Scope.DEFAULT,
+};
+
+export const eventSubscribersProvider: Provider = {
+    provide: EVENT_SUBSCRIBERS,
+    inject: [],
+    useFactory: () => new EventSubscribers([]),
+    scope: Scope.DEFAULT,
+};
+
+export const eventBusProvider: Provider = {
+    provide: EVENT_BUS,
+    inject: [EVENT_SUBSCRIBERS],
+    useFactory: (subscribers: EventSubscribers) => new InMemoryEventBus(subscribers),
     scope: Scope.DEFAULT,
 };
 
@@ -185,15 +198,16 @@ export const commandHandlersProvider: Provider = {
         createPermissionCommandHandler: CreatePermissionCommandHandler,
         addRoleToUserCommandHandler: AddRoleToUserCommandHandler,
         createProfileCommandHandler: CreateProfileCommandHandler,
-        eventBus: EventBus,
+        // eventBus: EventBus,
     ) =>
         new CommandHandlers([
             createWorkspaceCommandHandler,
             createSegmentCommandHandler,
-            new CreateUserCommandHandler(
-                createUserCommandHandler['uow'], // This is a bit hacky, but consistent with the existing setup if we don't want to change provided instances
-                eventBus,
-            ),
+            // new CreateUserCommandHandler(
+            //     createUserCommandHandler['uow'], // This is a bit hacky, but consistent with the existing setup if we don't want to change provided instances
+            //     eventBus,
+            // ),
+            createUserCommandHandler,
             createAccountCommandHandler,
             createCustomizationColorCommandHandler,
             createOfferCommandHandler,
@@ -212,24 +226,4 @@ export const commandBusProvider: Provider = {
     inject: [COMMAND_HANDLERS],
     useFactory: (handlers: CommandHandlers) => new InMemoryCommandBus(handlers),
     scope: Scope.DEFAULT,
-};
-
-export const eventSubscribersProvider: Provider = {
-    provide: EVENT_SUBSCRIBERS,
-    inject: [LoggerSubscriber],
-    useFactory: (loggerSubscriber: LoggerSubscriber) => new EventSubscribers([loggerSubscriber]),
-    scope: Scope.DEFAULT,
-};
-
-export const eventBusProvider: Provider = {
-    provide: EVENT_BUS,
-    inject: [EVENT_SUBSCRIBERS],
-    useFactory: (subscribers: EventSubscribers) =>
-        new InMemoryEventBus().addSubscriber(subscribers),
-    scope: Scope.DEFAULT,
-};
-
-export const loggerSubscriberProvider: Provider = {
-    provide: LoggerSubscriber,
-    useClass: LoggerSubscriber,
 };
