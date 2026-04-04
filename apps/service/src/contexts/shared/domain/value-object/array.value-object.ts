@@ -5,7 +5,7 @@ export abstract class ArrayValueObject<T> {
         this.value = value;
 
         this.ensureIsArray();
-        this.ensureIsNotEmpty();
+        // this.ensureIsNotEmpty();
     }
 
     private ensureIsArray(): void {

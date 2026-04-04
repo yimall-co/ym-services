@@ -1,8 +1,8 @@
 import { Command } from 'shared/domain/command';
 import { CommandHandler } from 'shared/domain/command-handler';
+import { UnitOfWork } from 'shared/infrastructure/unit-of-work';
 
 import { CustomizationId } from 'wm/shared/domain/customization-id';
-import { CustomizationColorRepository } from 'wm/customization-color/domain/customization-color.repository';
 import { CustomizationColor } from 'wm/customization-color/domain/customization-color';
 import { CustomizationColorLabel } from 'wm/customization-color/domain/value-object/customization-color-label';
 import { CustomizationColorValue } from 'wm/customization-color/domain/value-object/customization-color-value';
@@ -10,12 +10,13 @@ import { CustomizationColorIsDefault } from 'wm/customization-color/domain/value
 
 import { CreateCustomizationColorCommand } from './command';
 import { CreateCustomizationColorResultDto } from './dto';
+import { CustomizationColorRepositoryScope } from '../../customization-color.repository-scope';
 
 export class CreateCustomizationColorCommandHandler implements CommandHandler<
     CreateCustomizationColorCommand,
     CreateCustomizationColorResultDto
 > {
-    constructor(private readonly customizationColorRepository: CustomizationColorRepository) { }
+    constructor(private readonly uow: UnitOfWork<CustomizationColorRepositoryScope>) { }
 
     subscribedTo(): Command {
         return CreateCustomizationColorCommand;
@@ -31,10 +32,14 @@ export class CreateCustomizationColorCommandHandler implements CommandHandler<
             new CustomizationId(command.customizationId),
         );
 
-        await this.customizationColorRepository.save(customizationColor);
+        return this.uow.withTransaction(async (scope) => {
+            const customizationColorRepository = scope.getCustomizationColorRepository();
 
-        const customizationColorId = customizationColor.getId();
+            await customizationColorRepository.save(customizationColor);
 
-        return { customizationColorId: customizationColorId.value };
+            return {
+                customizationColorId: customizationColor.getId().value,
+            };
+        });
     }
 }

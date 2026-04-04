@@ -33,6 +33,7 @@ import { CreatePermissionCommandHandler } from 'iam/permission/application/comma
 import { AddRoleToUserCommandHandler } from 'iam/user/application/command/add-role-to-user/handler';
 import { CreateProfileCommandHandler } from 'iam/profiles/application/command/create-profile/handler';
 import { GetWorkspacesByUserIdQueryHandler } from 'wm/workspace/application/query/get-workspaces-by-user-id/handler';
+import { CreateCustomizationCommandHandler } from 'wm/customization/application/command/create-customization/handler';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,
@@ -45,6 +46,7 @@ import {
 } from 'presentation/segment/adapters/constants';
 import {
     CREATE_CUSTOMIZATION_COLOR_COMMAND_HANDLER,
+    CREATE_CUSTOMIZATION_COMMAND_HANDLER,
     GET_CUSTOMIZATION_BY_WORKSPACE_QUERY_HANDLER,
 } from 'presentation/customization/adapters/constants';
 import {
@@ -183,7 +185,7 @@ export const commandHandlersProvider: Provider = {
         CREATE_PERMISSION_COMMAND_HANDLER,
         ADD_ROLE_TO_USER_COMMAND_HANDLER,
         CREATE_PROFILE_COMMAND_HANDLER,
-        EVENT_BUS,
+        CREATE_CUSTOMIZATION_COMMAND_HANDLER,
     ],
     useFactory: (
         createWorkspaceCommandHandler: CreateWorkspaceCommandHandler,
@@ -198,7 +200,7 @@ export const commandHandlersProvider: Provider = {
         createPermissionCommandHandler: CreatePermissionCommandHandler,
         addRoleToUserCommandHandler: AddRoleToUserCommandHandler,
         createProfileCommandHandler: CreateProfileCommandHandler,
-        // eventBus: EventBus,
+        createCustomizationCommandHandler: CreateCustomizationCommandHandler,
     ) =>
         new CommandHandlers([
             createWorkspaceCommandHandler,
@@ -217,6 +219,7 @@ export const commandHandlersProvider: Provider = {
             createPermissionCommandHandler,
             addRoleToUserCommandHandler,
             createProfileCommandHandler,
+            createCustomizationCommandHandler,
         ]),
     scope: Scope.DEFAULT,
 };

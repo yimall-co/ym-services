@@ -110,8 +110,8 @@ export class DrizzleUserRepository
                 .from(userRoles)
                 .where(eq(userRoles.userId, user.getId().value));
 
-            const current = new Set(rolesByUser.map(r => r.roleId));
-            const desired = new Set(user.getRoles().map(r => r.value));
+            const current = new Set(rolesByUser.map((r) => r.roleId));
+            const desired = new Set(user.getRoles().map((r) => r.value));
 
             const toAdd: Array<string> = [];
             const toRemove: Array<string> = [];

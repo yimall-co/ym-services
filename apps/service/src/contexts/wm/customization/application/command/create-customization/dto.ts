@@ -1,3 +1,3 @@
-export interface CreateCustomizationDto {
+export interface CreateCustomizationResultDto {
     customizationId: string;
 }

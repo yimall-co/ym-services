@@ -3,10 +3,9 @@ import * as p from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { SocialMediaPrimitives } from 'wm/customization/domain/social-media';
+import { FontValue, fontValue } from 'wm/customization/domain/value-object/customization-font';
 import { workspaces } from 'wm/workspace/infrastructure/persistence/drizzle/workspaces.table';
 import { customizationColors } from 'wm/customization-color/infrastructure/persistence/drizzle/customization-colors.table';
-
-const fonts = ['Poppins', 'Raleway', 'Inter'] as const;
 
 export const customizations = p.pgTable(
     'customizations',
@@ -14,16 +13,14 @@ export const customizations = p.pgTable(
         id: p.uuid('id').primaryKey().defaultRandom(),
         logo: p.text('logo').notNull(),
         fontPrimary: p
-            .text('font_primary', {
-                enum: fonts,
-            })
-            .default('Poppins')
+            .text('font_primary')
+            .$type<FontValue>()
+            .default(fontValue.MONTSERRAT)
             .notNull(),
         fontSecondary: p
-            .text('font_secondary', {
-                enum: fonts,
-            })
-            .default('Raleway')
+            .text('font_secondary')
+            .$type<FontValue>()
+            .default(fontValue.RALEWAY)
             .notNull(),
         showName: p.boolean('show_name').default(false).notNull(),
         socialMedia: p

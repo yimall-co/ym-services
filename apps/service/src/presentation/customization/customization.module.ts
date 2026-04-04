@@ -1,12 +1,13 @@
 import { DynamicModule, Module } from '@nestjs/common';
 
-import { CustomizationService } from './customization.service';
 import { CustomizationController } from './customization.controller';
 import {
     createCustomizationColorCommandHandlerProvider,
+    createCustomizationCommandHandlerProvider,
     customizationColorRepositoryProvider,
+    customizationColorUnitOfWorkProvider,
     customizationQueryRepositoryProvider,
-    customizationRepositoryProvider,
+    customizationUnitOfWorkProvider,
     getCustomizationByIdQueryHandlerProvider,
     getCustomizationByWorkspaceQueryHandlerProvider,
 } from './adapters';
@@ -14,17 +15,19 @@ import {
 @Module({
     controllers: [CustomizationController],
     providers: [
-        CustomizationService,
-        customizationRepositoryProvider,
+        customizationUnitOfWorkProvider,
+        customizationColorUnitOfWorkProvider,
         customizationQueryRepositoryProvider,
         customizationColorRepositoryProvider,
         getCustomizationByIdQueryHandlerProvider,
         getCustomizationByWorkspaceQueryHandlerProvider,
+        createCustomizationCommandHandlerProvider,
         createCustomizationColorCommandHandlerProvider,
     ],
     exports: [
         getCustomizationByIdQueryHandlerProvider,
         getCustomizationByWorkspaceQueryHandlerProvider,
+        createCustomizationCommandHandlerProvider,
         createCustomizationColorCommandHandlerProvider,
     ],
 })

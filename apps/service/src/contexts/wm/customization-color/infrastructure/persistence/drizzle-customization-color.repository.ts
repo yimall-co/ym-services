@@ -15,9 +15,22 @@ export class DrizzleCustomizationColorRepository
     protected readonly table = customizationColors;
 
     async save(customizationColor: CustomizationColor): Promise<void> {
-        await this.client
-            .insert(this.table)
-            .values(CustomizationColorMapper.toPersistence(customizationColor));
+        await this.client.transaction(async (transaction) => {
+            const tx = this.client ?? transaction;
+
+            const { id, customizationId, ...rest } =
+                CustomizationColorMapper.toPersistence(customizationColor);
+
+            await tx
+                .insert(this.table)
+                .values(CustomizationColorMapper.toPersistence(customizationColor))
+                .onConflictDoUpdate({
+                    target: this.table.id,
+                    set: {
+                        ...rest,
+                    },
+                });
+        });
     }
 
     async update(id: CustomizationColorId, customizationColor: CustomizationColor): Promise<void> {

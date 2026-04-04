@@ -11,8 +11,8 @@ import {
     CustomizationByWorkspaceDto,
 } from 'wm/customization/application/query/get-customization-by-workspace/dto';
 
-import { customizations } from './persistence/drizzle/customizations.table';
-import { CustomizationByIdDto } from '../application/query/get-customization-by-id/dto';
+import { customizations } from './drizzle/customizations.table';
+import { CustomizationByIdDto } from '../../application/query/get-customization-by-id/dto';
 
 export class DrizzleCustomizationQueryRepository
     extends DrizzleRepository<typeof customizations>
@@ -71,12 +71,20 @@ export class DrizzleCustomizationQueryRepository
 
         query = this.withColors(query);
 
-        query = query
+        const [row] = await query
             .where(eq(this.table.workspaceId, workspaceId))
-            .groupBy(this.table.id)
+            .groupBy(
+                this.table.id,
+                this.table.logo,
+                this.table.fontPrimary,
+                this.table.fontSecondary,
+                this.table.showName,
+                this.table.socialMedia,
+                this.table.createdAt,
+                this.table.updatedAt,
+                this.table.workspaceId,
+            )
             .limit(1);
-
-        const [row] = await query;
 
         return row;
     }

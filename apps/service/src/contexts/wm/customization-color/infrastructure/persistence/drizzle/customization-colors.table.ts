@@ -4,13 +4,14 @@ import { relations } from 'drizzle-orm';
 
 import { customizations } from 'wm/customization/infrastructure/persistence/drizzle/customizations.table';
 import { customizationColorVariants } from 'wm/customization-color-variant/infrastructure/persistence/drizzle/customization-color-variants.table';
+import { ColorValue } from 'wm/customization-color/domain/value-object/customization-color-value';
 
 export const customizationColors = p.pgTable(
     'customization_colors',
     {
         id: p.uuid('id').primaryKey().defaultRandom(),
         label: p.text('label').notNull(),
-        value: p.text('value').notNull(),
+        value: p.text('value').$type<ColorValue>().notNull(),
         isDefault: p.boolean('is_default').default(false),
         createdAt: p.timestamp('created_at').defaultNow().notNull(),
         updatedAt: p

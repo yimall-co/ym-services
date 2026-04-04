@@ -1,12 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
-enum ColorValue {
-    PRIMARY = 'primary',
-    SECONDARY = 'secondary',
-    BACKGROUND = 'background',
-    FOREGROUND = 'foreground',
-}
+import {
+    colorValue,
+    type ColorValue,
+} from 'wm/customization-color/domain/value-object/customization-color-value';
 
 export class CreateColorDto {
     @ApiProperty()
@@ -16,7 +14,7 @@ export class CreateColorDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @IsEnum(ColorValue)
+    @IsEnum(colorValue)
     value: ColorValue;
 
     @ApiProperty()
