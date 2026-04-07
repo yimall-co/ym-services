@@ -1,6 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
 
-import { WorkspaceService } from './workspace.service';
 import { WorkspaceController } from './workspace.controller';
 import {
     workspaceRepositoryProvider,
@@ -15,7 +14,6 @@ import {
 @Module({
     controllers: [WorkspaceController],
     providers: [
-        WorkspaceService,
         workspaceUnitOfWorkProvider,
         workspaceRepositoryProvider,
         workspaceQueryRepositoryProvider,

@@ -19,6 +19,7 @@ import { ShopModule } from './shop/shop.module';
 import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
 import { ProfileModule } from './profile/profile.module';
+import { TrackingModule } from './tracking/tracking.module';
 
 const authModule = AuthModule.forRoot();
 const userModule = UserModule.forRoot();
@@ -31,6 +32,7 @@ const offerModule = OfferModule.forRoot();
 const roleModule = RoleModule.forRoot();
 const permissionModule = PermissionModule.forRoot();
 const profileModule = ProfileModule.forRoot();
+const trackingModule = TrackingModule.forRoot();
 
 @Module({
     imports: [
@@ -45,6 +47,7 @@ const profileModule = ProfileModule.forRoot();
         roleModule,
         permissionModule,
         profileModule,
+        trackingModule,
     ],
     providers: [
         queryHandlersProvider,

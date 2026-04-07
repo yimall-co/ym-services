@@ -2,14 +2,14 @@ import { UuidValueObject } from './value-object/uuid.value-object';
 
 export type EventAttributes = Record<string, any>;
 
-export abstract class Event {
+export abstract class DomainEvent {
     static EVENT_NAME: string;
     static fromPrimitives: (primitives: {
         aggregateId: string;
         occurredOn?: Date;
         eventId?: string;
         attributes: EventAttributes;
-    }) => Event;
+    }) => DomainEvent;
 
     readonly eventName: string;
     readonly aggregateId: string;
@@ -40,5 +40,5 @@ export type EventClass = {
         occurredOn?: Date;
         eventId?: string;
         attributes: any;
-    }) => Event;
+    }) => DomainEvent;
 };

@@ -1,4 +1,4 @@
-import { ShopBySlugDto } from './get-shop-by-slug/get-shop-by-slug.dto';
+import { ShopBySlugDto } from './get-shop-by-slug/dto';
 import { ShopByWorkspaceDto } from './get-shops-by-workspace/dto';
 
 export interface ShopQueryRepository {

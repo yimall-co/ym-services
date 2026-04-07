@@ -1,3 +1,5 @@
+import { emptyToNull } from 'lib/utils';
+
 import { Shop } from 'vm/shop/domain/shop';
 
 import { shops } from '../persistence/drizzle/shops.table';
@@ -15,8 +17,6 @@ export class ShopMapper {
             isVerified: primitives.isVerified,
             createdAt: primitives.createdAt,
             updatedAt: primitives.updatedAt,
-            addressId: primitives.addressId,
-            geolocationId: primitives.geolocationId,
             workspaceId: primitives.workspaceId,
         });
     }
@@ -26,9 +26,10 @@ export class ShopMapper {
 
         return {
             ...primitives,
-            description: primitives.description ?? null,
-            banner: primitives.banner ?? null,
-            phone: primitives.phone ?? null,
+            description: emptyToNull(primitives.description),
+            banner: emptyToNull(primitives.banner),
+            phone: emptyToNull(primitives.phone),
+            workspaceId: primitives.workspaceId,
         };
     }
 }

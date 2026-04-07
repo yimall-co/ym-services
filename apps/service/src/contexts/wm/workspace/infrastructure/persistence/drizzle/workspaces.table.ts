@@ -2,14 +2,16 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations, sql } from 'drizzle-orm';
 
-import { users } from 'iam/user/infrastructure/persistence/drizzle/users.table';
-import { shops } from 'vm/shop/infrastructure/persistence/drizzle/shops.table';
-import { offers } from 'vm/offer/infrastructure/persistence/drizzle/offers.table';
-import { categories } from 'lm/category/infrastructure/persistence/drizzle/categories.table';
-import { subcategories } from 'lm/subcategory/infrastructure/persistence/drizzle/subcategories.table';
-
-import { segments } from 'wm/segment/infrastructure/persistence/drizzle/segments.table';
-import { customizations } from 'wm/customization/infrastructure/persistence/drizzle/customizations.table';
+import {
+    categories,
+    customizations,
+    offers,
+    segments,
+    shops,
+    subcategories,
+    users,
+    visits,
+} from 'shared/infrastructure/persistence/drizzle/schema';
 
 export const workspaces = p.pgTable(
     'workspaces',
@@ -72,4 +74,5 @@ export const workspacesRelations = relations(workspaces, ({ one, many }) => ({
     subcategories: many(subcategories),
     shops: many(shops),
     offers: many(offers),
+    visits: many(visits),
 }));

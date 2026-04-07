@@ -23,7 +23,7 @@ import { CreateUserCommandHandler } from 'iam/user/application/command/create-us
 import { CreateAccountCommandHandler } from 'iam/account/application/command/create/create-account.command-handler';
 import { GetCategoryBySlugQueryHandler } from 'lm/category/application/query/get-category-by-slug/handler';
 import { GetShopsByWorkspaceQueryHandler } from 'vm/shop/application/query/get-shops-by-workspace/handler';
-import { GetShopBySlugQueryHandler } from 'vm/shop/application/query/get-shop-by-slug/get-shop-by-slug.query-handler';
+import { GetShopBySlugQueryHandler } from 'vm/shop/application/query/get-shop-by-slug/handler';
 import { GetOffersByShopQueryHandler } from 'vm/offer/application/query/get-offers-by-shop/handler';
 import { CreateOfferCommandHandler } from 'vm/offer/application/command/create-offer/handler';
 import { CreateRoleCommandHandler } from 'iam/role/application/command/create-role/handler';
@@ -34,6 +34,8 @@ import { AddRoleToUserCommandHandler } from 'iam/user/application/command/add-ro
 import { CreateProfileCommandHandler } from 'iam/profiles/application/command/create-profile/handler';
 import { GetWorkspacesByUserIdQueryHandler } from 'wm/workspace/application/query/get-workspaces-by-user-id/handler';
 import { CreateCustomizationCommandHandler } from 'wm/customization/application/command/create-customization/handler';
+import { CreateVisitCommandHandler } from 'wm/visit/application/command/create-visit/handler';
+import { CreateShopCommandHandler } from 'vm/shop/application/command/create-shop/handler';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,
@@ -56,6 +58,7 @@ import {
 } from 'presentation/auth/adapters/constants';
 import { GET_CATEGORY_BY_SLUG_QUERY_HANDLER } from 'presentation/category/adapters/constants';
 import {
+    CREATE_SHOP_COMMAND_HANDLER,
     GET_SHOP_BY_SLUG_QUERY_HANDLER,
     GET_SHOPS_BY_WORKSPACE_QUERY_HANDLER,
 } from 'presentation/shop/adapters/constants';
@@ -76,6 +79,7 @@ import {
     GET_WORKSPACES_BY_OWNER_ID_QUERY_HANDLER,
 } from 'presentation/user/adapters/constants';
 import { CREATE_PROFILE_COMMAND_HANDLER } from 'presentation/profile/adapters/constants';
+import { CREATE_VISIT_COMMAND_HANDLER } from 'presentation/tracking/adapters/constants';
 
 import {
     COMMAND_BUS,
@@ -186,6 +190,8 @@ export const commandHandlersProvider: Provider = {
         ADD_ROLE_TO_USER_COMMAND_HANDLER,
         CREATE_PROFILE_COMMAND_HANDLER,
         CREATE_CUSTOMIZATION_COMMAND_HANDLER,
+        CREATE_VISIT_COMMAND_HANDLER,
+        CREATE_SHOP_COMMAND_HANDLER,
     ],
     useFactory: (
         createWorkspaceCommandHandler: CreateWorkspaceCommandHandler,
@@ -201,6 +207,8 @@ export const commandHandlersProvider: Provider = {
         addRoleToUserCommandHandler: AddRoleToUserCommandHandler,
         createProfileCommandHandler: CreateProfileCommandHandler,
         createCustomizationCommandHandler: CreateCustomizationCommandHandler,
+        createVisitCommandHandler: CreateVisitCommandHandler,
+        createShopCommandHandler: CreateShopCommandHandler,
     ) =>
         new CommandHandlers([
             createWorkspaceCommandHandler,
@@ -220,6 +228,8 @@ export const commandHandlersProvider: Provider = {
             addRoleToUserCommandHandler,
             createProfileCommandHandler,
             createCustomizationCommandHandler,
+            createVisitCommandHandler,
+            createShopCommandHandler,
         ]),
     scope: Scope.DEFAULT,
 };

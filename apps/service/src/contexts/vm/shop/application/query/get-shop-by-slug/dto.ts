@@ -9,18 +9,18 @@ export interface ShopBySlugDto {
     isVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
-    address: {
-        id: string;
-        street: string;
-        number: string;
-        complement: string;
-        neighborhood: string;
-        city: string;
-        state: string;
-        country: string;
-        postalCode: string;
-        isOnline: boolean;
-    };
+    // address: {
+    //     id: string;
+    //     street: string;
+    //     number: string;
+    //     complement: string;
+    //     neighborhood: string;
+    //     city: string;
+    //     state: string;
+    //     country: string;
+    //     postalCode: string;
+    //     isOnline: boolean;
+    // };
     geolocation: {
         id: string;
         latitude: number;

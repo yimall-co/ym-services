@@ -1,6 +1,7 @@
 import { AggregateRoot } from 'shared/domain/aggregate-root';
 
 import { GeolocationId } from 'vm/shared/domain/geolocation-id';
+import { ShopId } from 'vm/shared/domain/shop-id';
 
 import { GeolocationLatitude } from './value-object/geolocation-latitude';
 import { GeolocationLongitude } from './value-object/geolocation-longitude';
@@ -15,15 +16,17 @@ export interface GeolocationPrimitives {
     accuracy: number;
     createdAt: Date;
     updatedAt: Date;
+    shopId: string;
 }
 
 export class Geolocation extends AggregateRoot<GeolocationPrimitives> {
-    readonly id: GeolocationId;
-    readonly latitude: GeolocationLatitude;
-    readonly longitude: GeolocationLongitude;
-    readonly accuracy: GeolocationAccuracy;
-    readonly createdAt: GeolocationCreatedAt;
-    readonly updatedAt: GeolocationUpdatedAt;
+    private readonly id: GeolocationId;
+    private latitude: GeolocationLatitude;
+    private longitude: GeolocationLongitude;
+    private accuracy: GeolocationAccuracy;
+    private readonly createdAt: GeolocationCreatedAt;
+    private updatedAt: GeolocationUpdatedAt;
+    private shopId: ShopId;
 
     constructor(
         id: GeolocationId,
@@ -32,6 +35,7 @@ export class Geolocation extends AggregateRoot<GeolocationPrimitives> {
         accuracy: GeolocationAccuracy,
         createdAt: GeolocationCreatedAt,
         updatedAt: GeolocationUpdatedAt,
+        shopId: ShopId,
     ) {
         super();
 
@@ -41,6 +45,24 @@ export class Geolocation extends AggregateRoot<GeolocationPrimitives> {
         this.accuracy = accuracy;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.shopId = shopId;
+    }
+
+    static create(
+        latitude: number,
+        longitude: number,
+        accuracy: number,
+        shopId: string,
+    ): Geolocation {
+        return new Geolocation(
+            GeolocationId.random(),
+            new GeolocationLatitude(latitude),
+            new GeolocationLongitude(longitude),
+            new GeolocationAccuracy(accuracy),
+            new GeolocationCreatedAt(new Date()),
+            new GeolocationUpdatedAt(new Date()),
+            new ShopId(shopId),
+        );
     }
 
     static fromPrimitives(primitives: GeolocationPrimitives): Geolocation {
@@ -51,7 +73,36 @@ export class Geolocation extends AggregateRoot<GeolocationPrimitives> {
             new GeolocationAccuracy(primitives.accuracy),
             new GeolocationCreatedAt(primitives.createdAt),
             new GeolocationUpdatedAt(primitives.updatedAt),
+            new ShopId(primitives.shopId),
         );
+    }
+
+    getId(): GeolocationId {
+        return this.id;
+    }
+
+    getLatitude(): GeolocationLatitude {
+        return this.latitude;
+    }
+
+    getLongitude(): GeolocationLongitude {
+        return this.longitude;
+    }
+
+    getAccuracy(): GeolocationAccuracy {
+        return this.accuracy;
+    }
+
+    getCreatedAt(): GeolocationCreatedAt {
+        return this.createdAt;
+    }
+
+    getUpdatedAt(): GeolocationUpdatedAt {
+        return this.updatedAt;
+    }
+
+    getShopId(): ShopId {
+        return this.shopId;
     }
 
     toPrimitives(): GeolocationPrimitives {
@@ -62,6 +113,11 @@ export class Geolocation extends AggregateRoot<GeolocationPrimitives> {
             accuracy: this.accuracy.value,
             createdAt: this.createdAt.value,
             updatedAt: this.updatedAt.value,
+            shopId: this.shopId.value,
         };
+    }
+
+    private touch(): void {
+        this.updatedAt = new GeolocationUpdatedAt(new Date());
     }
 }

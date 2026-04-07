@@ -1,8 +1,10 @@
 import { Query } from 'shared/domain/query';
 import { QueryHandler } from 'shared/domain/query-handler';
 
-import { ShopBySlugDto } from './get-shop-by-slug.dto';
-import { GetShopBySlugQuery } from './get-shop-by-slug.query';
+import { ShopNotFound } from 'vm/shop/domain/error/shop-not-found';
+
+import { ShopBySlugDto } from './dto';
+import { GetShopBySlugQuery } from './query';
 import { ShopQueryRepository } from '../shop-query.repository';
 
 export class GetShopBySlugQueryHandler implements QueryHandler<GetShopBySlugQuery, ShopBySlugDto> {
@@ -15,7 +17,7 @@ export class GetShopBySlugQueryHandler implements QueryHandler<GetShopBySlugQuer
     async handle(query: GetShopBySlugQuery): Promise<ShopBySlugDto> {
         const shop = await this.shopQueryRepository.findOneBySlug(query.slug, query.workspace);
         if (!shop) {
-            throw new Error(`Shop by slug ${query.slug} not found`);
+            throw new ShopNotFound();
         }
 
         return shop;

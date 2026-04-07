@@ -8,6 +8,7 @@ import {
     carts,
     profiles,
     sessions,
+    visits,
     waitlists,
     workspaces,
 } from 'shared/infrastructure/persistence/drizzle/schema';
@@ -43,4 +44,5 @@ export const usersRelations = relations(users, ({ one, many }) => ({
     carts: many(carts),
     appointments: many(appointments),
     waitlists: many(waitlists),
+    visits: many(visits),
 }));

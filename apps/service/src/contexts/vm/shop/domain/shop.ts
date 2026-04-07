@@ -2,7 +2,6 @@ import { AggregateRoot } from 'shared/domain/aggregate-root';
 
 import { ShopId } from 'vm/shared/domain/shop-id';
 import { AddressId } from 'vm/shared/domain/address-id';
-import { GeolocationId } from 'vm/shared/domain/geolocation-id';
 
 import { ShopName } from './value-object/shop-name';
 import { ShopSlug } from './value-object/shop-slug';
@@ -26,8 +25,6 @@ export interface ShopPrimitives {
     isVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
-    addressId: string;
-    geolocationId: string;
     workspaceId: string;
 }
 
@@ -42,8 +39,6 @@ export class Shop extends AggregateRoot<ShopPrimitives> {
     private isVerified: ShopIsVerified;
     private readonly createdAt: ShopCreatedAt;
     private updatedAt: ShopUpdatedAt;
-    private addressId: AddressId;
-    private geolocationId: GeolocationId;
     private workspaceId: ShopWorkspaceId;
 
     constructor(
@@ -57,8 +52,6 @@ export class Shop extends AggregateRoot<ShopPrimitives> {
         isVerified: ShopIsVerified,
         createdAt: ShopCreatedAt,
         updatedAt: ShopUpdatedAt,
-        addressId: AddressId,
-        geolocationId: GeolocationId,
         workspaceId: ShopWorkspaceId,
     ) {
         super();
@@ -73,36 +66,29 @@ export class Shop extends AggregateRoot<ShopPrimitives> {
         this.isVerified = isVerified;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.addressId = addressId;
-        this.geolocationId = geolocationId;
         this.workspaceId = workspaceId;
     }
 
     static create(
-        name: ShopName,
-        slug: ShopSlug,
-        description: ShopDescription,
-        banner: ShopBanner,
-        phone: ShopPhone,
-        isPrimary: ShopIsPrimary,
-        addressId: AddressId,
-        geolocationId: GeolocationId,
-        workspaceId: ShopWorkspaceId,
+        name: string,
+        description: string,
+        banner: string,
+        phone: string,
+        isPrimary: boolean,
+        workspaceId: string,
     ): Shop {
         return new Shop(
             ShopId.random(),
-            name,
-            slug,
-            description,
-            banner,
-            phone,
-            isPrimary,
+            new ShopName(name),
+            ShopSlug.fromRaw(name),
+            new ShopDescription(description),
+            banner ? ShopBanner.some(banner) : ShopBanner.none(),
+            new ShopPhone(phone),
+            new ShopIsPrimary(isPrimary),
             new ShopIsVerified(false),
             new ShopCreatedAt(new Date()),
             new ShopUpdatedAt(new Date()),
-            addressId,
-            geolocationId,
-            workspaceId,
+            new ShopWorkspaceId(workspaceId),
         );
     }
 
@@ -112,20 +98,30 @@ export class Shop extends AggregateRoot<ShopPrimitives> {
             new ShopName(primitives.name),
             new ShopSlug(primitives.slug),
             new ShopDescription(primitives.description),
-            new ShopBanner(primitives.banner),
+            primitives.banner ? ShopBanner.some(primitives.banner) : ShopBanner.none(),
             new ShopPhone(primitives.phone),
             new ShopIsPrimary(primitives.isPrimary),
             new ShopIsVerified(primitives.isVerified),
             new ShopCreatedAt(primitives.createdAt),
             new ShopUpdatedAt(primitives.updatedAt),
-            new AddressId(primitives.addressId),
-            new GeolocationId(primitives.geolocationId),
             new ShopWorkspaceId(primitives.workspaceId),
         );
     }
 
     getId(): ShopId {
         return this.id;
+    }
+
+    getSlug(): ShopSlug {
+        return this.slug;
+    }
+
+    getIsPrimary(): ShopIsPrimary {
+        return this.isPrimary;
+    }
+
+    unmarkAsPrimary(): void {
+        this.isPrimary = new ShopIsPrimary(false);
     }
 
     toPrimitives(): ShopPrimitives {
@@ -140,8 +136,6 @@ export class Shop extends AggregateRoot<ShopPrimitives> {
             isVerified: this.isVerified.value,
             createdAt: this.createdAt.value,
             updatedAt: this.updatedAt.value,
-            addressId: this.addressId.value,
-            geolocationId: this.geolocationId.value,
             workspaceId: this.workspaceId.value,
         };
     }

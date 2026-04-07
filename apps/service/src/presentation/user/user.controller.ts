@@ -71,7 +71,6 @@ export class UserController {
             return await this.userService.getOwnWorkspaces(userId);
         } catch (error: any) {
             this.logger.error(error.message);
-            // throw new BadRequestException();
             throw new NotFoundException();
         }
     }

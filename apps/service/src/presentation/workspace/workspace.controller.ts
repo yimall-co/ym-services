@@ -7,6 +7,7 @@ import {
     Get,
     HttpCode,
     HttpStatus,
+    Inject,
     Logger,
     NotFoundException,
     Param,
@@ -27,9 +28,25 @@ import {
     ApiQuery,
 } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
+import type { QueryBus } from 'shared/domain/query-bus';
+import type { CommandBus } from 'shared/domain/command-bus';
+import { WorkspaceDto } from 'wm/workspace/application/query/get-workspaces/dto';
+import { GetWorkspacesQuery } from 'wm/workspace/application/query/get-workspaces/query';
+import { PaginatedWorkspace } from 'wm/workspace/application/query/workspace-query.repository';
+import { WorkspaceByIdDto } from 'wm/workspace/application/query/get-workspace-by-id/dto';
+import { GetWorkspaceByIdQuery } from 'wm/workspace/application/query/get-workspace-by-id/query';
+import { CategoryByWorkspaceIdDto } from 'lm/category/application/query/get-categories-by-workspace-id/dto';
+import { GetCategoriesByWorkspaceIdQuery } from 'lm/category/application/query/get-categories-by-workspace-id/query';
+import { GeolocationByWorkspaceDto } from 'vm/geolocation/application/query/get-geolocation-by-workspace/dto';
+import { GetGeolocationByWorkspaceQuery } from 'vm/geolocation/application/query/get-geolocation-by-workspace/query';
+import { CreateWorkspaceResultDto } from 'wm/workspace/application/command/create-workspace/dto';
+import { CreateWorkspaceCommand } from 'wm/workspace/application/command/create-workspace/command';
+import { UpdateWorkspaceResultDto } from 'wm/workspace/application/command/update-workspace/dto';
+import { UpdateWorkspaceCommand } from 'wm/workspace/application/command/update-workspace/command';
 
-import { WorkspaceService } from './workspace.service';
+import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
+import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+
 import { CreateWorkspaceDto } from './dtos/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dtos/update-workspace.dto';
 
@@ -41,7 +58,12 @@ import { UpdateWorkspaceDto } from './dtos/update-workspace.dto';
 export class WorkspaceController {
     private readonly logger = new Logger(WorkspaceController.name);
 
-    constructor(private readonly workspaceService: WorkspaceService) { }
+    constructor(
+        @Inject(QUERY_BUS)
+        private readonly queryBus: QueryBus,
+        @Inject(COMMAND_BUS)
+        private readonly commandBus: CommandBus,
+    ) { }
 
     @Get()
     @ApiQuery({ name: 'id', required: false })
@@ -56,7 +78,13 @@ export class WorkspaceController {
         @Query('limit') limit?: number
     ) {
         try {
-            return await this.workspaceService.getAllWorkspaces({ id, updatedAt, limit });
+            const query = new GetWorkspacesQuery(
+                id,
+                updatedAt ? new Date(updatedAt) : undefined,
+                limit,
+            );
+
+            return await this.queryBus.ask<PaginatedWorkspace<WorkspaceDto>>(query);
         } catch (error: any) {
             this.logger.error(error.message);
             throw new NotFoundException();
@@ -69,7 +97,8 @@ export class WorkspaceController {
     @HttpCode(HttpStatus.OK)
     async getById(@Param('id') id: string) {
         try {
-            return await this.workspaceService.getWorkspaceById(id);
+            const query = new GetWorkspaceByIdQuery(id);
+            return await this.queryBus.ask<WorkspaceByIdDto>(query);
         } catch (error: any) {
             this.logger.error(error.message);
             throw new NotFoundException();
@@ -82,7 +111,7 @@ export class WorkspaceController {
     @HttpCode(HttpStatus.OK)
     async getStatistics(@Param('id') id: string) {
         try {
-            return await this.workspaceService.getStatistics(id);
+            //TODO: implements
         } catch (error: any) {
             this.logger.error(error);
             throw new NotFoundException();
@@ -95,9 +124,24 @@ export class WorkspaceController {
     @HttpCode(HttpStatus.OK)
     async getCategoriesByWorkspaceId(@Param('id') workspaceId: string) {
         try {
-            return await this.workspaceService.getWorkspaceCategoriesById(workspaceId);
+            const query = new GetCategoriesByWorkspaceIdQuery(workspaceId);
+            return await this.queryBus.ask<Array<CategoryByWorkspaceIdDto>>(query);
         } catch (error: any) {
             this.logger.error(error.message);
+            throw new NotFoundException();
+        }
+    }
+
+    @Get(':id/locations')
+    @ApiOkResponse({ description: '' })
+    @ApiNotFoundResponse({ description: '' })
+    @HttpCode(HttpStatus.OK)
+    async getLocationsByWorkspaceId(@Param('id') workspaceId: string) {
+        try {
+            const query = new GetGeolocationByWorkspaceQuery(workspaceId);
+            return await this.queryBus.ask<Array<GeolocationByWorkspaceDto>>(query);
+        } catch (error: any) {
+            this.logger.error(error);
             throw new NotFoundException();
         }
     }
@@ -109,7 +153,16 @@ export class WorkspaceController {
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() createWorkspaceDto: CreateWorkspaceDto) {
         try {
-            return await this.workspaceService.createWorkspace(createWorkspaceDto);
+            const { name, description, tin, segmentId, ownerId } = createWorkspaceDto;
+
+            const command = new CreateWorkspaceCommand(
+                name,
+                description,
+                tin ?? null,
+                segmentId,
+                ownerId,
+            );
+            return await this.commandBus.dispatch<CreateWorkspaceResultDto>(command);
         } catch (error) {
             this.logger.error(error);
             throw new BadRequestException();
@@ -123,8 +176,10 @@ export class WorkspaceController {
     @HttpCode(HttpStatus.OK)
     async update(@Param('id') id: string, @Body() updateWorkspaceDto: UpdateWorkspaceDto) {
         try {
-            await this.workspaceService.updateWorkspace(id, updateWorkspaceDto);
-            return { message: 'Workspace updated successfully' };
+            const { name, description } = updateWorkspaceDto;
+
+            const command = new UpdateWorkspaceCommand(id, name, description);
+            return await this.commandBus.dispatch<UpdateWorkspaceResultDto>(command);
         } catch (error) {
             this.logger.error(error);
             throw new BadRequestException();

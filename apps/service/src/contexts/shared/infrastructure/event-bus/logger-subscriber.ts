@@ -1,4 +1,4 @@
-import { Event, EventClass } from 'shared/domain/event';
+import { DomainEvent, EventClass } from 'shared/domain/event';
 import { EventSubscriber } from 'shared/domain/event-subscriber';
 import { UserCreatedEvent } from 'iam/user/domain/event/user-created.event';
 

@@ -2,7 +2,7 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { sql, relations } from 'drizzle-orm';
 
-import { shops } from 'vm/shop/infrastructure/persistence/drizzle/shops.table';
+import { shops } from 'shared/infrastructure/persistence/drizzle/schema';
 
 export const geolocations = p.pgTable(
     'geolocations',
@@ -17,6 +17,10 @@ export const geolocations = p.pgTable(
             .defaultNow()
             .$onUpdate(() => new Date())
             .notNull(),
+        shopId: p
+            .uuid('shop_id')
+            .notNull()
+            .references(() => shops.id),
     },
     (table) => [
         p.index().on(table.latitude),
@@ -26,6 +30,9 @@ export const geolocations = p.pgTable(
     ],
 );
 
-export const geolocationsRelations = relations(geolocations, ({ many }) => ({
-    shops: many(shops),
+export const geolocationsRelations = relations(geolocations, ({ one }) => ({
+    shop: one(shops, {
+        fields: [geolocations.shopId],
+        references: [shops.id],
+    }),
 }));

@@ -1,6 +1,6 @@
-import { Event, EventClass } from './event';
+import { DomainEvent, EventClass } from './event';
 
-export interface EventSubscriber<T extends Event> {
+export interface EventSubscriber<T extends DomainEvent> {
     subscribedTo(): EventClass;
     on(event: T): Promise<void>;
 }

@@ -2,14 +2,15 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
-import { workspaces } from 'wm/workspace/infrastructure/persistence/drizzle/workspaces.table';
-import { schedules } from 'sm/schedule/infrastructure/persistence/drizzle/schedules.table';
-import { exceptions } from 'sm/exception/infrastructure/persistence/drizzle/exceptions.table';
-import { cartItems } from 'cm/cart-item/infrastructure/persistence/drizzle/cart-items.table';
-import { schedulingResources } from 'bm/scheduling-resources/infrastructure/persistence/drizzle/scheduling-resources.table';
-import { addresses } from 'vm/address/infrastructure/persistence/drizzle/addresses.table';
-import { geolocations } from 'vm/geolocation/infrastructure/persistence/drizzle/geolocations.table';
-import { shopOffers } from 'vm/shop-offer/infrastructure/persistence/drizzle/shop-offers.table';
+import {
+    workspaces,
+    geolocations,
+    shopOffers,
+    schedules,
+    exceptions,
+    cartItems,
+    schedulingResources,
+} from 'shared/infrastructure/persistence/drizzle/schema';
 
 export const shops = p.pgTable(
     'shops',
@@ -18,7 +19,7 @@ export const shops = p.pgTable(
         name: p.text('name').notNull(),
         slug: p.text('slug').notNull(),
         description: p.varchar('description', {
-            length: 500,
+            length: 2000,
         }),
         banner: p.text('banner'),
         phone: p.varchar('phone', { length: 15 }),
@@ -30,14 +31,6 @@ export const shops = p.pgTable(
             .defaultNow()
             .$onUpdate(() => new Date())
             .notNull(),
-        addressId: p
-            .uuid('address_id')
-            .notNull()
-            .references(() => addresses.id),
-        geolocationId: p
-            .uuid('geolocation_id')
-            .notNull()
-            .references(() => geolocations.id),
         workspaceId: p
             .uuid('workspace_id')
             .notNull()
@@ -47,18 +40,11 @@ export const shops = p.pgTable(
 );
 
 export const shopsRelations = relations(shops, ({ one, many }) => ({
-    address: one(addresses, {
-        fields: [shops.addressId],
-        references: [addresses.id],
-    }),
-    geolocation: one(geolocations, {
-        fields: [shops.geolocationId],
-        references: [geolocations.id],
-    }),
     workspace: one(workspaces, {
         fields: [shops.workspaceId],
         references: [workspaces.id],
     }),
+    geolocation: one(geolocations),
     offers: many(shopOffers),
     schedules: many(schedules),
     exceptions: many(exceptions),

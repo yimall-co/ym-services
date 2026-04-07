@@ -1,6 +1,6 @@
 import { EventEmitter, EventEmitterOptions } from 'node:events';
 
-import { Event } from 'shared/domain/event';
+import { DomainEvent } from 'shared/domain/event';
 import { EventBus } from 'shared/domain/event-bus';
 
 import { EventSubscribers } from './event-subscribers';
@@ -17,7 +17,7 @@ export class InMemoryEventBus extends EventEmitter implements EventBus {
         );
     }
 
-    async publish(events: Array<Event>): Promise<void> {
+    async publish(events: Array<DomainEvent>): Promise<void> {
         if (!events) return;
 
         events.forEach((event) => this.emit(event.eventName, event));

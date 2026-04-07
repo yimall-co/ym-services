@@ -1,24 +1,30 @@
 import { DynamicModule, Module } from '@nestjs/common';
 
-import { ShopService } from './shop.service';
 import { ShopController } from './shop.controller';
 import {
+    createShopCommandHandlerProvider,
     getShopBySlugQueryHandlerProvider,
     getShopsByWorkspaceQueryHandlerProvider,
     shopQueryRepositoryProvider,
     shopRepositoryProvider,
+    shopUnitOfWorkProvider,
 } from './adapters';
 
 @Module({
     controllers: [ShopController],
     providers: [
-        ShopService,
+        shopUnitOfWorkProvider,
         shopRepositoryProvider,
         shopQueryRepositoryProvider,
         getShopBySlugQueryHandlerProvider,
         getShopsByWorkspaceQueryHandlerProvider,
+        createShopCommandHandlerProvider,
     ],
-    exports: [getShopBySlugQueryHandlerProvider, getShopsByWorkspaceQueryHandlerProvider],
+    exports: [
+        getShopBySlugQueryHandlerProvider,
+        getShopsByWorkspaceQueryHandlerProvider,
+        createShopCommandHandlerProvider,
+    ],
 })
 export class ShopModule {
     static forRoot(): DynamicModule {

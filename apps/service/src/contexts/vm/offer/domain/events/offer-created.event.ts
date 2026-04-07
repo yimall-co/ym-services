@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { Event, EventAttributes } from 'shared/domain/event';
+import { DomainEvent, EventAttributes } from 'shared/domain/event';
 
 interface OfferCreatedEventAttributes {
     title: string;
 }
 
-export class OfferCreatedEvent extends Event {
+export class OfferCreatedEvent extends DomainEvent {
     static readonly EVENT_NAME: string = 'offer.created';
 
     readonly title: string;
@@ -31,7 +31,7 @@ export class OfferCreatedEvent extends Event {
         occurredOn?: Date;
         eventId?: string;
         attributes: OfferCreatedEventAttributes;
-    }): Event {
+    }): DomainEvent {
         const { aggregateId, occurredOn, eventId, attributes } = primitives;
 
         return new OfferCreatedEvent({

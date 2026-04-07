@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Event, EventAttributes } from 'shared/domain/event';
+import { DomainEvent, EventAttributes } from 'shared/domain/event';
 
 interface UserCreatedEventAttributes {
     name: string;
@@ -7,7 +7,7 @@ interface UserCreatedEventAttributes {
     image: string;
 }
 
-export class UserCreatedEvent extends Event {
+export class UserCreatedEvent extends DomainEvent {
     static readonly EVENT_NAME: string = 'user.created';
 
     readonly name: string;
@@ -39,7 +39,7 @@ export class UserCreatedEvent extends Event {
         occurredOn?: Date;
         eventId?: string;
         attributes: UserCreatedEventAttributes;
-    }): Event {
+    }): DomainEvent {
         const { aggregateId, occurredOn, eventId, attributes } = primitives;
 
         return new UserCreatedEvent({

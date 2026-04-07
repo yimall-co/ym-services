@@ -2,10 +2,12 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
-import { shops } from 'vm/shop/infrastructure/persistence/drizzle/shops.table';
-import { offers } from 'vm/offer/infrastructure/persistence/drizzle/offers.table';
-import { carts } from 'cm/cart/infrastructure/persistence/drizzle/carts.table';
-import { cartItemOptions } from 'cm/cart-item-option/infrastructure/persistence/drizzle/cart-item-options.table';
+import {
+    shops,
+    offers,
+    carts,
+    cartItemOptions,
+} from 'shared/infrastructure/persistence/drizzle/schema';
 
 export const cartItems = p.pgTable(
     'cart_items',

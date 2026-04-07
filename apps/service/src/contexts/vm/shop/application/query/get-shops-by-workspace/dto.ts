@@ -9,9 +9,9 @@ export interface ShopByWorkspaceDto {
     isVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
-    address: {
-        id: string;
-    };
+    // address: {
+    //     id: string;
+    // };
     geolocation: {
         id: string;
     };
