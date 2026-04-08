@@ -149,4 +149,8 @@ export class Account extends AggregateRoot<AccountPrimitives> {
     private touch(): void {
         this.updatedAt = new AccountUpdatedAt(new Date());
     }
+
+    isCredential(): boolean {
+        return this.providerId.value === AccountProvider.CREDENTIAL;
+    }
 }
