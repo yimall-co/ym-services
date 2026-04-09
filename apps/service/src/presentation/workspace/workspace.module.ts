@@ -9,22 +9,27 @@ import {
     getWorkspacesQueryHandlerProvider,
     updateWorkspaceCommandHandlerProvider,
     workspaceUnitOfWorkProvider,
+    geolocationUnitOfWorkProvider,
+    getGeolocationsByWorkspaceQueryHandlerProvider,
 } from './adapters';
 
 @Module({
     controllers: [WorkspaceController],
     providers: [
+        geolocationUnitOfWorkProvider,
         workspaceUnitOfWorkProvider,
         workspaceRepositoryProvider,
         workspaceQueryRepositoryProvider,
         getWorkspacesQueryHandlerProvider,
         getWorkspaceByIdQueryHandlerProvider,
+        getGeolocationsByWorkspaceQueryHandlerProvider,
         createWorkspaceCommandHandlerProvider,
         updateWorkspaceCommandHandlerProvider,
     ],
     exports: [
         getWorkspacesQueryHandlerProvider,
         getWorkspaceByIdQueryHandlerProvider,
+        getGeolocationsByWorkspaceQueryHandlerProvider,
         createWorkspaceCommandHandlerProvider,
         updateWorkspaceCommandHandlerProvider,
     ],

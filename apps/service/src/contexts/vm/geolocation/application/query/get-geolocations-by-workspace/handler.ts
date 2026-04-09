@@ -5,20 +5,22 @@ import { UnitOfWork } from 'shared/infrastructure/unit-of-work';
 import { GeolocationNotFound } from 'vm/geolocation/domain/error/geolocation-not-found';
 
 import { GeolocationByWorkspaceDto } from './dto';
-import { GetGeolocationByWorkspaceQuery } from './query';
+import { GetGeolocationsByWorkspaceQuery } from './query';
 import { GeolocationRepositoryScope } from '../../geolocation.repository-scope';
 
-export class GetGeolocationByWorkspaceQueryHandler implements QueryHandler<
-    GetGeolocationByWorkspaceQuery,
+export class GetGeolocationsByWorkspaceQueryHandler implements QueryHandler<
+    GetGeolocationsByWorkspaceQuery,
     Array<GeolocationByWorkspaceDto>
 > {
     constructor(private readonly uow: UnitOfWork<GeolocationRepositoryScope>) { }
 
     subscribedTo(): Query {
-        return GetGeolocationByWorkspaceQuery;
+        return GetGeolocationsByWorkspaceQuery;
     }
 
-    async handle(query: GetGeolocationByWorkspaceQuery): Promise<Array<GeolocationByWorkspaceDto>> {
+    async handle(
+        query: GetGeolocationsByWorkspaceQuery,
+    ): Promise<Array<GeolocationByWorkspaceDto>> {
         return this.uow.withTransaction(async (scope) => {
             const geolocationQueryRepository = scope.getGeolocationQueryRepository();
 

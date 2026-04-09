@@ -37,8 +37,8 @@ import { WorkspaceByIdDto } from 'wm/workspace/application/query/get-workspace-b
 import { GetWorkspaceByIdQuery } from 'wm/workspace/application/query/get-workspace-by-id/query';
 import { CategoryByWorkspaceIdDto } from 'lm/category/application/query/get-categories-by-workspace-id/dto';
 import { GetCategoriesByWorkspaceIdQuery } from 'lm/category/application/query/get-categories-by-workspace-id/query';
-import { GeolocationByWorkspaceDto } from 'vm/geolocation/application/query/get-geolocation-by-workspace/dto';
-import { GetGeolocationByWorkspaceQuery } from 'vm/geolocation/application/query/get-geolocation-by-workspace/query';
+import { GeolocationByWorkspaceDto } from 'vm/geolocation/application/query/get-geolocations-by-workspace/dto';
+import { GetGeolocationsByWorkspaceQuery } from 'vm/geolocation/application/query/get-geolocations-by-workspace/query';
 import { CreateWorkspaceResultDto } from 'wm/workspace/application/command/create-workspace/dto';
 import { CreateWorkspaceCommand } from 'wm/workspace/application/command/create-workspace/command';
 import { UpdateWorkspaceResultDto } from 'wm/workspace/application/command/update-workspace/dto';
@@ -138,7 +138,7 @@ export class WorkspaceController {
     @HttpCode(HttpStatus.OK)
     async getLocationsByWorkspaceId(@Param('id') workspaceId: string) {
         try {
-            const query = new GetGeolocationByWorkspaceQuery(workspaceId);
+            const query = new GetGeolocationsByWorkspaceQuery(workspaceId);
             return await this.queryBus.ask<Array<GeolocationByWorkspaceDto>>(query);
         } catch (error: any) {
             this.logger.error(error);

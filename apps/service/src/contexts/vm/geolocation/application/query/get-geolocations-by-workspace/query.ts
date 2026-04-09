@@ -1,6 +1,6 @@
 import { Query } from 'shared/domain/query';
 
-export class GetGeolocationByWorkspaceQuery extends Query {
+export class GetGeolocationsByWorkspaceQuery extends Query {
     readonly workspaceId: string;
 
     constructor(workspaceId: string) {

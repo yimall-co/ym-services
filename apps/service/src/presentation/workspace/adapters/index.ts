@@ -10,6 +10,8 @@ import { CreateWorkspaceCommandHandler } from 'wm/workspace/application/command/
 import { UpdateWorkspaceCommandHandler } from 'wm/workspace/application/command/update-workspace/handler';
 import { DrizzleWorkspaceQueryRepository } from 'wm/workspace/infrastructure/persistence/drizzle-workspace-query.repository';
 import { DrizzleWorkspaceUnitOfWork } from 'wm/workspace/infrastructure/persistence/drizzle-workspace.uow';
+import { GetGeolocationsByWorkspaceQueryHandler } from 'vm/geolocation/application/query/get-geolocations-by-workspace/handler';
+import { DrizzleGeolocationUnitOfWork } from 'vm/geolocation/infrastructure/persistence/drizzle-geolocation.uow';
 
 import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
 
@@ -21,9 +23,19 @@ import {
     UPDATE_WORKSPACE_COMMAND_HANDLER,
     WORKSPACE_QUERY_REPOSITORY,
     WORKSPACE_UNIT_OF_WORK,
+    GET_GEOLOCATIONS_BY_WORKSPACE_QUERY_HANDLER,
+    GEOLOCATION_UNIT_OF_WORK,
 } from './constants';
 
 import * as schema from 'shared/infrastructure/persistence/drizzle/schema';
+
+export const geolocationUnitOfWorkProvider: Provider = {
+    provide: GEOLOCATION_UNIT_OF_WORK,
+    inject: [DRIZZLE_INSTANCE],
+    useFactory: (database: NodePgDatabase<typeof schema>) =>
+        new DrizzleGeolocationUnitOfWork(database),
+    scope: Scope.REQUEST,
+};
 
 export const workspaceUnitOfWorkProvider: Provider = {
     provide: WORKSPACE_UNIT_OF_WORK,
@@ -62,6 +74,14 @@ export const getWorkspaceByIdQueryHandlerProvider: Provider = {
     inject: [WORKSPACE_QUERY_REPOSITORY],
     useFactory: (workspaceQueryRepository: WorkspaceQueryRepository) =>
         new GetWorkspaceByIdQueryHandler(workspaceQueryRepository),
+    scope: Scope.DEFAULT,
+};
+
+export const getGeolocationsByWorkspaceQueryHandlerProvider: Provider = {
+    provide: GET_GEOLOCATIONS_BY_WORKSPACE_QUERY_HANDLER,
+    inject: [GEOLOCATION_UNIT_OF_WORK],
+    useFactory: (geolocationUnitOfWork: DrizzleGeolocationUnitOfWork) =>
+        new GetGeolocationsByWorkspaceQueryHandler(geolocationUnitOfWork),
     scope: Scope.DEFAULT,
 };
 

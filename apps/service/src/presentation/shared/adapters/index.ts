@@ -36,9 +36,12 @@ import { GetWorkspacesByUserIdQueryHandler } from 'wm/workspace/application/quer
 import { CreateCustomizationCommandHandler } from 'wm/customization/application/command/create-customization/handler';
 import { CreateVisitCommandHandler } from 'wm/visit/application/command/create-visit/handler';
 import { CreateShopCommandHandler } from 'vm/shop/application/command/create-shop/handler';
+import { GetGeolocationsByWorkspaceQueryHandler } from 'vm/geolocation/application/query/get-geolocations-by-workspace/handler';
+import { GetCategoriesByWorkspaceIdQueryHandler } from 'lm/category/application/query/get-categories-by-workspace-id/handler';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,
+    GET_GEOLOCATIONS_BY_WORKSPACE_QUERY_HANDLER,
     GET_WORKSPACES_QUERY_HANDLER,
     GET_WORKSPACE_BY_ID_QUERY_HANDLER,
 } from 'presentation/workspace/adapters/constants';
@@ -56,7 +59,10 @@ import {
     CREATE_USER_COMMAND_HANDLER,
     GET_USER_BY_EMAIl_QUERY_HANDLER,
 } from 'presentation/auth/adapters/constants';
-import { GET_CATEGORY_BY_SLUG_QUERY_HANDLER } from 'presentation/category/adapters/constants';
+import {
+    GET_CATEGORIES_BY_WORKSPACE_ID_QUERY_HANDLER,
+    GET_CATEGORY_BY_SLUG_QUERY_HANDLER,
+} from 'presentation/category/adapters/constants';
 import {
     CREATE_SHOP_COMMAND_HANDLER,
     GET_SHOP_BY_SLUG_QUERY_HANDLER,
@@ -135,6 +141,8 @@ export const queryHandlersProvider: Provider = {
         GET_OFFERS_BY_SHOP_QUERY_HANDLER,
         GET_SEGMENTS_BY_CRITERIA_QUERY_HANDLER,
         GET_WORKSPACES_BY_OWNER_ID_QUERY_HANDLER,
+        GET_GEOLOCATIONS_BY_WORKSPACE_QUERY_HANDLER,
+        GET_CATEGORIES_BY_WORKSPACE_ID_QUERY_HANDLER,
     ],
     useFactory: (
         getWorkspacesQueryHandler: GetWorkspacesQueryHandler,
@@ -149,6 +157,8 @@ export const queryHandlersProvider: Provider = {
         getOffersByShopQueryHandler: GetOffersByShopQueryHandler,
         getSegmentsByCriteriaQueryHandler: GetSegmentsByCriteriaQueryHandler,
         getWorkspacesByOwnerIdQueryHandler: GetWorkspacesByUserIdQueryHandler,
+        getGeolocationsByWorkspaceQueryHandler: GetGeolocationsByWorkspaceQueryHandler,
+        getCategoriesByWorkspaceIdQueryHandler: GetCategoriesByWorkspaceIdQueryHandler,
     ) =>
         new QueryHandlers([
             getWorkspacesQueryHandler,
@@ -163,6 +173,8 @@ export const queryHandlersProvider: Provider = {
             getOffersByShopQueryHandler,
             getSegmentsByCriteriaQueryHandler,
             getWorkspacesByOwnerIdQueryHandler,
+            getGeolocationsByWorkspaceQueryHandler,
+            getCategoriesByWorkspaceIdQueryHandler,
         ]),
     scope: Scope.DEFAULT,
 };

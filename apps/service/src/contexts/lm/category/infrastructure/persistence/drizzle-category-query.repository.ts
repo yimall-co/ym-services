@@ -5,11 +5,12 @@ import { PgSelect } from 'drizzle-orm/pg-core';
 import { subcategories } from 'shared/infrastructure/persistence/drizzle/schema';
 import { DrizzleRepository } from 'shared/infrastructure/persistence/drizzle/drizzle.repository';
 
-import { categories } from './persistence/drizzle/categories.table';
-import { CategoryQueryRepository } from '../application/query/category-query.repository';
-import { CategoryByIdDto } from '../application/query/get-category-by-id/dto';
-import { CategoryBySlugDto } from '../application/query/get-category-by-slug/dto';
-import { CategoryByWorkspaceIdDto } from '../application/query/get-categories-by-workspace-id/dto';
+import { CategoryByIdDto } from 'lm/category/application/query/get-category-by-id/dto';
+import { CategoryBySlugDto } from 'lm/category/application/query/get-category-by-slug/dto';
+import { CategoryByWorkspaceIdDto } from 'lm/category/application/query/get-categories-by-workspace-id/dto';
+import { CategoryQueryRepository } from 'lm/category/application/query/category-query.repository';
+
+import { categories } from './drizzle/categories.table';
 
 export class DrizzleCategoryQueryRepository
     extends DrizzleRepository<typeof categories>
@@ -86,7 +87,7 @@ export class DrizzleCategoryQueryRepository
     }
 
     async findAllByWorkspaceId(workspaceId: string): Promise<Array<CategoryByWorkspaceIdDto>> {
-        let query = this.client
+        const query = this.client
             .select({
                 id: this.table.id,
                 label: this.table.label,
@@ -101,11 +102,13 @@ export class DrizzleCategoryQueryRepository
             .from(this.table)
             .$dynamic();
 
-        query = query
+        // query = this.withSubcategories(query);
+
+        const rows = query
             .where(
                 and(
+                    eq(this.table.isActive, true),
                     eq(this.table.workspaceId, workspaceId),
-                    eq(this.table.isActive, true)
                 ),
             )
             .orderBy(
@@ -114,7 +117,6 @@ export class DrizzleCategoryQueryRepository
                 desc(this.table.updatedAt),
             );
 
-        const rows = await query;
         return rows;
     }
 

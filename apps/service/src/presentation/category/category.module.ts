@@ -1,10 +1,10 @@
 import { DynamicModule, Module } from '@nestjs/common';
 
 import { CategoryController } from './category.controller';
-import { CategoryService } from './category.service';
 import {
     categoryQueryRepositoryProvider,
     categoryRepositoryProvider,
+    getCategoriesByWorkspaceIdQueryHandlerProvider,
     getCategoryByIdQueryHandlerProvider,
     getCategoryBySlugQueryHandlerProvider,
 } from './adapters';
@@ -12,13 +12,17 @@ import {
 @Module({
     controllers: [CategoryController],
     providers: [
-        CategoryService,
         categoryRepositoryProvider,
         categoryQueryRepositoryProvider,
         getCategoryByIdQueryHandlerProvider,
         getCategoryBySlugQueryHandlerProvider,
+        getCategoriesByWorkspaceIdQueryHandlerProvider,
     ],
-    exports: [getCategoryByIdQueryHandlerProvider, getCategoryBySlugQueryHandlerProvider],
+    exports: [
+        getCategoryByIdQueryHandlerProvider,
+        getCategoryBySlugQueryHandlerProvider,
+        getCategoriesByWorkspaceIdQueryHandlerProvider,
+    ],
 })
 export class CategoryModule {
     static forRoot(): DynamicModule {
