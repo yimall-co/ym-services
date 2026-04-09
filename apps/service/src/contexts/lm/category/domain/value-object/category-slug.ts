@@ -1,3 +1,3 @@
-import { StringValueObject } from 'shared/domain/value-object/string.value-object';
+import { SlugValueObject } from 'shared/domain/value-object/slug.value-object';
 
-export class CategorySlug extends StringValueObject { }
+export class CategorySlug extends SlugValueObject { }

@@ -63,24 +63,23 @@ export class Category extends AggregateRoot<CategoryPrimitives> {
     }
 
     static create(
-        label: CategoryLabel,
-        slug: CategorySlug,
-        description: CategoryDescription,
-        banner: CategoryBanner,
-        position: CategoryPosition,
-        workspaceId: CategoryWorkspaceId,
+        label: string,
+        description: string,
+        banner: string | null,
+        position: number,
+        workspaceId: string,
     ): Category {
         return new Category(
             CategoryId.random(),
-            label,
-            slug,
-            description,
-            banner,
-            position,
+            new CategoryLabel(label),
+            CategorySlug.fromRaw(label),
+            new CategoryDescription(description),
+            banner ? CategoryBanner.some(banner) : CategoryBanner.none(),
+            new CategoryPosition(position),
             new CategoryIsActive(true),
             new CategoryCreatedAt(new Date()),
             new CategoryUpdatedAt(new Date()),
-            workspaceId,
+            new CategoryWorkspaceId(workspaceId),
         );
     }
 
@@ -99,6 +98,46 @@ export class Category extends AggregateRoot<CategoryPrimitives> {
         );
     }
 
+    getId(): CategoryId {
+        return this.id;
+    }
+
+    getLabel(): CategoryLabel {
+        return this.label;
+    }
+
+    getSlug(): CategorySlug {
+        return this.slug;
+    }
+
+    getDescription(): CategoryDescription {
+        return this.description;
+    }
+
+    getBanner(): CategoryBanner {
+        return this.banner;
+    }
+
+    getPosition(): CategoryPosition {
+        return this.position;
+    }
+
+    getIsActive(): CategoryIsActive {
+        return this.isActive;
+    }
+
+    getCreatedAt(): CategoryCreatedAt {
+        return this.createdAt;
+    }
+
+    getUpdatedAt(): CategoryUpdatedAt {
+        return this.updatedAt;
+    }
+
+    getWorkspaceId(): CategoryWorkspaceId {
+        return this.workspaceId;
+    }
+
     toPrimitives(): CategoryPrimitives {
         return {
             id: this.id.value,
@@ -112,5 +151,9 @@ export class Category extends AggregateRoot<CategoryPrimitives> {
             updatedAt: this.updatedAt.value,
             workspaceId: this.workspaceId.value,
         };
+    }
+
+    private touch(): void {
+        this.updatedAt = new CategoryUpdatedAt(new Date());
     }
 }

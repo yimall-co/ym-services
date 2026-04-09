@@ -38,6 +38,7 @@ import { CreateVisitCommandHandler } from 'wm/visit/application/command/create-v
 import { CreateShopCommandHandler } from 'vm/shop/application/command/create-shop/handler';
 import { GetGeolocationsByWorkspaceQueryHandler } from 'vm/geolocation/application/query/get-geolocations-by-workspace/handler';
 import { GetCategoriesByWorkspaceIdQueryHandler } from 'lm/category/application/query/get-categories-by-workspace-id/handler';
+import { CreateCategoryCommandHandler } from 'lm/category/application/command/create-category/handler';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,
@@ -60,6 +61,7 @@ import {
     GET_USER_BY_EMAIl_QUERY_HANDLER,
 } from 'presentation/auth/adapters/constants';
 import {
+    CREATE_CATEGORY_COMMAND_HANDLER,
     GET_CATEGORIES_BY_WORKSPACE_ID_QUERY_HANDLER,
     GET_CATEGORY_BY_SLUG_QUERY_HANDLER,
 } from 'presentation/category/adapters/constants';
@@ -204,6 +206,7 @@ export const commandHandlersProvider: Provider = {
         CREATE_CUSTOMIZATION_COMMAND_HANDLER,
         CREATE_VISIT_COMMAND_HANDLER,
         CREATE_SHOP_COMMAND_HANDLER,
+        CREATE_CATEGORY_COMMAND_HANDLER,
     ],
     useFactory: (
         createWorkspaceCommandHandler: CreateWorkspaceCommandHandler,
@@ -221,14 +224,11 @@ export const commandHandlersProvider: Provider = {
         createCustomizationCommandHandler: CreateCustomizationCommandHandler,
         createVisitCommandHandler: CreateVisitCommandHandler,
         createShopCommandHandler: CreateShopCommandHandler,
+        createCategoryCommandHandler: CreateCategoryCommandHandler,
     ) =>
         new CommandHandlers([
             createWorkspaceCommandHandler,
             createSegmentCommandHandler,
-            // new CreateUserCommandHandler(
-            //     createUserCommandHandler['uow'], // This is a bit hacky, but consistent with the existing setup if we don't want to change provided instances
-            //     eventBus,
-            // ),
             createUserCommandHandler,
             createAccountCommandHandler,
             createCustomizationColorCommandHandler,
@@ -242,6 +242,7 @@ export const commandHandlersProvider: Provider = {
             createCustomizationCommandHandler,
             createVisitCommandHandler,
             createShopCommandHandler,
+            createCategoryCommandHandler,
         ]),
     scope: Scope.DEFAULT,
 };

@@ -71,7 +71,7 @@ export class Shop extends AggregateRoot<ShopPrimitives> {
     static create(
         name: string,
         description: string,
-        banner: string,
+        banner: string | null,
         phone: string,
         isPrimary: boolean,
         workspaceId: string,

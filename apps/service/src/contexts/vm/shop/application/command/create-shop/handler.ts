@@ -23,7 +23,7 @@ export class CreateShopCommandHandler implements CommandHandler<
         const shop = Shop.create(
             command.name,
             command.description ?? '',
-            command.banner ?? '',
+            command.banner,
             command.phone,
             command.isPrimary,
             command.workspaceId,
