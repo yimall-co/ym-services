@@ -8,8 +8,8 @@ export default registerAs('redis', async () => {
         secretAccessKey: process.env.LOCKER_READ_SECRET_KEY!,
     });
 
-    const url = await lockerRead.get('REDIS_URL');
-    const ttl = await lockerRead.get('REDIS_TTL');
+    const url = await lockerRead.get('REDIS_URL', process.env.LOCKER_ENVIRONMENT);
+    const ttl = await lockerRead.get('REDIS_TTL', process.env.LOCKER_ENVIRONMENT);
 
     return {
         url,

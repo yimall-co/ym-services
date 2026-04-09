@@ -8,7 +8,7 @@ export default registerAs('database', async () => {
         secretAccessKey: process.env.LOCKER_READ_SECRET_KEY!,
     });
 
-    const url = await lockerRead.get('DB_URL');
+    const url = await lockerRead.get('DB_URL', process.env.LOCKER_ENVIRONMENT);
 
     return {
         url,

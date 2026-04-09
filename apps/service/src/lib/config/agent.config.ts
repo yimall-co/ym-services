@@ -13,7 +13,10 @@ export default registerAs('agent', async () => {
     });
 
     // const openAiApiKey = await lockerRead.get('OPENAI_API_KEY');
-    const openRouterApiKey = await lockerRead.get('OPEN_ROUTER_API_KEY');
+    const openRouterApiKey = await lockerRead.get(
+        'OPEN_ROUTER_API_KEY',
+        process.env.LOCKER_ENVIRONMENT,
+    );
 
     return {
         // openAiApiKey,

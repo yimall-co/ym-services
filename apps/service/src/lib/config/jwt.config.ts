@@ -12,14 +12,38 @@ export default registerAs('jwt', async () => {
         },
     });
 
-    const jwtAccessSecret = await lockerRead.get('JWT_ACCESS_SECRET');
-    const jwtAccessPublicKey = await lockerRead.get('JWT_ACCESS_PUBLIC_KEY');
-    const jwtAccessPrivateKey = await lockerRead.get('JWT_ACCESS_PRIVATE_KEY');
-    const jwtAccessExpiresIn = await lockerRead.get('JWT_ACCESS_TTL');
-    const jwtRefreshSecret = await lockerRead.get('JWT_REFRESH_SECRET');
-    const jwtRefreshPublicKey = await lockerRead.get('JWT_REFRESH_PUBLIC_KEY');
-    const jwtRefreshPrivateKey = await lockerRead.get('JWT_REFRESH_PRIVATE_KEY');
-    const jwtRefreshExpiresIn = await lockerRead.get('JWT_REFRESH_TTL');
+    const jwtAccessSecret = await lockerRead.get(
+        'JWT_ACCESS_SECRET',
+        process.env.LOCKER_ENVIRONMENT,
+    );
+    const jwtAccessPublicKey = await lockerRead.get(
+        'JWT_ACCESS_PUBLIC_KEY',
+        process.env.LOCKER_ENVIRONMENT,
+    );
+    const jwtAccessPrivateKey = await lockerRead.get(
+        'JWT_ACCESS_PRIVATE_KEY',
+        process.env.LOCKER_ENVIRONMENT,
+    );
+    const jwtAccessExpiresIn = await lockerRead.get(
+        'JWT_ACCESS_TTL',
+        process.env.LOCKER_ENVIRONMENT,
+    );
+    const jwtRefreshSecret = await lockerRead.get(
+        'JWT_REFRESH_SECRET',
+        process.env.LOCKER_ENVIRONMENT,
+    );
+    const jwtRefreshPublicKey = await lockerRead.get(
+        'JWT_REFRESH_PUBLIC_KEY',
+        process.env.LOCKER_ENVIRONMENT,
+    );
+    const jwtRefreshPrivateKey = await lockerRead.get(
+        'JWT_REFRESH_PRIVATE_KEY',
+        process.env.LOCKER_ENVIRONMENT,
+    );
+    const jwtRefreshExpiresIn = await lockerRead.get(
+        'JWT_REFRESH_TTL',
+        process.env.LOCKER_ENVIRONMENT,
+    );
 
     return {
         accessSecret: jwtAccessSecret,

@@ -20,6 +20,9 @@
         "migration:generate": {
             "dependsOn": ["^migration:generate"]
         },
+        "migration:migrate": {
+            "dependsOn": ["^migration:migrate"]
+        },
         "migration:push": {
             "dependsOn": ["^migration:push"]
         },
