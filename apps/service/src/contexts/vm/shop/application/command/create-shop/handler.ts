@@ -39,10 +39,11 @@ export class CreateShopCommandHandler implements CommandHandler<
                 throw new ShopSlugAlreadyExists(slug);
             }
 
-            const isPrimary = shop.getIsPrimary().value;
-
-            const alreadyExistsPrimary = await shopRepository.alreadyHasPrimaryShop();
-            if (alreadyExistsPrimary && isPrimary) {
+            const workspaceId = shop.getWorkspaceId().value;
+            const alreadyExistsPrimaryInWorkspace =
+                await shopRepository.alreadyHasPrimaryShop(workspaceId);
+            // Just can exits one primary shop in a workspace
+            if (alreadyExistsPrimaryInWorkspace) {
                 shop.unmarkAsPrimary();
             }
 

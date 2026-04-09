@@ -2,9 +2,7 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
-import { offers } from 'vm/offer/infrastructure/persistence/drizzle/offers.table';
-import { workspaces } from 'wm/workspace/infrastructure/persistence/drizzle/workspaces.table';
-import { categories } from 'lm/category/infrastructure/persistence/drizzle/categories.table';
+import { categories, offers } from 'shared/infrastructure/persistence/drizzle/schema';
 
 export const subcategories = p.pgTable(
     'subcategories',
@@ -26,19 +24,11 @@ export const subcategories = p.pgTable(
             .uuid('category_id')
             .notNull()
             .references(() => categories.id),
-        workspaceId: p
-            .uuid('workspace_id')
-            .notNull()
-            .references(() => workspaces.id),
     },
     (table) => [p.index().on(table.label), p.index().on(table.slug)],
 );
 
 export const subcategoriesRelations = relations(subcategories, ({ one, many }) => ({
-    workspace: one(workspaces, {
-        fields: [subcategories.workspaceId],
-        references: [workspaces.id],
-    }),
     category: one(categories, {
         fields: [subcategories.categoryId],
         references: [categories.id],

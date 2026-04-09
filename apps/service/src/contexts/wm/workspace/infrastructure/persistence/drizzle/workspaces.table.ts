@@ -71,7 +71,6 @@ export const workspacesRelations = relations(workspaces, ({ one, many }) => ({
     }),
     customization: one(customizations),
     categories: many(categories),
-    subcategories: many(subcategories),
     shops: many(shops),
     offers: many(offers),
     visits: many(visits),

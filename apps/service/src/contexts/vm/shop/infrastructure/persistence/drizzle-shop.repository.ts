@@ -29,13 +29,14 @@ export class DrizzleShopRepository
         return rows.length > 0;
     }
 
-    async alreadyHasPrimaryShop(): Promise<boolean> {
+    async alreadyHasPrimaryShop(workspaceId: string): Promise<boolean> {
         const rows = await this.client
             .select({ shopId: this.table.id })
             .from(this.table)
             .where(
                 this.withValidShops(
                     eq(this.table.isPrimary, true),
+                    eq(this.table.workspaceId, workspaceId),
                 ),
             )
             .limit(1);
@@ -68,9 +69,9 @@ export class DrizzleShopRepository
             .where(eq(this.table.id, id.value));
     }
 
-    private withValidShops(condition?: SQL) {
+    private withValidShops(...conditions: Array<SQL>) {
         return and(
-            condition ? condition : undefined,
+            ...conditions,
             eq(this.table.isVerified, true),
         );
     }

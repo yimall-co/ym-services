@@ -20,6 +20,9 @@
         "start": "turbo run start",
         "dev": "turbo run dev",
         "lint": "turbo run lint",
+        "migration:generate": "turbo run migration:generate --filter=service",
+        "migration:push": "turbo run migration:push --filter=service",
+        "migration:pull": "turbo run migration:pull --filter=service",
         "compose": "docker-compose up -d"
     },
     "devDependencies": {

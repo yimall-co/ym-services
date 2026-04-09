@@ -1,7 +1,6 @@
 import { AggregateRoot } from 'shared/domain/aggregate-root';
 
 import { ShopId } from 'vm/shared/domain/shop-id';
-import { AddressId } from 'vm/shared/domain/address-id';
 
 import { ShopName } from './value-object/shop-name';
 import { ShopSlug } from './value-object/shop-slug';
@@ -118,6 +117,10 @@ export class Shop extends AggregateRoot<ShopPrimitives> {
 
     getIsPrimary(): ShopIsPrimary {
         return this.isPrimary;
+    }
+
+    getWorkspaceId(): ShopWorkspaceId {
+        return this.workspaceId;
     }
 
     unmarkAsPrimary(): void {

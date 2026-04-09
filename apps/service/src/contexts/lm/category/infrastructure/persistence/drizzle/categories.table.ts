@@ -2,16 +2,18 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
-import { offers } from 'vm/offer/infrastructure/persistence/drizzle/offers.table';
-import { workspaces } from 'wm/workspace/infrastructure/persistence/drizzle/workspaces.table';
-import { subcategories } from 'lm/subcategory/infrastructure/persistence/drizzle/subcategories.table';
+import {
+    offers,
+    subcategories,
+    workspaces,
+} from 'shared/infrastructure/persistence/drizzle/schema';
 
 export const categories = p.pgTable(
     'categories',
     {
         id: p.uuid('id').primaryKey().defaultRandom(),
         label: p.text('label').notNull(), // TODO: change to 'name'.
-        slug: p.text('slug').unique().notNull(),
+        slug: p.text('slug').notNull(),
         description: p.varchar('description', {
             length: 500,
         }),

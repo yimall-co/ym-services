@@ -6,7 +6,7 @@ import { shops } from 'shared/infrastructure/persistence/drizzle/schema';
 import { DrizzleRepository } from 'shared/infrastructure/persistence/drizzle/drizzle.repository';
 
 import { GeolocationQueryRepository } from 'vm/geolocation/application/query/geolocation-query.repository';
-import { GeolocationByWorkspaceDto } from 'vm/geolocation/application/query/get-geolocation-by-workspace/dto';
+import { GeolocationByWorkspaceDto } from 'vm/geolocation/application/query/get-geolocations-by-workspace/dto';
 
 import { geolocations } from './drizzle/geolocations.table';
 
