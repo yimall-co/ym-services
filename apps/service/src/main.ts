@@ -83,7 +83,7 @@ async function bootstrap() {
 
     const port = configService.getOrThrow<number>('app.port');
 
-    await app.listen(port, (_, address) => {
+    await app.listen(port, '0.0.0.0', (_, address) => {
         console.log(`Application is running on: ${address}`);
     });
 }
