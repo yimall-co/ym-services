@@ -10,6 +10,7 @@ RUN pnpm install
 
 COPY . .
 
+RUN cd node_modules/lockersm
 RUN pnpm run build
 
 EXPOSE 3200

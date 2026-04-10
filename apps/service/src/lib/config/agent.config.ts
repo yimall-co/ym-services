@@ -7,8 +7,8 @@ export default registerAs('agent', async () => {
         accessKeyId: process.env.LOCKER_READ_ACCESS_KEY!,
         secretAccessKey: process.env.LOCKER_READ_SECRET_KEY!,
         cacheOptions: {
-            fetch: false,
-            restTime: 5,
+            fetch: true,
+            restTime: 120,
         },
     });
 

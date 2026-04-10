@@ -6,6 +6,10 @@ export default registerAs('redis', async () => {
     const lockerRead = createSecret({
         accessKeyId: process.env.LOCKER_READ_ACCESS_KEY!,
         secretAccessKey: process.env.LOCKER_READ_SECRET_KEY!,
+        cacheOptions: {
+            fetch: true,
+            restTime: 120,
+        },
     });
 
     const url = await lockerRead.get('REDIS_URL', process.env.LOCKER_ENVIRONMENT);
