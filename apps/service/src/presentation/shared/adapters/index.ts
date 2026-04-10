@@ -104,9 +104,11 @@ export const drizzleInstanceProvider: Provider = {
     inject: [ConfigService],
     useFactory: (configService: ConfigService) => {
         const connection = configService.getOrThrow<string>('database.url');
+        const nodeEnv = configService.getOrThrow<string>('app.nodeEnv');
 
         const pool = DrizzleClientFactory.createPool({
             connectionString: connection,
+            ssl: nodeEnv === 'production',
         });
 
         return DrizzleClientFactory.createClient(pool);

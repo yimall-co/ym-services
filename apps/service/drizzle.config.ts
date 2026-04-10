@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 import { defineConfig } from 'drizzle-kit';
 
 config({
-    path: '.env.local',
+    path: ['.env', '.env.local'],
 });
 
 export default defineConfig({
@@ -11,5 +11,6 @@ export default defineConfig({
     dialect: 'postgresql',
     dbCredentials: {
         url: process.env.DB_URL!,
+        ssl: process.env.NODE_ENV === 'production',
     },
 });
