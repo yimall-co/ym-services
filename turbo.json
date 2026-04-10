@@ -1,8 +1,24 @@
 {
     "$schema": "https://turborepo.dev/schema.json",
-    "globalEnv": ["NODE_ENV", "APP_PORT", "PORT"],
+    "globalEnv": [
+        "NODE_ENV",
+        "PORT",
+        "APP_PORT",
+        "APP_NAME",
+        "APP_VERSION",
+        "APP_DESCRIPTION",
+        "LOCKER_API_URL",
+        "LOCKER_ENVIRONMENT",
+        "LOCKER_READ_ACCESS_KEY",
+        "LOCKER_READ_SECRET_KEY",
+        "LOCKER_WRITE_ACCESS_KEY",
+        "LOCKER_WRITE_SECRET_KEY",
+        "DB_URL"
+    ],
+    "globalDependencies": [".env", ".env.development", ".env.test", ".env.production"],
     "tasks": {
         "build": {
+            "inputs": ["$TURBO_DEFAULT$", ".env*"],
             "dependsOn": ["^build"],
             "outputs": ["dist/**", "build/**"]
         },
@@ -12,7 +28,7 @@
             "dependsOn": ["//#compose"]
         },
         "start": {
-            "dependsOn": ["build"]
+            "dependsOn": ["build", "migration:push"]
         },
         "lint": {
             "dependsOn": ["^lint"]
@@ -24,7 +40,7 @@
             "dependsOn": ["^migration:migrate"]
         },
         "migration:push": {
-            "dependsOn": ["^migration:push"]
+            "dependsOn": ["migration:generate"]
         },
         "migration:pull": {
             "dependsOn": ["^migration:pull"]
