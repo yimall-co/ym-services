@@ -110,6 +110,10 @@ export const drizzleInstanceProvider: Provider = {
             ssl: {
                 rejectUnauthorized: false,
             },
+            max: 10,
+            min: 2,
+            idleTimeoutMillis: 25000,
+            connectionTimeoutMillis: 2500,
         });
 
         return DrizzleClientFactory.createClient(pool);

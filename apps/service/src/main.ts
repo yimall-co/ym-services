@@ -14,6 +14,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { all } from 'better-all';
 
 import { setupSwagger } from 'lib/swagger';
 
@@ -26,7 +27,17 @@ async function bootstrap() {
         bufferLogs: true,
     });
 
-    await Promise.all([app.register(helmet), app.register(cookie), app.register(compress)]);
+    await all({
+        async a() {
+            await app.register(helmet);
+        },
+        async b() {
+            await app.register(cookie);
+        },
+        async c() {
+            await app.register(compress);
+        },
+    });
 
     // app.useGlobalFilters(
     //     new GlobalException

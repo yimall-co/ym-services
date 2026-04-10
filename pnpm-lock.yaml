@@ -15,6 +15,9 @@ catalogs:
     argon2:
       specifier: ^0.44.0
       version: 0.44.0
+    better-all:
+      specifier: ^0.0.7
+      version: 0.0.7
     cache-manager:
       specifier: ^7.2.8
       version: 7.2.8
@@ -298,6 +301,9 @@ importers:
       argon2:
         specifier: 'catalog:'
         version: 0.44.0
+      better-all:
+        specifier: 'catalog:'
+        version: 0.0.7
       cache-manager:
         specifier: 'catalog:'
         version: 7.2.8
@@ -2597,6 +2603,9 @@ packages:
     resolution: {integrity: sha512-lIyg0szRfYbiy67j9KN8IyeD7q7hcmqnJ1ddWmNt19ItGpNN64mnllmxUNFIOdOm6by97jlL6wfpTTJrmnjWAA==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+
+  better-all@0.0.7:
+    resolution: {integrity: sha512-xgdUMWb88Qhz6RtC/PY/7QtR61K/JabCcbKhNYYuXC/IoY3c/bgYdIjVxyTHXR41KP8JQeP+6dg4zH4KOpwJzw==}
 
   binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
@@ -8032,6 +8041,8 @@ snapshots:
   base64-js@1.5.1: {}
 
   baseline-browser-mapping@2.10.0: {}
+
+  better-all@0.0.7: {}
 
   binary-extensions@2.3.0: {}
 

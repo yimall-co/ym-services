@@ -50,6 +50,7 @@
         "@langchain/openai": "catalog:langchain",
         "@langchain/openrouter": "catalog:langchain",
         "argon2": "catalog:",
+        "better-all": "catalog:",
         "class-validator": "catalog:",
         "class-transformer": "catalog:",
         "cache-manager": "catalog:",

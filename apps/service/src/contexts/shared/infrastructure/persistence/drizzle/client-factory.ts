@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Pool, PoolConfig } from 'pg';
 import { withReplicas } from 'drizzle-orm/pg-core';
 import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
