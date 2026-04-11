@@ -12,11 +12,31 @@ export default registerAs('s3', async () => {
         },
     });
 
-    const s3Region = await lockerRead.get('S3_REGION', process.env.LOCKER_ENVIRONMENT);
-    const s3Endpoint = await lockerRead.get('S3_ENDPOINT', process.env.LOCKER_ENVIRONMENT);
-    const s3AccessKey = await lockerRead.get('S3_ACCESS_KEY', process.env.LOCKER_ENVIRONMENT);
-    const s3SecretKey = await lockerRead.get('S3_SECRET_KEY', process.env.LOCKER_ENVIRONMENT);
-    const s3BucketName = await lockerRead.get('S3_BUCKET_NAME', process.env.LOCKER_ENVIRONMENT);
+    const s3Region = await lockerRead.get(
+        'S3_REGION',
+        process.env.LOCKER_ENVIRONMENT,
+        process.env.S3_REGION,
+    );
+    const s3Endpoint = await lockerRead.get(
+        'S3_ENDPOINT',
+        process.env.LOCKER_ENVIRONMENT,
+        process.env.S3_ENDPOINT,
+    );
+    const s3AccessKey = await lockerRead.get(
+        'S3_ACCESS_KEY',
+        process.env.LOCKER_ENVIRONMENT,
+        process.env.S3_ACCESS_KEY,
+    );
+    const s3SecretKey = await lockerRead.get(
+        'S3_SECRET_KEY',
+        process.env.LOCKER_ENVIRONMENT,
+        process.env.S3_SECRET_KEY,
+    );
+    const s3BucketName = await lockerRead.get(
+        'S3_BUCKET_NAME',
+        process.env.LOCKER_ENVIRONMENT,
+        process.env.S3_BUCKET_NAME,
+    );
 
     return {
         region: s3Region as string,

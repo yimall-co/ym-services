@@ -12,8 +12,16 @@ export default registerAs('redis', async () => {
         },
     });
 
-    const url = await lockerRead.get('REDIS_URL', process.env.LOCKER_ENVIRONMENT);
-    const ttl = await lockerRead.get('REDIS_TTL', process.env.LOCKER_ENVIRONMENT);
+    const url = await lockerRead.get(
+        'REDIS_URL',
+        process.env.LOCKER_ENVIRONMENT,
+        process.env.REDIS_URL,
+    );
+    const ttl = await lockerRead.get(
+        'REDIS_TTL',
+        process.env.LOCKER_ENVIRONMENT,
+        process.env.REDIS_TTL,
+    );
 
     return {
         url,

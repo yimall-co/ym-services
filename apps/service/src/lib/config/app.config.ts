@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('app', () => ({
-    port: Number(process.env.PORT ?? 3200),
+    port: Number(process.env.PORT),
     name: process.env.APP_NAME,
     version: process.env.APP_VERSION,
     description: process.env.APP_DESCRIPTION,

@@ -12,7 +12,7 @@ export default registerAs('database', async () => {
         },
     });
 
-    const url = await lockerRead.get('DB_URL', process.env.LOCKER_ENVIRONMENT);
+    const url = await lockerRead.get('DB_URL', process.env.LOCKER_ENVIRONMENT, process.env.DB_URL);
 
     return {
         url,
