@@ -1,4 +1,4 @@
-import { UuidValueObject } from './value-object/uuid.value-object';
+import { Uuid } from './value-object/uuid';
 
 export type EventAttributes = Record<string, any>;
 
@@ -27,7 +27,7 @@ export abstract class DomainEvent {
         this.eventName = eventName;
         this.aggregateId = aggregateId;
         this.occurredOn = occurredOn ?? new Date();
-        this.eventId = eventId ?? UuidValueObject.random().value;
+        this.eventId = eventId ?? Uuid.random().value;
     }
 
     abstract toPrimitives(): EventAttributes;

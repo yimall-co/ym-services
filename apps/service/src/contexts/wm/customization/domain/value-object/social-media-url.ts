@@ -1,3 +1,3 @@
-import { UrlValueObject } from 'shared/domain/value-object/url.value-object';
+import { Url } from 'shared/domain/value-object/url';
 
-export class SocialMediaUrl extends UrlValueObject {}
+export class SocialMediaUrl extends Url { }

@@ -16,6 +16,18 @@ export class DrizzleWorkspaceRepository
     implements WorkspaceRepository {
     protected readonly table = workspaces;
 
+    async exists(id: WorkspaceId): Promise<boolean> {
+        const rows = await this.client
+            .select({ id: this.table.id })
+            .from(this.table)
+            .where(
+                eq(this.table.id, id.value)
+            )
+            .limit(1);
+
+        return rows.length > 0;
+    }
+
     async existsActiveById(id: WorkspaceId): Promise<boolean> {
         const rows = await this.client
             .select({ id: this.table.id })

@@ -14,7 +14,7 @@ import { DrizzleUserQueryRepository } from './drizzle-user-query.repository';
 export class DrizzleUserRepositoryScope implements UserRepositoryScope {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

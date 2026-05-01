@@ -1,3 +1,3 @@
-import { OptionalUuidValueObject } from 'shared/domain/value-object/optional-uuid.value-object';
+import { OptionalUuid } from 'shared/domain/value-object/optional-uuid';
 
-export class VisitWorkspaceId extends OptionalUuidValueObject { }
+export class VisitWorkspaceId extends OptionalUuid { }

@@ -10,7 +10,7 @@ import { DrizzleShopQueryRepository } from './drizzle-shop-query.repository';
 export class DrizzleShopRepositoryScope implements ShopRepositoryScope {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

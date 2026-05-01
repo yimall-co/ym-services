@@ -9,7 +9,7 @@ import { DrizzleProfileRepositoryScope } from './drizzle-profile.repository-scop
 export class DrizzleProfileUnitOfWork implements UnitOfWork<ProfileRepositoryScope> {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

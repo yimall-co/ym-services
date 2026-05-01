@@ -1,21 +1,20 @@
-export type Primitives = string | number | boolean | Date;
+export abstract class BaseValueObject<T> {
+    public value: T;
 
-export abstract class ValueObject<T> {
-    readonly value: T;
-
-    protected constructor(value: T) {
+    constructor(value: T) {
         this.value = value;
+
         Object.freeze(this);
     }
 
-    equals(other?: ValueObject<T>): boolean {
+    equals(other?: BaseValueObject<T>): boolean {
         if (!other) return false;
         if (other.constructor !== this.constructor) return false;
 
         return this.deepEqual(this.value, other.value);
     }
 
-    private deepEqual(a: any, b: any): boolean {
+    protected deepEqual(a: any, b: any): boolean {
         if (a === b) return true;
 
         if (a instanceof Date && b instanceof Date) {

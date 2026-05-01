@@ -7,11 +7,7 @@ import { PermissionQueryRepository } from 'iam/permission/application/query/perm
 import { DrizzlePermissionRepository } from './drizzle-permission.repository';
 
 export class DrizzlePermissionRepositoryScope implements PermissionRepositoryScope {
-    constructor(
-        private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
-        >,
-    ) { }
+    constructor(private readonly db: NodePgDatabase<Schema>) { }
 
     getPermissionRepository(): PermissionRepository {
         return new DrizzlePermissionRepository(this.db);

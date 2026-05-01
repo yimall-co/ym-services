@@ -1,37 +1,37 @@
-import { ValueObject } from './base.value-object';
+import { BaseValueObject } from './base.value-object';
 
-export abstract class NumberValueObject extends ValueObject<number> {
+export abstract class NumberValueObject extends BaseValueObject<number> {
     constructor(value: number) {
         super(value);
 
         this.ensureIsValidNumber(value);
     }
 
-    isInteger(): boolean {
+    protected isInteger(): boolean {
         return Number.isInteger(this.value);
     }
 
-    isDecimal(): boolean {
+    protected isDecimal(): boolean {
         return !this.isInteger();
     }
 
-    isGreatherThan(value: number): boolean {
+    protected isGreatherThan(value: number): boolean {
         return this.value > value;
     }
 
-    isLessThan(value: number): boolean {
+    protected isLessThan(value: number): boolean {
         return this.value < value;
     }
 
-    isGreaterThanOrEqual(value: number): boolean {
+    protected isGreaterThanOrEqual(value: number): boolean {
         return this.value >= value;
     }
 
-    isLessThanOrEqual(value: number): boolean {
+    protected isLessThanOrEqual(value: number): boolean {
         return this.value <= value;
     }
 
-    isBetween(min: number, max: number): boolean {
+    protected isBetween(min: number, max: number): boolean {
         return this.value >= min && this.value <= max;
     }
 

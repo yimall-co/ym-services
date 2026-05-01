@@ -1,6 +1,6 @@
-import { ValueObject } from './base.value-object';
+import { BaseValueObject } from './base.value-object';
 
-export abstract class DateValueObject extends ValueObject<Date> {
+export abstract class DateValueObject extends BaseValueObject<Date> {
     constructor(value: Date) {
         super(value);
 

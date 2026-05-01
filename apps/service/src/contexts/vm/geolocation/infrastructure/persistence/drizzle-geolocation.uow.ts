@@ -9,7 +9,7 @@ import { DrizzleGeolocationRepositoryScope } from './drizzle-geolocation.reposit
 export class DrizzleGeolocationUnitOfWork implements UnitOfWork<GeolocationRepositoryScope> {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

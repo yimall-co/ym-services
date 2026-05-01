@@ -39,55 +39,59 @@ import { CreateShopCommandHandler } from 'vm/shop/application/command/create-sho
 import { GetGeolocationsByWorkspaceQueryHandler } from 'vm/geolocation/application/query/get-geolocations-by-workspace/handler';
 import { GetCategoriesByWorkspaceIdQueryHandler } from 'lm/category/application/query/get-categories-by-workspace-id/handler';
 import { CreateCategoryCommandHandler } from 'lm/category/application/command/create-category/handler';
+import { LikeCommandHandler } from 'socm/reaction/application/command/like/handler';
+import { CommentateOnCommandHandler } from 'socm/comment/application/command/commentate-on/handler';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,
     GET_GEOLOCATIONS_BY_WORKSPACE_QUERY_HANDLER,
     GET_WORKSPACES_QUERY_HANDLER,
     GET_WORKSPACE_BY_ID_QUERY_HANDLER,
-} from 'presentation/workspace/adapters/constants';
+} from 'presentation/wm/workspace/adapters/constants';
 import {
     CREATE_SEGMENT_COMMAND_HANDLER,
     GET_SEGMENTS_BY_CRITERIA_QUERY_HANDLER,
-} from 'presentation/segment/adapters/constants';
+} from 'presentation/wm/segment/adapters/constants';
 import {
     CREATE_CUSTOMIZATION_COLOR_COMMAND_HANDLER,
     CREATE_CUSTOMIZATION_COMMAND_HANDLER,
     GET_CUSTOMIZATION_BY_WORKSPACE_QUERY_HANDLER,
-} from 'presentation/customization/adapters/constants';
+} from 'presentation/wm/customization/adapters/constants';
 import {
     CREATE_ACCOUNT_COMMAND_HANDLER,
     CREATE_USER_COMMAND_HANDLER,
     GET_USER_BY_EMAIl_QUERY_HANDLER,
-} from 'presentation/auth/adapters/constants';
+} from 'presentation/iam/auth/adapters/constants';
 import {
     CREATE_CATEGORY_COMMAND_HANDLER,
     GET_CATEGORIES_BY_WORKSPACE_ID_QUERY_HANDLER,
     GET_CATEGORY_BY_SLUG_QUERY_HANDLER,
-} from 'presentation/category/adapters/constants';
+} from 'presentation/vm/category/adapters/constants';
 import {
     CREATE_SHOP_COMMAND_HANDLER,
     GET_SHOP_BY_SLUG_QUERY_HANDLER,
     GET_SHOPS_BY_WORKSPACE_QUERY_HANDLER,
-} from 'presentation/shop/adapters/constants';
+} from 'presentation/vm/shop/adapters/constants';
 import {
     CREATE_OFFER_COMMAND_HANDLER,
     GET_OFFERS_BY_SHOP_QUERY_HANDLER,
-} from 'presentation/offer/adapters/constants';
+} from 'presentation/vm/offer/adapters/constants';
 import {
     ADD_PERMISSION_TO_ROLE_COMMAND_HANDLER,
     CREATE_ROLE_COMMAND_HANDLER,
     UPDATE_ROLE_COMMAND_HANDLER,
-} from 'presentation/role/adapters/constants';
-import { CREATE_PERMISSION_COMMAND_HANDLER } from 'presentation/permission/adapters/constants';
+} from 'presentation/iam/role/adapters/constants';
+import { CREATE_PERMISSION_COMMAND_HANDLER } from 'presentation/iam/permission/adapters/constants';
 import {
     ADD_ROLE_TO_USER_COMMAND_HANDLER,
     GET_USER_BY_ID_QUERY_HANDLER,
     GET_USER_INFO_BY_ID_QUERY_HANDLER,
     GET_WORKSPACES_BY_OWNER_ID_QUERY_HANDLER,
-} from 'presentation/user/adapters/constants';
-import { CREATE_PROFILE_COMMAND_HANDLER } from 'presentation/profile/adapters/constants';
-import { CREATE_VISIT_COMMAND_HANDLER } from 'presentation/tracking/adapters/constants';
+} from 'presentation/iam/user/adapters/constants';
+import { CREATE_PROFILE_COMMAND_HANDLER } from 'presentation/iam/profile/adapters/constants';
+import { CREATE_VISIT_COMMAND_HANDLER } from 'presentation/wm/tracking/adapters/constants';
+import { LIKE_COMMAND_HANDLER } from 'presentation/socm/reaction/adapters/constants';
+import { COMMENTATE_ON_COMMAND_HANDLER } from 'presentation/socm/comment/adapters/constants';
 
 import {
     COMMAND_BUS,
@@ -107,9 +111,9 @@ export const drizzleInstanceProvider: Provider = {
 
         const pool = DrizzleClientFactory.createPool({
             connectionString: connection,
-            ssl: {
-                rejectUnauthorized: false,
-            },
+            // ssl: {
+            //     rejectUnauthorized: false,
+            // },
             max: 10,
             min: 2,
             idleTimeoutMillis: 25000,
@@ -214,6 +218,8 @@ export const commandHandlersProvider: Provider = {
         CREATE_VISIT_COMMAND_HANDLER,
         CREATE_SHOP_COMMAND_HANDLER,
         CREATE_CATEGORY_COMMAND_HANDLER,
+        LIKE_COMMAND_HANDLER,
+        COMMENTATE_ON_COMMAND_HANDLER,
     ],
     useFactory: (
         createWorkspaceCommandHandler: CreateWorkspaceCommandHandler,
@@ -232,6 +238,8 @@ export const commandHandlersProvider: Provider = {
         createVisitCommandHandler: CreateVisitCommandHandler,
         createShopCommandHandler: CreateShopCommandHandler,
         createCategoryCommandHandler: CreateCategoryCommandHandler,
+        likeCommandHandler: LikeCommandHandler,
+        commentateOnCommandHandler: CommentateOnCommandHandler,
     ) =>
         new CommandHandlers([
             createWorkspaceCommandHandler,
@@ -250,6 +258,8 @@ export const commandHandlersProvider: Provider = {
             createVisitCommandHandler,
             createShopCommandHandler,
             createCategoryCommandHandler,
+            likeCommandHandler,
+            commentateOnCommandHandler,
         ]),
     scope: Scope.DEFAULT,
 };

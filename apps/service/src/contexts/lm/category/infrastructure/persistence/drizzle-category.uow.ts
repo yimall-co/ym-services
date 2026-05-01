@@ -9,7 +9,7 @@ import { DrizzleCategoryRepositoryScope } from './drizzle-category.repository-sc
 export class DrizzleCategoryUnitOfWork implements UnitOfWork<CategoryRepositoryScope> {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

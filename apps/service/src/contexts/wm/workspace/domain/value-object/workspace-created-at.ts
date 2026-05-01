@@ -1,3 +1,3 @@
-import { CreatedAtValueObject } from 'shared/domain/value-object/created-at.value-object';
+import { CreatedAt } from 'shared/domain/value-object/created-at';
 
-export class WorkspaceCreatedAt extends CreatedAtValueObject {}
+export class WorkspaceCreatedAt extends CreatedAt { }

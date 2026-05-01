@@ -1,4 +1,4 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 
 import {
     commandBusProvider,
@@ -8,46 +8,19 @@ import {
     queryBusProvider,
     queryHandlersProvider,
 } from './shared/adapters';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { WorkspaceModule } from './workspace/workspace.module';
-import { SegmentModule } from './segment/segment.module';
-import { CustomizationModule } from './customization/customization.module';
-import { OfferModule } from './offer/offer.module';
-import { CategoryModule } from './category/category.module';
-import { ShopModule } from './shop/shop.module';
-import { RoleModule } from './role/role.module';
-import { PermissionModule } from './permission/permission.module';
-import { ProfileModule } from './profile/profile.module';
-import { TrackingModule } from './tracking/tracking.module';
 
-const authModule = AuthModule.forRoot();
-const userModule = UserModule.forRoot();
-const workspaceModule = WorkspaceModule.forRoot();
-const segmentModule = SegmentModule.forRoot();
-const customizationModule = CustomizationModule.forRoot();
-const categoryModule = CategoryModule.forRoot();
-const shopModule = ShopModule.forRoot();
-const offerModule = OfferModule.forRoot();
-const roleModule = RoleModule.forRoot();
-const permissionModule = PermissionModule.forRoot();
-const profileModule = ProfileModule.forRoot();
-const trackingModule = TrackingModule.forRoot();
+import { IdentityAccessManagementModule } from './iam/iam.module';
+import { SocialManagementModule } from './socm/socm.module';
+import { VenueManagementModule } from './vm/vm.module';
+import { WorkspaceManagementModule } from './wm/wm.module';
 
+@Global()
 @Module({
     imports: [
-        authModule,
-        userModule,
-        workspaceModule,
-        segmentModule,
-        customizationModule,
-        categoryModule,
-        shopModule,
-        offerModule,
-        roleModule,
-        permissionModule,
-        profileModule,
-        trackingModule,
+        IdentityAccessManagementModule,
+        SocialManagementModule,
+        VenueManagementModule,
+        WorkspaceManagementModule,
     ],
     providers: [
         queryHandlersProvider,
@@ -66,11 +39,4 @@ const trackingModule = TrackingModule.forRoot();
         eventBusProvider,
     ],
 })
-export class ApiModule {
-    static forRoot(): DynamicModule {
-        return {
-            global: true,
-            module: ApiModule,
-        };
-    }
-}
+export class ApiModule { }

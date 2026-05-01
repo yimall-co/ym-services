@@ -9,7 +9,7 @@ import { DrizzleWorkspaceQueryRepository } from './drizzle-workspace-query.repos
 export class DrizzleWorkspaceRepositoryScope implements WorkspaceRepositoryScope {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

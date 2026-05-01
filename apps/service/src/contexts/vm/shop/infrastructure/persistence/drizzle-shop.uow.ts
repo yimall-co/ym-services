@@ -9,7 +9,7 @@ import { DrizzleShopRepositoryScope } from './drizzle-shop.repository-scope';
 export class DrizzleShopUnitOfWork implements UnitOfWork<ShopRepositoryScope> {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

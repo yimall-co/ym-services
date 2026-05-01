@@ -1,3 +1,3 @@
-import { SlugValueObject } from 'shared/domain/value-object/slug.value-object';
+import { Slug } from 'shared/domain/value-object/slug';
 
-export class OfferSlug extends SlugValueObject {}
+export class OfferSlug extends Slug { }

@@ -1,23 +1,19 @@
 import { Query } from 'shared/domain/query';
 import { QueryHandler } from 'shared/domain/query-handler';
-import { UnitOfWork } from 'shared/infrastructure/unit-of-work';
 
 import { UserByIdDto } from './dto';
 import { GetUserByIdQuery } from './query';
-import { UserRepositoryScope } from '../../user.repository-scope';
+import { UserQueryRepository } from '../user-query.repository';
 
 export class GetUserByIdQueryHandler implements QueryHandler<GetUserByIdQuery, UserByIdDto> {
-    constructor(private readonly uow: UnitOfWork<UserRepositoryScope>) { }
+    constructor(private readonly userQueryRepository: UserQueryRepository) { }
 
     subscribedTo(): Query {
         return GetUserByIdQuery;
     }
 
     async handle(query: GetUserByIdQuery): Promise<UserByIdDto> {
-        return this.uow.withTransaction(async (scope) => {
-            const userQueryRepository = scope.getUserQueryRepository();
-
-            return await userQueryRepository.findById(query.id);
-        });
+        const result = await this.userQueryRepository.findById(query.id);
+        return result;
     }
 }

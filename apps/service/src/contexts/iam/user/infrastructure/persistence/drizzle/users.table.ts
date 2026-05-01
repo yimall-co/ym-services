@@ -6,7 +6,9 @@ import {
     accounts,
     appointments,
     carts,
+    comments,
     profiles,
+    reactions,
     sessions,
     visits,
     waitlists,
@@ -45,4 +47,6 @@ export const usersRelations = relations(users, ({ one, many }) => ({
     appointments: many(appointments),
     waitlists: many(waitlists),
     visits: many(visits),
+    reactions: many(reactions),
+    comments: many(comments),
 }));

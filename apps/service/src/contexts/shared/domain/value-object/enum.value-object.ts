@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 export abstract class EnumValueObject<T> {
-    readonly value: T;
+    public value: T;
 
     constructor(value: T, validValues: Array<T>) {
         this.value = value;

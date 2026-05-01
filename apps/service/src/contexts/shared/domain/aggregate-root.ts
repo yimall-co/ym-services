@@ -1,9 +1,12 @@
 import { DomainEvent } from './event';
+import { Entity } from './entity';
 
-export abstract class AggregateRoot<TPrimitives = any> {
+export abstract class AggregateRoot<TPrimitives = any> extends Entity<TPrimitives> {
     private events: Array<DomainEvent>;
 
     constructor() {
+        super();
+
         this.events = [];
     }
 
@@ -24,6 +27,4 @@ export abstract class AggregateRoot<TPrimitives = any> {
 
         return events;
     }
-
-    abstract toPrimitives(): TPrimitives;
 }

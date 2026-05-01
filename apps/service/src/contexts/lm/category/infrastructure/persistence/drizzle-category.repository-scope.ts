@@ -10,7 +10,7 @@ import { DrizzleCategoryQueryRepository } from './drizzle-category-query.reposit
 export class DrizzleCategoryRepositoryScope implements CategoryRepositoryScope {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

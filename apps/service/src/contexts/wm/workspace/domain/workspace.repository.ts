@@ -4,6 +4,7 @@ import { Workspace } from './workspace';
 import { WorkspaceSlug } from './value-object/workspace-slug';
 
 export interface WorkspaceRepository {
+    exists(id: WorkspaceId): Promise<boolean>;
     existsActiveById(id: WorkspaceId): Promise<boolean>;
     existsActiveBySlug(slug: WorkspaceSlug): Promise<boolean>;
     findById(id: WorkspaceId): Promise<Workspace>;

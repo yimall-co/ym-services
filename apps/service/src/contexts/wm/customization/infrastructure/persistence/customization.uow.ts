@@ -9,7 +9,7 @@ import { DrizzleCustomizationRepositoryScope } from './drizzle-customization.rep
 export class CustomizationUnitOfWork implements UnitOfWork<CustomizationRepositoryScope> {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

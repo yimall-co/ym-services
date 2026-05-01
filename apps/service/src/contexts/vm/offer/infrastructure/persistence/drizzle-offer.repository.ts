@@ -15,6 +15,16 @@ export class DrizzleOfferRepository
     implements OfferRepository {
     protected readonly table = offers;
 
+    async exists(id: OfferId): Promise<boolean> {
+        const rows = await this.client
+            .select({ offerId: this.table.id })
+            .from(this.table)
+            .where(eq(this.table.id, id.value))
+            .limit(1);
+
+        return rows.length > 0;
+    }
+
     async save(offer: Offer): Promise<void> {
         await this.client
             .insert(this.table)

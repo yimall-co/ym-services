@@ -9,7 +9,7 @@ import { DrizzleVisitRepositoryScope } from './drizzle-visit.repository-scope';
 export class DrizzleVisitUnitOfWork implements UnitOfWork<VisitRepositoryScope> {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

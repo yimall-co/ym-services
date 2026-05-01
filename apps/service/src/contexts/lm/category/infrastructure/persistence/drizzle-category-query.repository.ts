@@ -72,17 +72,26 @@ export class DrizzleCategoryQueryRepository
 
         query = this.withSubcategories(query);
 
-        query = query
+        const [row] = await query
             .where(
                 and(
                     eq(this.table.slug, slug),
                     eq(this.table.isActive, true)
                 )
             )
-            .groupBy(this.table.id, subcategories.id)
+            .groupBy(
+                this.table.id,
+                this.table.label,
+                this.table.slug,
+                this.table.description,
+                this.table.banner,
+                this.table.position,
+                this.table.createdAt,
+                this.table.updatedAt,
+                this.table.workspaceId,
+            )
             .limit(1);
 
-        const [row] = await query;
         return row ?? null;
     }
 

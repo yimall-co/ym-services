@@ -1,3 +1,3 @@
 import { StringValueObject } from 'shared/domain/value-object/string.value-object';
 
-export class AddressCountry extends StringValueObject {}
+export class AddressCountry extends StringValueObject { }

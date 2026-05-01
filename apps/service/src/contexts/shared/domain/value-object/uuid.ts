@@ -1,0 +1,23 @@
+import { v4 } from 'uuid';
+
+import { StringValueObject } from './string.value-object';
+
+export class Uuid extends StringValueObject {
+    constructor(value: string) {
+        super(value);
+
+        this.ensureIsValidUuid();
+    }
+
+    static random(): Uuid {
+        const randomUuid = v4();
+        return new Uuid(randomUuid);
+    }
+
+    private ensureIsValidUuid(): void {
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        if (!uuidRegex.test(this.value)) {
+            throw new Error('Invalid UUID');
+        }
+    }
+}

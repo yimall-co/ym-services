@@ -10,7 +10,7 @@ import { DrizzleGeolocationQueryRepository } from './drizzle-geolocation-query.r
 export class DrizzleGeolocationRepositoryScope implements GeolocationRepositoryScope {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

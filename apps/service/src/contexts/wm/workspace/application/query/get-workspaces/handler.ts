@@ -1,32 +1,26 @@
 import { Query } from 'shared/domain/query';
 import { QueryHandler } from 'shared/domain/query-handler';
-import { UnitOfWork } from 'shared/infrastructure/unit-of-work';
 
 import { WorkspaceDto } from './dto';
 import { GetWorkspacesQuery } from './query';
-import { PaginatedWorkspace } from '../workspace-query.repository';
-import { WorkspaceRepositoryScope } from '../../workspace.repository-scope';
+import { PaginatedWorkspace, WorkspaceQueryRepository } from '../workspace-query.repository';
 
 export class GetWorkspacesQueryHandler implements QueryHandler<
     GetWorkspacesQuery,
     PaginatedWorkspace<WorkspaceDto>
 > {
-    constructor(private readonly uow: UnitOfWork<WorkspaceRepositoryScope>) { }
+    constructor(private readonly workspaceQueryRepository: WorkspaceQueryRepository) { }
 
     subscribedTo(): Query {
         return GetWorkspacesQuery;
     }
 
     async handle(query: GetWorkspacesQuery): Promise<PaginatedWorkspace<WorkspaceDto>> {
-        return this.uow.withTransaction(async (scope) => {
-            const workspaceQueryRepository = scope.getWorkspaceQueryRepository();
-
-            const paginatedWorkspaces = await workspaceQueryRepository.findAll({
-                limit: query.limit,
-                cursor: { id: query.id, updatedAt: query.updatedAt },
-            });
-
-            return paginatedWorkspaces;
+        const paginatedWorkspaces = await this.workspaceQueryRepository.findAll({
+            limit: query.limit,
+            cursor: { id: query.id, updatedAt: query.updatedAt },
         });
+
+        return paginatedWorkspaces;
     }
 }

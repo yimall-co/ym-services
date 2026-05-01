@@ -1,3 +1,3 @@
-import { UpdatedAtValueObject } from 'shared/domain/value-object/updated-at.value-object';
+import { UpdatedAt } from 'shared/domain/value-object/updated-at';
 
-export class OfferImageUpdatedAt extends UpdatedAtValueObject {}
+export class OfferImageUpdatedAt extends UpdatedAt { }

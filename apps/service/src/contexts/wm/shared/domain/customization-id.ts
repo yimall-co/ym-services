@@ -1,3 +1,3 @@
-import { UuidValueObject } from 'shared/domain/value-object/uuid.value-object';
+import { Uuid } from 'shared/domain/value-object/uuid';
 
-export class CustomizationId extends UuidValueObject { }
+export class CustomizationId extends Uuid { }

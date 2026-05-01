@@ -9,7 +9,7 @@ import { DrizzleCustomizationColorRepository } from './drizzle-customization-col
 export class DrizzleCustomizationColorRepositoryScope implements CustomizationColorRepositoryScope {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

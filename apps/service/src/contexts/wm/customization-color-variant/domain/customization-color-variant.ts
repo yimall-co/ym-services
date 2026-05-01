@@ -5,13 +5,11 @@ import { CustomizationColorVariantId } from 'wm/shared/domain/customization-colo
 
 import { CustomizationColorVariantCode } from './value-object/customization-color-variant-code';
 import { CustomizationColorVariantHex } from './value-object/customization-color-variant-hex';
-import { CustomizationColorVariantR } from './value-object/customization-color-variant-r';
-import { CustomizationColorVariantG } from './value-object/customization-color-variant-g';
-import { CustomizationColorVariantB } from './value-object/customization-color-variant-b';
 import { CustomizationColorVariantAlpha } from './value-object/customization-color-variant-alpha';
 import { CustomizationColorVariantIsMain } from './value-object/customization-color-variant-is-main';
 import { CustomizationColorVariantCreatedAt } from './value-object/customization-color-variant-created-at';
 import { CustomizationColorVariantUpdatedAt } from './value-object/customization-color-variant-updated-at';
+import { CustomizationColorChannel } from './value-object/customization-color-channel';
 
 export interface CustomizationColorVariantPrimitives {
     id: string;
@@ -31,9 +29,9 @@ export class CustomizationColorVariant extends AggregateRoot<CustomizationColorV
     readonly id: CustomizationColorVariantId;
     readonly code: CustomizationColorVariantCode;
     readonly hex: CustomizationColorVariantHex;
-    readonly r: CustomizationColorVariantR;
-    readonly g: CustomizationColorVariantG;
-    readonly b: CustomizationColorVariantB;
+    readonly r: CustomizationColorChannel;
+    readonly g: CustomizationColorChannel;
+    readonly b: CustomizationColorChannel;
     readonly alpha: CustomizationColorVariantAlpha;
     readonly isMain: CustomizationColorVariantIsMain;
     readonly createdAt: CustomizationColorVariantCreatedAt;
@@ -44,9 +42,9 @@ export class CustomizationColorVariant extends AggregateRoot<CustomizationColorV
         id: CustomizationColorVariantId,
         code: CustomizationColorVariantCode,
         hex: CustomizationColorVariantHex,
-        r: CustomizationColorVariantR,
-        g: CustomizationColorVariantG,
-        b: CustomizationColorVariantB,
+        r: CustomizationColorChannel,
+        g: CustomizationColorChannel,
+        b: CustomizationColorChannel,
         alpha: CustomizationColorVariantAlpha,
         isMain: CustomizationColorVariantIsMain,
         createdAt: CustomizationColorVariantCreatedAt,
@@ -75,9 +73,9 @@ export class CustomizationColorVariant extends AggregateRoot<CustomizationColorV
             new CustomizationColorVariantId(primitives.id),
             new CustomizationColorVariantCode(primitives.code),
             new CustomizationColorVariantHex(primitives.hex),
-            new CustomizationColorVariantR(primitives.r),
-            new CustomizationColorVariantG(primitives.g),
-            new CustomizationColorVariantB(primitives.b),
+            new CustomizationColorChannel(primitives.r),
+            new CustomizationColorChannel(primitives.g),
+            new CustomizationColorChannel(primitives.b),
             new CustomizationColorVariantAlpha(primitives.alpha),
             new CustomizationColorVariantIsMain(primitives.isMain),
             new CustomizationColorVariantCreatedAt(primitives.createdAt),

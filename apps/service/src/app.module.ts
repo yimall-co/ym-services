@@ -2,6 +2,7 @@ import path from 'node:path';
 
 import { Keyv } from 'keyv';
 import { CacheableMemory } from 'cacheable';
+import { minutesToMilliseconds } from 'date-fns';
 import {
     I18nModule,
     QueryResolver,
@@ -23,10 +24,6 @@ import { ApiModule } from 'presentation/api.module';
 import { SharedModule } from 'presentation/shared/shared.module';
 import { ResponseInterceptor } from 'presentation/shared/interceptors/response.interceptor';
 import { HttpCacheInterceptor } from 'presentation/shared/interceptors/http-cache.interceptor';
-
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
-import { minutesToMilliseconds } from 'date-fns';
 
 const configModule = ConfigModule.forRoot({
     cache: true,
@@ -107,15 +104,9 @@ const throttlerModule = ThrottlerModule.forRootAsync({
     },
 });
 
-const sharedModule = SharedModule.forRoot();
-
-const apiModule = ApiModule.forRoot();
-
 @Module({
-    imports: [configModule, i18nModule, cacheModule, throttlerModule, sharedModule, apiModule],
-    controllers: [AppController],
+    imports: [configModule, i18nModule, cacheModule, throttlerModule, SharedModule, ApiModule],
     providers: [
-        AppService,
         { provide: APP_GUARD, useClass: ThrottlerGuard },
         { provide: APP_INTERCEPTOR, useClass: ResponseInterceptor },
         { provide: APP_INTERCEPTOR, useClass: HttpCacheInterceptor },

@@ -8,7 +8,7 @@ import { DrizzlePermissionRepositoryScope } from './drizzle-permission.repositor
 export class DrizzlePermissionUnitOfWork implements UnitOfWork<PermissionRepositoryScope> {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

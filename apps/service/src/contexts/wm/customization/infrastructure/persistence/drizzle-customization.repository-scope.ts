@@ -12,7 +12,7 @@ import { CustomizationColorQueryRepository } from 'wm/customization-color/applic
 export class DrizzleCustomizationRepositoryScope implements CustomizationRepositoryScope {
     constructor(
         private readonly db: NodePgDatabase<
-            typeof import('shared/infrastructure/persistence/drizzle/schema')
+            Schema
         >,
     ) { }
 

@@ -1,4 +1,4 @@
-import { ValueObject } from 'shared/domain/value-object/base.value-object';
+import { BaseValueObject } from 'shared/domain/value-object/base.value-object';
 
 import { SocialMediaUrl } from './value-object/social-media-url';
 import { SocialMediaLabel } from './value-object/social-media-label';
@@ -10,7 +10,7 @@ export interface SocialMediaPrimitives {
     platform: string;
 }
 
-export class SocialMedia extends ValueObject<SocialMediaPrimitives> {
+export class SocialMedia extends BaseValueObject<SocialMediaPrimitives> {
     readonly url: SocialMediaUrl;
     readonly label: SocialMediaLabel;
     readonly platform: SocialMediaPlatform;
