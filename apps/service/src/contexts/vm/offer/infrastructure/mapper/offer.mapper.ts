@@ -1,6 +1,6 @@
 import { Offer } from 'vm/offer/domain/offer';
-import { OfferTypes } from 'vm/offer/domain/value-object/offer-type';
-import { SchedulingTypes } from 'vm/offer/domain/value-object/offer-scheduling-type';
+import { offerTypes } from 'vm/offer/domain/enum/offer-types';
+import { schedulingTypes } from 'vm/offer/domain/enum/scheduling-types';
 
 import { offers } from '../persistence/drizzle/offers.table';
 
@@ -8,8 +8,8 @@ export class OfferMapper {
     static toDomain(primitives: typeof offers.$inferSelect) {
         return Offer.fromPrimitives({
             id: primitives.id,
-            type: (primitives.type as any) ?? OfferTypes.PRODUCT,
-            schedulingType: (primitives.schedulingType as any) ?? SchedulingTypes.CAPACITY,
+            type: (primitives.type as any) ?? offerTypes.PRODUCT,
+            schedulingType: (primitives.schedulingType as any) ?? schedulingTypes.CAPACITY,
             duration: primitives.duration ?? 0,
             title: primitives.title,
             slug: primitives.slug,
@@ -26,7 +26,7 @@ export class OfferMapper {
             updatedAt: primitives.updatedAt,
             categoryId: primitives.categoryId,
             subcategoryId: primitives.subcategoryId ?? '',
-            shopId: primitives.shopId ?? '',
+            // shopId: primitives.shopId ?? '',
             workspaceId: primitives.workspaceId,
         });
     }
@@ -36,14 +36,13 @@ export class OfferMapper {
 
         return {
             ...primitives,
-            type: primitives.type ?? OfferTypes.PRODUCT,
+            type: primitives.type ?? offerTypes.PRODUCT,
             schedulingType: primitives.schedulingType ?? null,
             stock: primitives.stock ?? 0,
             duration: primitives.duration ?? null,
             isActive: primitives.isActive ?? true,
             isRemoved: primitives.isRemoved ?? false,
             subcategoryId: primitives.subcategoryId ?? null,
-            shopId: primitives.shopId ?? null,
         };
     }
 }

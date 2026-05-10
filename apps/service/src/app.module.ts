@@ -11,10 +11,11 @@ import {
     CookieResolver,
 } from 'nestjs-i18n';
 import { CacheModule } from '@nestjs/cache-manager';
-import { Module, NestModule } from '@nestjs/common';
+import { Module, OnApplicationBootstrap, OnModuleInit } from '@nestjs/common';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { ScheduleModule, SchedulerRegistry } from '@nestjs/schedule';
 
 import KeyvRedis from '@keyv/redis';
 
@@ -104,14 +105,34 @@ const throttlerModule = ThrottlerModule.forRootAsync({
     },
 });
 
+const scheduleModule = ScheduleModule.forRoot({
+    cronJobs: true,
+    intervals: true,
+    timeouts: true,
+});
+
 @Module({
-    imports: [configModule, i18nModule, cacheModule, throttlerModule, SharedModule, ApiModule],
+    imports: [
+        configModule,
+        i18nModule,
+        cacheModule,
+        throttlerModule,
+        scheduleModule,
+        SharedModule,
+        ApiModule,
+    ],
     providers: [
         { provide: APP_GUARD, useClass: ThrottlerGuard },
         { provide: APP_INTERCEPTOR, useClass: ResponseInterceptor },
         { provide: APP_INTERCEPTOR, useClass: HttpCacheInterceptor },
     ],
 })
-export class AppModule implements NestModule {
-    configure() { }
+export class AppModule implements OnModuleInit, OnApplicationBootstrap {
+    constructor(private readonly schedulerRegistry: SchedulerRegistry) { }
+
+    onModuleInit() { }
+
+    onApplicationBootstrap() {
+        // this.schedulerRegistry.getCronJob('');
+    }
 }

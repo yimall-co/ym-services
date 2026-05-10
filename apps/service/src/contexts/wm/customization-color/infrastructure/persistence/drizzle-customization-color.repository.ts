@@ -6,13 +6,13 @@ import { CustomizationColorId } from 'wm/shared/domain/customization-color-id';
 import { CustomizationColor } from 'wm/customization-color/domain/customization-color';
 import { CustomizationColorRepository } from 'wm/customization-color/domain/customization-color.repository';
 
-import { customizationColors } from './drizzle/customization-colors.table';
+import { colors } from './drizzle/customization-colors.table';
 import { CustomizationColorMapper } from '../mapper/customization-color.mapper';
 
 export class DrizzleCustomizationColorRepository
-    extends DrizzleRepository<typeof customizationColors>
+    extends DrizzleRepository<typeof colors>
     implements CustomizationColorRepository {
-    protected readonly table = customizationColors;
+    protected readonly table = colors;
 
     async save(customizationColor: CustomizationColor): Promise<void> {
         await this.client.transaction(async (transaction) => {

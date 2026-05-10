@@ -1,7 +1,6 @@
-import { ShopId } from 'vm/shared/domain/shop-id';
-
 import { OfferBySlugDto } from './get-offer-by-slug/dto';
 import { OfferByShopDto } from './get-offers-by-shop/dto';
+import { OfferByWorkspaceDto } from './get-offers-by-workspace/dto';
 
 export interface PaginatedOffer<T> {
     results: Array<T>;
@@ -12,8 +11,13 @@ export interface PaginatedOffer<T> {
 export interface OfferQueryRepository {
     findBySlug(slug: string): Promise<OfferBySlugDto | null>;
     findAllByShopId(criteria: {
-        shopId: ShopId;
+        shopId: string;
         limit?: number;
         cursor?: { id: string; updatedAt: Date };
     }): Promise<PaginatedOffer<OfferByShopDto>>;
+    findAllByWorkspaceId(criteria: {
+        workspaceId: string;
+        limit?: number;
+        cursor?: { id: string; updatedAt: Date };
+    }): Promise<PaginatedOffer<OfferByWorkspaceDto>>;
 }

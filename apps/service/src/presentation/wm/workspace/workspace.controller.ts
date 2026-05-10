@@ -44,8 +44,9 @@ import { CreateWorkspaceCommand } from 'wm/workspace/application/command/create-
 import { UpdateWorkspaceResultDto } from 'wm/workspace/application/command/update-workspace/dto';
 import { UpdateWorkspaceCommand } from 'wm/workspace/application/command/update-workspace/command';
 
-import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
 import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
+import { Public } from 'presentation/shared/decorators/public-route.decorator';
 
 import { CreateWorkspaceDto } from './dtos/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dtos/update-workspace.dto';
@@ -66,6 +67,7 @@ export class WorkspaceController {
     ) { }
 
     @Get()
+    @Public()
     @ApiQuery({ name: 'id', required: false })
     @ApiQuery({ name: 'updatedAt', required: false })
     @ApiQuery({ name: 'limit', required: false })
@@ -86,8 +88,8 @@ export class WorkspaceController {
 
             return await this.queryBus.ask<PaginatedWorkspace<WorkspaceDto>>(query);
         } catch (error: any) {
-            this.logger.error(error.message);
-            throw new NotFoundException();
+            this.logger.error(error);
+            throw new NotFoundException(error.message);
         }
     }
 
@@ -101,7 +103,7 @@ export class WorkspaceController {
             return await this.queryBus.ask<WorkspaceByIdDto>(query);
         } catch (error: any) {
             this.logger.error(error.message);
-            throw new NotFoundException();
+            throw new NotFoundException(error.message);
         }
     }
 

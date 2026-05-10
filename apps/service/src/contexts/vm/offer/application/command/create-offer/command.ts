@@ -1,7 +1,9 @@
 import { Command } from 'shared/domain/command';
 
+import { OfferTypes } from 'vm/offer/domain/enum/offer-types';
+
 export class CreateOfferCommand extends Command {
-    readonly type: string;
+    readonly type: OfferTypes;
     readonly title: string;
     readonly description: string | null;
     readonly banner: string;
@@ -15,7 +17,7 @@ export class CreateOfferCommand extends Command {
     readonly workspaceId: string;
 
     constructor(
-        type: string,
+        type: OfferTypes,
         title: string,
         description: string | null,
         banner: string,

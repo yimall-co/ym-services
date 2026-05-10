@@ -1,19 +1,14 @@
 import { Command } from 'shared/domain/command';
 
-import { FontValue } from 'wm/customization/domain/value-object/customization-font';
+import { Font } from 'wm/customization/domain/enum/fonts';
 
 export class CreateCustomizationCommand extends Command {
     readonly logo: string;
-    readonly fontPrimary: FontValue;
-    readonly fontSecondary: FontValue;
+    readonly fontPrimary: Font;
+    readonly fontSecondary: Font;
     readonly workspaceId: string;
 
-    constructor(
-        logo: string,
-        fontPrimary: FontValue,
-        fontSecondary: FontValue,
-        workspaceId: string,
-    ) {
+    constructor(logo: string, fontPrimary: Font, fontSecondary: Font, workspaceId: string) {
         super();
 
         this.logo = logo;

@@ -1,16 +1,15 @@
+import { Uuid } from 'shared/domain/value-object/uuid';
+import { CreatedAt } from 'shared/domain/value-object/created-at';
+import { UpdatedAt } from 'shared/domain/value-object/updated-at';
 import { AggregateRoot } from 'shared/domain/aggregate-root';
 
-import { UserId } from 'iam/shared/domain/user-id';
-import { ProfileId } from 'iam/shared/domain/profile-id';
-
-import { Gender, ProfileGender } from './value-object/profile-gender';
-import { ProfilePronoun, Pronoun } from './value-object/profile-pronoun';
+import { Gender } from './enum/gender';
+import { Pronoun } from './enum/pronoun';
+import { ProfileGender } from './value-object/profile-gender';
+import { ProfilePronoun } from './value-object/profile-pronoun';
 import { ProfileCustomGender } from './value-object/profile-custom-gender';
 import { ProfileCustomPronoun } from './value-object/profile-custom-pronoun';
 import { ProfileBirthdate } from './value-object/profile-birthdate';
-import { ProfileNewsLetter } from './value-object/profile-news-letter';
-import { ProfileCreatedAt } from './value-object/profile-created-at';
-import { ProfileUpdatedAt } from './value-object/profile-updated-at';
 
 export interface ProfilePrimivites {
     id: string;
@@ -26,30 +25,31 @@ export interface ProfilePrimivites {
 }
 
 export class Profile extends AggregateRoot<ProfilePrimivites> {
-    private readonly id: ProfileId;
+    private readonly id: Uuid;
     private gender: ProfileGender;
     private customGender: ProfileCustomGender;
     private pronouns: ProfilePronoun;
     private customPronouns: ProfileCustomPronoun;
     private birthdate: ProfileBirthdate;
-    private newsLetter: ProfileNewsLetter;
-    private readonly createdAt: ProfileCreatedAt;
-    private updatedAt: ProfileUpdatedAt;
-    private userId: UserId;
+    private newsLetter: boolean;
+    private readonly createdAt: CreatedAt;
+    private updatedAt: UpdatedAt;
+    private userId: Uuid;
 
     constructor(
-        id: ProfileId,
+        id: Uuid,
         gender: ProfileGender,
         customGender: ProfileCustomGender,
         pronouns: ProfilePronoun,
         customPronouns: ProfileCustomPronoun,
         birthdate: ProfileBirthdate,
-        newsLetter: ProfileNewsLetter,
-        createdAt: ProfileCreatedAt,
-        updatedAt: ProfileUpdatedAt,
-        userId: UserId,
+        newsLetter: boolean,
+        createdAt: CreatedAt,
+        updatedAt: UpdatedAt,
+        userId: Uuid,
     ) {
         super();
+
         this.id = id;
         this.gender = gender;
         this.customGender = customGender;
@@ -63,44 +63,44 @@ export class Profile extends AggregateRoot<ProfilePrimivites> {
     }
 
     static create(
-        userId: UserId,
+        userId: Uuid,
         birthdate: ProfileBirthdate,
         gender?: ProfileGender,
         customGender?: ProfileCustomGender,
         pronouns?: ProfilePronoun,
         customPronouns?: ProfileCustomPronoun,
-        newsLetter?: ProfileNewsLetter,
+        newsLetter?: boolean,
     ): Profile {
         return new Profile(
-            ProfileId.random(),
-            gender ?? new ProfileGender(Gender.OTHER, Object.values(Gender)),
+            Uuid.random(),
+            gender ?? ProfileGender.other(),
             customGender ?? new ProfileCustomGender(''),
-            pronouns ?? new ProfilePronoun(Pronoun.THEY_THEM, Object.values(Pronoun)),
+            pronouns ?? ProfilePronoun.theyThem(),
             customPronouns ?? new ProfileCustomPronoun(''),
             birthdate,
-            newsLetter ?? new ProfileNewsLetter(false),
-            new ProfileCreatedAt(new Date()),
-            new ProfileUpdatedAt(new Date()),
+            newsLetter ?? false,
+            CreatedAt.now(),
+            UpdatedAt.now(),
             userId,
         );
     }
 
     static fromPrimitives(primivites: ProfilePrimivites): Profile {
         return new Profile(
-            new ProfileId(primivites.id),
-            new ProfileGender(primivites.gender, Object.values(Gender)),
+            new Uuid(primivites.id),
+            new ProfileGender(primivites.gender),
             new ProfileCustomGender(primivites.customGender),
-            new ProfilePronoun(primivites.pronouns, Object.values(Pronoun)),
+            new ProfilePronoun(primivites.pronouns),
             new ProfileCustomPronoun(primivites.customPronouns),
             new ProfileBirthdate(new Date(primivites.birthdate)),
-            new ProfileNewsLetter(primivites.newsLetter),
-            new ProfileCreatedAt(primivites.createdAt),
-            new ProfileUpdatedAt(primivites.updatedAt),
-            new UserId(primivites.userId),
+            primivites.newsLetter,
+            new CreatedAt(primivites.createdAt),
+            new UpdatedAt(primivites.updatedAt),
+            new Uuid(primivites.userId),
         );
     }
 
-    getId(): ProfileId {
+    getId(): Uuid {
         return this.id;
     }
 
@@ -124,19 +124,19 @@ export class Profile extends AggregateRoot<ProfilePrimivites> {
         return this.birthdate;
     }
 
-    getNewsLetter(): ProfileNewsLetter {
+    getNewsLetter(): boolean {
         return this.newsLetter;
     }
 
-    getCreatedAt(): ProfileCreatedAt {
+    getCreatedAt(): CreatedAt {
         return this.createdAt;
     }
 
-    getUpdatedAt(): ProfileUpdatedAt {
+    getUpdatedAt(): UpdatedAt {
         return this.updatedAt;
     }
 
-    getUserId(): UserId {
+    getUserId(): Uuid {
         return this.userId;
     }
 
@@ -148,7 +148,7 @@ export class Profile extends AggregateRoot<ProfilePrimivites> {
             pronouns: this.pronouns.value,
             customPronouns: this.customPronouns.value,
             birthdate: this.birthdate.value.toISOString(),
-            newsLetter: this.newsLetter.value,
+            newsLetter: this.newsLetter,
             createdAt: this.createdAt.value,
             updatedAt: this.updatedAt.value,
             userId: this.userId.value,
@@ -156,6 +156,6 @@ export class Profile extends AggregateRoot<ProfilePrimivites> {
     }
 
     private touch(): void {
-        this.updatedAt = new ProfileUpdatedAt(new Date());
+        this.updatedAt = new UpdatedAt(new Date());
     }
 }

@@ -97,7 +97,7 @@ export class DrizzleUserQueryRepository
                             distinct jsonb_build_object(
                                 'id', ${accounts.id},
                                 'accountId', ${accounts.accountId},
-                                'providerId', ${accounts.providerId},
+                                'providerId', ${accounts.provider},
                                 'scope', ${accounts.scope},
                                 'password', ${accounts.password}
                             ) 

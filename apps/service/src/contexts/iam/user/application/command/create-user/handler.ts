@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Command } from 'shared/domain/command';
 import { CommandHandler } from 'shared/domain/command-handler';
-// import { EventBus } from 'shared/domain/event-bus';
 import { UnitOfWork } from 'shared/infrastructure/unit-of-work';
 
 import { RoleId } from 'iam/shared/domain/role-id';
@@ -32,37 +31,6 @@ export class CreateUserCommandHandler implements CommandHandler<
     }
 
     async handle(command: CreateUserCommand): Promise<CreateUserResultDto> {
-        const user = User.create(
-            new UserName(command.name),
-            new UserEmail(command.email),
-            new UserImage(command.image),
-            command.roles?.map((role) => new RoleId(role)) ?? [],
-        );
-
-        const profile = Profile.create(
-            new UserId(user.getId().value),
-            new ProfileBirthdate(new Date(Date.now() - 18 * 365 * 24 * 60 * 60 * 1000)),
-        );
-
-        const result = await this.uow.withTransaction(async (scope) => {
-            const userRepository = scope.getUserRepository();
-            const profileRepository = scope.getProfileRepository();
-
-            const userEmailExists = await userRepository.existsActiveByEmail(user.getEmail());
-            if (userEmailExists) {
-                throw new UserAlreadyExists();
-            }
-
-            await Promise.all([
-                userRepository.save(user),
-                profileRepository.save(profile), // TODO: create an event for this?
-            ]);
-
-            return { userId: user.getId().value };
-        });
-
-        // await this.eventBus.publish(user.pullEvents());
-
-        return result;
+        return { userId: '' };
     }
 }

@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 
 import { CustomizationModule } from './customization/customization.module';
 import { SegmentModule } from './segment/segment.module';
@@ -9,6 +9,4 @@ import { TrackingModule } from './tracking/tracking.module';
     imports: [CustomizationModule, SegmentModule, WorkspaceModule, TrackingModule],
     exports: [CustomizationModule, SegmentModule, WorkspaceModule, TrackingModule],
 })
-export class WorkspaceManagementModule implements NestModule {
-    configure(consumer: MiddlewareConsumer) { }
-}
+export class WorkspaceManagementModule { }

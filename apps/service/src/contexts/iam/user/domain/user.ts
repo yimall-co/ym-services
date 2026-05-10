@@ -1,7 +1,5 @@
+import { Uuid } from 'shared/domain/value-object/uuid';
 import { AggregateRoot } from 'shared/domain/aggregate-root';
-
-import { UserId } from 'iam/shared/domain/user-id';
-import { RoleId } from 'iam/shared/domain/role-id';
 
 import { UserName } from './value-object/user-name';
 import { UserEmail } from './value-object/user-email';
@@ -27,7 +25,7 @@ export interface UserPrimitives {
 }
 
 export class User extends AggregateRoot<UserPrimitives> {
-    private readonly id: UserId;
+    private readonly id: Uuid;
     private name: UserName;
     private email: UserEmail;
     private emailVerified: UserEmailVerified;
@@ -36,10 +34,10 @@ export class User extends AggregateRoot<UserPrimitives> {
     private isRemoved: UserIsRemoved;
     private readonly createdAt: UserCreatedAt;
     private updatedAt: UserUpdatedAt;
-    private roles: Array<RoleId>;
+    private roles: Array<Uuid>;
 
     constructor(
-        id: UserId,
+        id: Uuid,
         name: UserName,
         email: UserEmail,
         emailVerified: UserEmailVerified,
@@ -48,7 +46,7 @@ export class User extends AggregateRoot<UserPrimitives> {
         isRemoved: UserIsRemoved,
         createdAt: UserCreatedAt,
         updatedAt: UserUpdatedAt,
-        roles: Array<RoleId>,
+        roles: Array<Uuid>,
     ) {
         super();
 
@@ -64,9 +62,9 @@ export class User extends AggregateRoot<UserPrimitives> {
         this.roles = roles;
     }
 
-    static create(name: UserName, email: UserEmail, image: UserImage, roles: Array<RoleId>): User {
+    static create(name: UserName, email: UserEmail, roles: Array<Uuid>, image: UserImage): User {
         const user = new User(
-            UserId.random(),
+            Uuid.random(),
             name,
             email,
             new UserEmailVerified(false),
@@ -80,10 +78,10 @@ export class User extends AggregateRoot<UserPrimitives> {
 
         user.record(
             new UserCreatedEvent({
-                name: name.value,
-                email: email.value,
-                image: image.value,
-                aggregateId: user.id.value,
+                name: user.getName().value,
+                email: user.getEmail().value,
+                image: user.getImage().value,
+                aggregateId: user.getId().value,
             }),
         );
 
@@ -92,7 +90,7 @@ export class User extends AggregateRoot<UserPrimitives> {
 
     static fromPrimitives(primitives: UserPrimitives): User {
         return new User(
-            new UserId(primitives.id),
+            new Uuid(primitives.id),
             new UserName(primitives.name),
             new UserEmail(primitives.email),
             new UserEmailVerified(primitives.emailVerified),
@@ -101,11 +99,11 @@ export class User extends AggregateRoot<UserPrimitives> {
             new UserIsRemoved(primitives.isRemoved),
             new UserCreatedAt(primitives.createdAt),
             new UserUpdatedAt(primitives.updatedAt),
-            primitives.roles.map((role) => new RoleId(role)),
+            primitives.roles.map((role) => new Uuid(role)),
         );
     }
 
-    getId(): UserId {
+    getId(): Uuid {
         return this.id;
     }
 
@@ -117,11 +115,19 @@ export class User extends AggregateRoot<UserPrimitives> {
         return this.email;
     }
 
-    getRoles(): Array<RoleId> {
+    getEmailVerified(): UserEmailVerified {
+        return this.emailVerified;
+    }
+
+    getImage(): UserImage {
+        return this.image;
+    }
+
+    getRoles(): Array<Uuid> {
         return this.roles;
     }
 
-    addRole(role: RoleId): void {
+    addRole(role: Uuid): void {
         if (this.roles.some((r) => r.equals(role))) return;
 
         this.roles.push(role);
@@ -129,13 +135,13 @@ export class User extends AggregateRoot<UserPrimitives> {
         this.touch();
     }
 
-    removeRole(role: RoleId): void {
+    removeRole(role: Uuid): void {
         this.roles = this.roles.filter((r) => !r.equals(role));
 
         this.touch();
     }
 
-    verify(): void {
+    verifyEmail(): void {
         if (this.emailVerified.value) return;
 
         this.emailVerified = new UserEmailVerified(true);

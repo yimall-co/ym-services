@@ -1,9 +1,12 @@
+import { Uuid } from 'shared/domain/value-object/uuid';
+import { CreatedAt } from 'shared/domain/value-object/created-at';
+import { UpdatedAt } from 'shared/domain/value-object/updated-at';
 import { AggregateRoot } from 'shared/domain/aggregate-root';
 
-import { UserId } from 'iam/shared/domain/user-id';
-import { AccountId } from 'iam/shared/domain/account-id';
+import { PasswordService } from './service/password.service';
+import { accountProviders, AccountProviders } from './enum/account-providers';
 import { AccountAccountId } from './value-object/account-account-id';
-import { AccountProvider, AccountProviderId } from './value-object/account-provider-id';
+import { AccountProvider } from './value-object/account-provider-id';
 import { AccountAccessToken } from './value-object/account-access-token';
 import { AccountRefreshToken } from './value-object/account-refresh-token';
 import { AccountIdToken } from './value-object/account-id-token';
@@ -11,13 +14,11 @@ import { AccountAccessTokenExpiresAt } from './value-object/account-access-token
 import { AccountRefreshTokenExpiresAt } from './value-object/account-refresh-token-expires-at';
 import { AccountScope } from './value-object/account-scope';
 import { AccountPassword } from './value-object/account-password';
-import { AccountCreatedAt } from './value-object/account-created-at';
-import { AccountUpdatedAt } from './value-object/account-updated-at';
 
 export interface AccountPrimitives {
     id: string;
     accountId: string;
-    providerId: AccountProvider;
+    provider: AccountProviders;
     accessToken: string;
     refreshToken: string;
     idToken: string;
@@ -31,9 +32,9 @@ export interface AccountPrimitives {
 }
 
 export class Account extends AggregateRoot<AccountPrimitives> {
-    private readonly id: AccountId;
+    private readonly id: Uuid;
     private accountId: AccountAccountId;
-    private providerId: AccountProviderId;
+    private provider: AccountProvider;
     private accessToken: AccountAccessToken;
     private refreshToken: AccountRefreshToken;
     private idToken: AccountIdToken;
@@ -41,14 +42,14 @@ export class Account extends AggregateRoot<AccountPrimitives> {
     private refreshTokenExpiresAt: AccountRefreshTokenExpiresAt;
     private scope: AccountScope;
     private password: AccountPassword;
-    private readonly createdAt: AccountCreatedAt;
-    private updatedAt: AccountUpdatedAt;
-    private readonly userId: UserId;
+    private readonly createdAt: CreatedAt;
+    private updatedAt: UpdatedAt;
+    private readonly userId: Uuid;
 
     constructor(
-        id: AccountId,
+        id: Uuid,
         accountId: AccountAccountId,
-        providerId: AccountProviderId,
+        provider: AccountProvider,
         accessToken: AccountAccessToken,
         refreshToken: AccountRefreshToken,
         idToken: AccountIdToken,
@@ -56,15 +57,15 @@ export class Account extends AggregateRoot<AccountPrimitives> {
         refreshTokenExpiresAt: AccountRefreshTokenExpiresAt,
         scope: AccountScope,
         password: AccountPassword,
-        createdAt: AccountCreatedAt,
-        updatedAt: AccountUpdatedAt,
-        userId: UserId,
+        createdAt: CreatedAt,
+        updatedAt: UpdatedAt,
+        userId: Uuid,
     ) {
         super();
 
         this.id = id;
         this.accountId = accountId;
-        this.providerId = providerId;
+        this.provider = provider;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.idToken = idToken;
@@ -79,38 +80,38 @@ export class Account extends AggregateRoot<AccountPrimitives> {
 
     static create(
         accountId: AccountAccountId,
-        providerId: AccountProviderId,
-        accessToken: AccountAccessToken,
-        refreshToken: AccountRefreshToken,
-        idToken: AccountIdToken,
-        accessTokenExpiresAt: AccountAccessTokenExpiresAt,
-        refreshTokenExpiresAt: AccountRefreshTokenExpiresAt,
-        scope: AccountScope,
         password: AccountPassword,
-        userId: UserId,
+        userId: Uuid,
+        accessToken?: AccountAccessToken,
+        refreshToken?: AccountRefreshToken,
+        idToken?: AccountIdToken,
+        accessTokenExpiresAt?: AccountAccessTokenExpiresAt,
+        refreshTokenExpiresAt?: AccountRefreshTokenExpiresAt,
+        scope?: AccountScope,
+        provider?: AccountProvider,
     ): Account {
         return new Account(
-            AccountId.random(),
+            Uuid.random(),
             accountId,
-            providerId,
-            accessToken,
-            refreshToken,
-            idToken,
-            accessTokenExpiresAt,
-            refreshTokenExpiresAt,
-            scope,
+            provider ?? AccountProvider.credential(),
+            accessToken ?? AccountAccessToken.none(),
+            refreshToken ?? AccountRefreshToken.none(),
+            idToken ?? AccountIdToken.none(),
+            accessTokenExpiresAt ?? AccountAccessTokenExpiresAt.none(),
+            refreshTokenExpiresAt ?? AccountRefreshTokenExpiresAt.none(),
+            scope ?? AccountScope.none(),
             password,
-            new AccountCreatedAt(new Date()),
-            new AccountUpdatedAt(new Date()),
+            CreatedAt.now(),
+            UpdatedAt.now(),
             userId,
         );
     }
 
     static fromPrimitives(primitives: AccountPrimitives): Account {
         return new Account(
-            new AccountId(primitives.id),
+            new Uuid(primitives.id),
             new AccountAccountId(primitives.accountId),
-            new AccountProviderId(primitives.providerId),
+            new AccountProvider(primitives.provider),
             new AccountAccessToken(primitives.accessToken),
             new AccountRefreshToken(primitives.refreshToken),
             new AccountIdToken(primitives.idToken),
@@ -118,21 +119,80 @@ export class Account extends AggregateRoot<AccountPrimitives> {
             new AccountRefreshTokenExpiresAt(primitives.refreshTokenExpiresAt),
             new AccountScope(primitives.scope),
             new AccountPassword(primitives.password),
-            new AccountCreatedAt(primitives.createdAt),
-            new AccountUpdatedAt(primitives.updatedAt),
-            new UserId(primitives.userId),
+            new CreatedAt(primitives.createdAt),
+            new UpdatedAt(primitives.updatedAt),
+            new Uuid(primitives.userId),
         );
     }
 
-    getId(): AccountId {
+    getId(): Uuid {
         return this.id;
+    }
+
+    getAccountId(): AccountAccountId {
+        return this.accountId;
+    }
+
+    getProviderId(): AccountProvider {
+        return this.provider;
+    }
+
+    getAccessToken(): AccountAccessToken {
+        return this.accessToken;
+    }
+
+    getRefreshToken(): AccountRefreshToken {
+        return this.refreshToken;
+    }
+
+    getIdToken(): AccountIdToken {
+        return this.idToken;
+    }
+
+    getAccessTokenExpiresAt(): AccountAccessTokenExpiresAt {
+        return this.accessTokenExpiresAt;
+    }
+
+    getRefreshTokenExpiresAt(): AccountRefreshTokenExpiresAt {
+        return this.refreshTokenExpiresAt;
+    }
+
+    getScope(): AccountScope {
+        return this.scope;
+    }
+
+    getPassword(): AccountPassword {
+        return this.password;
+    }
+
+    getCreatedAt(): CreatedAt {
+        return this.createdAt;
+    }
+
+    getUpdatedAt(): UpdatedAt {
+        return this.updatedAt;
+    }
+
+    getUserId(): Uuid {
+        return this.userId;
+    }
+
+    isCredential(): boolean {
+        return this.provider.value === accountProviders.CREDENTIAL;
+    }
+
+    async validatePassword(
+        plainPassword: string,
+        passwordService: PasswordService,
+    ): Promise<boolean> {
+        return passwordService.compare(plainPassword, this.password.value);
     }
 
     toPrimitives(): AccountPrimitives {
         return {
             id: this.id.value,
             accountId: this.accountId.value,
-            providerId: this.providerId.value,
+            provider: this.provider.value,
             accessToken: this.accessToken.value,
             refreshToken: this.refreshToken.value,
             idToken: this.idToken.value,
@@ -147,10 +207,6 @@ export class Account extends AggregateRoot<AccountPrimitives> {
     }
 
     private touch(): void {
-        this.updatedAt = new AccountUpdatedAt(new Date());
-    }
-
-    isCredential(): boolean {
-        return this.providerId.value === AccountProvider.CREDENTIAL;
+        this.updatedAt = UpdatedAt.now();
     }
 }

@@ -2,11 +2,11 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
-import { customizations } from 'wm/customization/infrastructure/persistence/drizzle/customizations.table';
-import { customizationColorVariants } from 'wm/customization-color-variant/infrastructure/persistence/drizzle/customization-color-variants.table';
-import { ColorValue } from 'wm/customization-color/domain/value-object/customization-color-value';
+import { customizations, variants } from 'shared/infrastructure/persistence/drizzle/schema';
 
-export const customizationColors = p.pgTable(
+import { ColorValue } from 'wm/customization-color/domain/enum/color-values';
+
+export const colors = p.pgTable(
     'customization_colors',
     {
         id: p.uuid('id').primaryKey().defaultRandom(),
@@ -27,10 +27,10 @@ export const customizationColors = p.pgTable(
     (table) => [p.index().on(table.label), p.index().on(table.value)],
 );
 
-export const customizationColorsRelations = relations(customizationColors, ({ one, many }) => ({
+export const colorsRelations = relations(colors, ({ one, many }) => ({
     customization: one(customizations, {
-        fields: [customizationColors.customizationId],
+        fields: [colors.customizationId],
         references: [customizations.id],
     }),
-    variants: many(customizationColorVariants),
+    variants: many(variants),
 }));

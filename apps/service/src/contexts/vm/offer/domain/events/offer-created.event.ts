@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { DomainEvent, EventAttributes } from 'shared/domain/event';
 
 interface OfferCreatedEventAttributes {
@@ -14,13 +13,13 @@ export class OfferCreatedEvent extends DomainEvent {
         title,
         aggregateId,
         occurredOn,
-        eventId
+        eventId,
     }: OfferCreatedEventAttributes & { aggregateId: string; occurredOn?: Date; eventId?: string }) {
         super({
             eventName: OfferCreatedEvent.EVENT_NAME,
             aggregateId,
             occurredOn,
-            eventId
+            eventId,
         });
 
         this.title = title;

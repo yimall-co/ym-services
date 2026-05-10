@@ -31,6 +31,8 @@ import { OfferByShopDto } from 'vm/offer/application/query/get-offers-by-shop/dt
 import { CreateOfferCommand } from 'vm/offer/application/command/create-offer/command';
 import { CreateOfferResultDto } from 'vm/offer/application/command/create-offer/dto';
 import { GetOffersByShopQuery } from 'vm/offer/application/query/get-offers-by-shop/query';
+import { OfferByWorkspaceDto } from 'vm/offer/application/query/get-offers-by-workspace/dto';
+import { GetOffersByWorkspaceQuery } from 'vm/offer/application/query/get-offers-by-workspace/query';
 
 import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
 
@@ -75,6 +77,33 @@ export class OfferController {
         }
     }
 
+    @Get('workspace/:workspaceId')
+    @ApiParam({ name: 'workspaceId', required: true })
+    @ApiQuery({ name: 'id', required: false })
+    @ApiQuery({ name: 'updatedAt', required: false })
+    @ApiQuery({ name: 'limit', required: false })
+    @ApiOkResponse({ description: '' })
+    @ApiNotFoundResponse({ description: '' })
+    async getOffersByWorkspace(
+        @Param('workspaceId') workspaceId: string,
+        @Query('id') id: string,
+        @Query('limit') limit: number = 10,
+        @Query('updatedAt') updatedAt?: string,
+    ) {
+        try {
+            const query = new GetOffersByWorkspaceQuery(
+                workspaceId,
+                limit,
+                updatedAt ? new Date(updatedAt) : new Date(),
+                id,
+            );
+            return await this.queryBus.ask<PaginatedOffer<Array<OfferByWorkspaceDto>>>(query);
+        } catch (error: any) {
+            this.logger.error(error);
+            throw new NotFoundException(error.message);
+        }
+    }
+
     @Post()
     @ApiCreatedResponse({ description: '' })
     @ApiBadRequestResponse({ description: '' })
@@ -112,8 +141,8 @@ export class OfferController {
             );
             return await this.commandBus.dispatch<CreateOfferResultDto>(command);
         } catch (error: any) {
-            this.logger.error(error.message);
-            throw new BadRequestException();
+            this.logger.error(error);
+            throw new BadRequestException(error.message);
         }
     }
 }

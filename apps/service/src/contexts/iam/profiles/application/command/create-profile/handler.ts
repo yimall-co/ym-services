@@ -1,15 +1,14 @@
 import { Command } from 'shared/domain/command';
+import { Uuid } from 'shared/domain/value-object/uuid';
 import { CommandHandler } from 'shared/domain/command-handler';
 import { UnitOfWork } from 'shared/infrastructure/unit-of-work';
 
 import { Profile } from 'iam/profiles/domain/profile';
-import { UserId } from 'iam/shared/domain/user-id';
-import { Gender, ProfileGender } from 'iam/profiles/domain/value-object/profile-gender';
-import { ProfilePronoun, Pronoun } from 'iam/profiles/domain/value-object/profile-pronoun';
+import { ProfileGender } from 'iam/profiles/domain/value-object/profile-gender';
+import { ProfilePronoun } from 'iam/profiles/domain/value-object/profile-pronoun';
 import { ProfileCustomGender } from 'iam/profiles/domain/value-object/profile-custom-gender';
 import { ProfileCustomPronoun } from 'iam/profiles/domain/value-object/profile-custom-pronoun';
 import { ProfileBirthdate } from 'iam/profiles/domain/value-object/profile-birthdate';
-import { ProfileNewsLetter } from 'iam/profiles/domain/value-object/profile-news-letter';
 
 import { CreateProfileCommand } from './command';
 import { CreateProfileResultDto } from './dto';
@@ -26,20 +25,26 @@ export class CreateProfileCommandHandler implements CommandHandler<
     }
 
     async handle(command: CreateProfileCommand): Promise<CreateProfileResultDto> {
+        const userId = new Uuid(command.userId),
+            birthdate = ProfileBirthdate.create(command.birthdate),
+            gender = command.gender
+                ? ProfileGender.fromValue(command.gender)
+                : ProfileGender.other(),
+            customGender = new ProfileCustomGender(command.customGender ?? ''),
+            pronoun = command.pronouns
+                ? ProfilePronoun.fromValue(command.pronouns)
+                : ProfilePronoun.theyThem(),
+            customPronoun = new ProfileCustomPronoun(command.customPronouns ?? ''),
+            newsLetter = command.newsLetter;
+
         const profile = Profile.create(
-            new UserId(command.userId),
-            new ProfileBirthdate(command.birthdate),
-            new ProfileGender(
-                Gender[command.gender as keyof typeof Gender] ?? Gender.OTHER,
-                Object.values(Gender),
-            ),
-            new ProfileCustomGender(command.customGender ?? ''),
-            new ProfilePronoun(
-                Pronoun[command.pronouns as keyof typeof Pronoun] ?? Pronoun.THEY_THEM,
-                Object.values(Pronoun),
-            ),
-            new ProfileCustomPronoun(command.customPronouns ?? ''),
-            new ProfileNewsLetter(command.newsLetter ?? false),
+            userId,
+            birthdate,
+            gender,
+            customGender,
+            pronoun,
+            customPronoun,
+            newsLetter,
         );
 
         return this.uow.withTransaction(async (scope) => {

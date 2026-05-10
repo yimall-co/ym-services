@@ -1,22 +1,19 @@
+import { Uuid } from 'shared/domain/value-object/uuid';
+import { CreatedAt } from 'shared/domain/value-object/created-at';
+import { UpdatedAt } from 'shared/domain/value-object/updated-at';
 import { AggregateRoot } from 'shared/domain/aggregate-root';
 
-import { WorkspaceId } from 'wm/shared/domain/workspace-id';
-import { CustomizationId } from 'wm/shared/domain/customization-id';
-import { CustomizationColorId } from 'wm/shared/domain/customization-color-id';
-
-import { SocialMedia, SocialMediaPrimitives } from './social-media';
-import { SocialMediaCollection } from './social-media-collection';
+import { Font } from './enum/fonts';
+import { SocialMedia, SocialMediaPrimitives } from './value-object/social-media';
+import { SocialMediaCollection } from './value-object/social-media-collection';
 import { CustomizationLogo } from './value-object/customization-logo';
-import { CustomizationFont, FontValue } from './value-object/customization-font';
-import { CustomizationShowName } from './value-object/customization-show-name';
-import { CustomizationCreatedAt } from './value-object/customization-created-at';
-import { CustomizationUpdatedAt } from './value-object/customization-updated-at';
+import { CustomizationFont } from './value-object/customization-font';
 
 export interface CustomizationPrimitives {
     id: string;
     logo: string;
-    fontPrimary: FontValue;
-    fontSecondary: FontValue;
+    fontPrimary: Font;
+    fontSecondary: Font;
     showName: boolean;
     socialMedia: Array<SocialMediaPrimitives>;
     createdAt: Date;
@@ -26,28 +23,28 @@ export interface CustomizationPrimitives {
 }
 
 export class Customization extends AggregateRoot<CustomizationPrimitives> {
-    private readonly id: CustomizationId;
+    private readonly id: Uuid;
     private logo: CustomizationLogo;
     private fontPrimary: CustomizationFont;
     private fontSecondary: CustomizationFont;
-    private showName: CustomizationShowName;
+    private showName: boolean;
     private socialMedia: SocialMediaCollection;
-    private readonly createdAt: CustomizationCreatedAt;
-    private updatedAt: CustomizationUpdatedAt;
-    private workspaceId: WorkspaceId;
-    private colors: Array<CustomizationColorId>;
+    private readonly createdAt: CreatedAt;
+    private updatedAt: UpdatedAt;
+    private workspaceId: Uuid;
+    private colors: Array<Uuid>;
 
     constructor(
-        id: CustomizationId,
+        id: Uuid,
         logo: CustomizationLogo,
         fontPrimary: CustomizationFont,
         fontSecondary: CustomizationFont,
-        showName: CustomizationShowName,
+        showName: boolean,
         socialMedia: SocialMediaCollection,
-        createdAt: CustomizationCreatedAt,
-        updatedAt: CustomizationUpdatedAt,
-        workspaceId: WorkspaceId,
-        colors: Array<CustomizationColorId>,
+        createdAt: CreatedAt,
+        updatedAt: UpdatedAt,
+        workspaceId: Uuid,
+        colors: Array<Uuid>,
     ) {
         super();
 
@@ -67,18 +64,18 @@ export class Customization extends AggregateRoot<CustomizationPrimitives> {
         logo: CustomizationLogo,
         fontPrimary: CustomizationFont,
         fontSecondary: CustomizationFont,
-        workspaceId: WorkspaceId,
-        colors?: Array<CustomizationColorId>,
+        workspaceId: Uuid,
+        colors?: Array<Uuid>,
     ): Customization {
         return new Customization(
-            CustomizationId.random(),
+            Uuid.random(),
             logo,
             fontPrimary,
             fontSecondary,
-            new CustomizationShowName(false),
+            false,
             new SocialMediaCollection([]),
-            new CustomizationCreatedAt(new Date()),
-            new CustomizationUpdatedAt(new Date()),
+            CreatedAt.now(),
+            UpdatedAt.now(),
             workspaceId,
             colors ?? [],
         );
@@ -86,32 +83,32 @@ export class Customization extends AggregateRoot<CustomizationPrimitives> {
 
     static fromPrimitives(primitives: CustomizationPrimitives): Customization {
         return new Customization(
-            new CustomizationId(primitives.id),
+            new Uuid(primitives.id),
             new CustomizationLogo(primitives.logo),
             new CustomizationFont(primitives.fontPrimary),
             new CustomizationFont(primitives.fontSecondary),
-            new CustomizationShowName(primitives.showName),
+            primitives.showName,
             new SocialMediaCollection(
                 primitives.socialMedia.map((socialMedia) =>
                     SocialMedia.fromPrimitives(socialMedia),
                 ),
             ),
-            new CustomizationCreatedAt(primitives.createdAt),
-            new CustomizationUpdatedAt(primitives.updatedAt),
-            new WorkspaceId(primitives.workspaceId),
-            primitives.colors.map((color) => new CustomizationColorId(color)),
+            new CreatedAt(primitives.createdAt),
+            new UpdatedAt(primitives.updatedAt),
+            new Uuid(primitives.workspaceId),
+            primitives.colors.map((color) => new Uuid(color)),
         );
     }
 
-    getId(): CustomizationId {
+    getId(): Uuid {
         return this.id;
     }
 
-    getWorkspaceId(): WorkspaceId {
+    getWorkspaceId(): Uuid {
         return this.workspaceId;
     }
 
-    getColors(): Array<CustomizationColorId> {
+    getColors(): Array<Uuid> {
         return this.colors;
     }
 
@@ -121,7 +118,7 @@ export class Customization extends AggregateRoot<CustomizationPrimitives> {
             logo: this.logo.value,
             fontPrimary: this.fontPrimary.value,
             fontSecondary: this.fontSecondary.value,
-            showName: this.showName.value,
+            showName: this.showName,
             socialMedia: this.socialMedia.value.map((socialMedia) => socialMedia.toPrimitives()),
             createdAt: this.createdAt.value,
             updatedAt: this.updatedAt.value,
@@ -131,6 +128,6 @@ export class Customization extends AggregateRoot<CustomizationPrimitives> {
     }
 
     private touch(): void {
-        this.updatedAt = new CustomizationUpdatedAt(new Date());
+        this.updatedAt = UpdatedAt.now();
     }
 }

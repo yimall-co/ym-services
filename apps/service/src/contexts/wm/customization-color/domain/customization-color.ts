@@ -3,9 +3,10 @@ import { AggregateRoot } from 'shared/domain/aggregate-root';
 import { CustomizationId } from 'wm/shared/domain/customization-id';
 import { CustomizationColorId } from 'wm/shared/domain/customization-color-id';
 
+import { ColorValue } from './enum/color-values';
 import { CustomizationColorLabel } from './value-object/customization-color-label';
 import { CustomizationColorIsDefault } from './value-object/customization-color-is-default';
-import { ColorValue, CustomizationColorValue } from './value-object/customization-color-value';
+import { CustomizationColorValue } from './value-object/customization-color-value';
 import { CustomizationColorCreatedAt } from './value-object/customization-color-created-at';
 import { CustomizationColorUpdatedAt } from './value-object/customization-color-updated-at';
 

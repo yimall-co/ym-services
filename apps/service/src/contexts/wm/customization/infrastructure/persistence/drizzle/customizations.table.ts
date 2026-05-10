@@ -2,10 +2,10 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { relations } from 'drizzle-orm';
 
-import { SocialMediaPrimitives } from 'wm/customization/domain/social-media';
-import { FontValue, fontValue } from 'wm/customization/domain/value-object/customization-font';
-import { workspaces } from 'wm/workspace/infrastructure/persistence/drizzle/workspaces.table';
-import { customizationColors } from 'wm/customization-color/infrastructure/persistence/drizzle/customization-colors.table';
+import { colors, workspaces } from 'shared/infrastructure/persistence/drizzle/schema';
+
+import { fonts, Font } from 'wm/customization/domain/enum/fonts';
+import { SocialMediaPrimitives } from 'wm/customization/domain/value-object/social-media';
 
 export const customizations = p.pgTable(
     'customizations',
@@ -13,14 +13,18 @@ export const customizations = p.pgTable(
         id: p.uuid('id').primaryKey().defaultRandom(),
         logo: p.text('logo').notNull(),
         fontPrimary: p
-            .text('font_primary')
-            .$type<FontValue>()
-            .default(fontValue.MONTSERRAT)
+            .text('font_primary', {
+                enum: Object.values(fonts) as unknown as [string, ...string[]],
+            })
+            .$type<Font>()
+            .default(fonts.MONO)
             .notNull(),
         fontSecondary: p
-            .text('font_secondary')
-            .$type<FontValue>()
-            .default(fontValue.RALEWAY)
+            .text('font_secondary', {
+                enum: Object.values(fonts) as unknown as [string, ...string[]],
+            })
+            .$type<Font>()
+            .default(fonts.SERIF)
             .notNull(),
         showName: p.boolean('show_name').default(false).notNull(),
         socialMedia: p
@@ -47,5 +51,5 @@ export const customizationsRelations = relations(customizations, ({ one, many })
         fields: [customizations.workspaceId],
         references: [workspaces.id],
     }),
-    colors: many(customizationColors),
+    colors: many(colors),
 }));

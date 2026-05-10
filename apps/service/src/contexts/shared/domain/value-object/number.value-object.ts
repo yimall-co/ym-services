@@ -15,6 +15,10 @@ export abstract class NumberValueObject extends BaseValueObject<number> {
         return !this.isInteger();
     }
 
+    protected isZero(): boolean {
+        return this.value === 0;
+    }
+
     protected isGreatherThan(value: number): boolean {
         return this.value > value;
     }

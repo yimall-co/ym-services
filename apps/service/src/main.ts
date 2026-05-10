@@ -28,15 +28,9 @@ async function bootstrap() {
     });
 
     await all({
-        async a() {
-            await app.register(helmet);
-        },
-        async b() {
-            await app.register(cookie);
-        },
-        async c() {
-            await app.register(compress);
-        },
+        a: () => app.register(helmet),
+        b: () => app.register(cookie),
+        c: () => app.register(compress),
     });
 
     // app.useGlobalFilters(

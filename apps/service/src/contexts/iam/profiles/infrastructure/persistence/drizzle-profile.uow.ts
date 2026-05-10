@@ -7,11 +7,7 @@ import { ProfileRepositoryScope } from 'iam/profiles/application/profile.reposit
 import { DrizzleProfileRepositoryScope } from './drizzle-profile.repository-scope';
 
 export class DrizzleProfileUnitOfWork implements UnitOfWork<ProfileRepositoryScope> {
-    constructor(
-        private readonly db: NodePgDatabase<
-            Schema
-        >,
-    ) { }
+    constructor(private readonly db: NodePgDatabase<Schema>) { }
 
     withTransaction<T>(fn: (scope: ProfileRepositoryScope) => Promise<T>): Promise<T> {
         return this.db.transaction(async (transaction) => {

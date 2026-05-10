@@ -9,6 +9,10 @@ export class ProfileBirthdate extends DateValueObject {
         this.ensureIsAdult(value);
     }
 
+    static create(value: Date): ProfileBirthdate {
+        return new ProfileBirthdate(value);
+    }
+
     private ensureIsAdult(value: Date): void {
         const age = this.calculateAge(value);
 

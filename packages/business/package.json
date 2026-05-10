@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json.schemastore.org/package",
+    "name": "@yimall/business",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "author": {
+        "name": "Yimall",
+        "url": "https://yimall.co"
+    },
+    "private": true,
+    "license": "UNLICENSED",
+    "exports": {
+        ".": {}
+    },
+    "scripts": {
+        "dev": ""
+    },
+    "dependencies": {},
+    "devDependencies": {}
+}

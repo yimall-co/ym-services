@@ -1,3 +1,7 @@
 import { StringValueObject } from 'shared/domain/value-object/string.value-object';
 
-export class ProfileCustomPronoun extends StringValueObject { }
+export class ProfileCustomPronoun extends StringValueObject {
+    constructor(value: string) {
+        super(value);
+    }
+}

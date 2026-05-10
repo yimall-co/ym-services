@@ -1,20 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsUrl, IsUUID } from 'class-validator';
 
-import { fontValue, type FontValue } from 'wm/customization/domain/value-object/customization-font';
+import { fonts, type Font } from 'wm/customization/domain/enum/fonts';
 
 export class CreateCustomizationDto {
     @ApiProperty()
     @IsUrl()
     logo: string;
 
-    @ApiProperty()
-    @IsEnum(fontValue)
-    fontPrimary: FontValue;
+    @ApiProperty({ enum: fonts })
+    @IsEnum(fonts)
+    fontPrimary: Font;
 
-    @ApiProperty()
-    @IsEnum(fontValue)
-    fontSecondary: FontValue;
+    @ApiProperty({ enum: fonts })
+    @IsEnum(fonts)
+    fontSecondary: Font;
 
     @ApiProperty()
     @IsUUID('4')

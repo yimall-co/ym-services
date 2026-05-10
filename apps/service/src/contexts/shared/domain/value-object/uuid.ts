@@ -9,6 +9,10 @@ export class Uuid extends StringValueObject {
         this.ensureIsValidUuid();
     }
 
+    static create(value: string): Uuid {
+        return new Uuid(value);
+    }
+
     static random(): Uuid {
         const randomUuid = v4();
         return new Uuid(randomUuid);

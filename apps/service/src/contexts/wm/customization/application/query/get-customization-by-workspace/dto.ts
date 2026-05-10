@@ -1,4 +1,4 @@
-import { SocialMediaPrimitives } from 'wm/customization/domain/social-media';
+import { SocialMediaPrimitives } from 'wm/customization/domain/value-object/social-media';
 
 export interface Color {
     id: string;

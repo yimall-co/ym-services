@@ -1,9 +1,9 @@
 import { CustomizationColor } from 'wm/customization-color/domain/customization-color';
 
-import { customizationColors } from '../persistence/drizzle/customization-colors.table';
+import { colors } from '../persistence/drizzle/customization-colors.table';
 
 export class CustomizationColorMapper {
-    static toDomain(row: typeof customizationColors.$inferSelect): CustomizationColor {
+    static toDomain(row: typeof colors.$inferSelect): CustomizationColor {
         return CustomizationColor.fromPrimitives({
             id: row.id,
             label: row.label,
@@ -17,7 +17,7 @@ export class CustomizationColorMapper {
 
     static toPersistence(
         customizationColor: CustomizationColor,
-    ): typeof customizationColors.$inferInsert {
+    ): typeof colors.$inferInsert {
         const primitives = customizationColor.toPrimitives();
 
         return {

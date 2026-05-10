@@ -4,8 +4,8 @@ import { relations } from 'drizzle-orm';
 
 import { users } from 'shared/infrastructure/persistence/drizzle/schema';
 
-import { Gender } from 'iam/profiles/domain/value-object/profile-gender';
-import { Pronoun } from 'iam/profiles/domain/value-object/profile-pronoun';
+import { gender, Gender } from 'iam/profiles/domain/enum/gender';
+import { pronoun, Pronoun } from 'iam/profiles/domain/enum/pronoun';
 
 export const profiles = p.pgTable(
     'profiles',
@@ -13,15 +13,17 @@ export const profiles = p.pgTable(
         id: p.uuid('id').defaultRandom().primaryKey(),
         gender: p
             .text('gender', {
-                enum: ['male', 'female', 'other'],
+                enum: Object.values(gender) as unknown as [string, ...string[]],
             })
-            .$type<Gender>(),
+            .$type<Gender>()
+            .default(gender.OTHER),
         customGender: p.text('custom_gender'),
         pronouns: p
             .text('pronoun', {
-                enum: ['he/him', 'she/her', 'they/them', 'other'],
+                enum: Object.values(pronoun) as unknown as [string, ...string[]],
             })
-            .$type<Pronoun>(),
+            .$type<Pronoun>()
+            .default(pronoun.THEY_THEM),
         customPronouns: p.text('custom_pronouns'),
         birthdate: p.date('birthdate'),
         newsLetter: p.boolean('news_letter').default(false).notNull(),

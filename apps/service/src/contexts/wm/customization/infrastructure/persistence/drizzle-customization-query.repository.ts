@@ -2,7 +2,7 @@
 import { eq, sql } from 'drizzle-orm';
 import { PgSelect } from 'drizzle-orm/pg-core';
 
-import { customizationColors } from 'shared/infrastructure/persistence/drizzle/schema';
+import { colors } from 'shared/infrastructure/persistence/drizzle/schema';
 import { DrizzleRepository } from 'shared/infrastructure/persistence/drizzle/drizzle.repository';
 
 import { CustomizationQueryRepository } from 'wm/customization/application/query/customization-query.repository';
@@ -56,12 +56,12 @@ export class DrizzleCustomizationQueryRepository
                     coalesce(
                         json_agg(
                             distinct jsonb_build_object(
-                                'id', ${customizationColors.id},
-                                'label', ${customizationColors.label},
-                                'value', ${customizationColors.value},
-                                'isDefault', ${customizationColors.isDefault}
+                                'id', ${colors.id},
+                                'label', ${colors.label},
+                                'value', ${colors.value},
+                                'isDefault', ${colors.isDefault}
                             )
-                        ) filter (where ${customizationColors.id} is not null),
+                        ) filter (where ${colors.id} is not null),
                         '[]'::json
                     )
                 `,
@@ -91,8 +91,8 @@ export class DrizzleCustomizationQueryRepository
 
     private withColors<T extends PgSelect>(query: T) {
         return query.leftJoin(
-            customizationColors,
-            eq(customizationColors.customizationId, this.table.id),
+            colors,
+            eq(colors.customizationId, this.table.id),
         );
     }
 }

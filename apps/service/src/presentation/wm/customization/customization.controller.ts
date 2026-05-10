@@ -1,3 +1,4 @@
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import {
     BadRequestException,
     Body,
@@ -13,12 +14,12 @@ import {
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
-import { CacheInterceptor } from '@nestjs/cache-manager';
 import {
     ApiBadRequestResponse,
     ApiCreatedResponse,
     ApiNotFoundResponse,
     ApiOkResponse,
+    ApiTags,
 } from '@nestjs/swagger';
 
 import type { QueryBus } from 'shared/domain/query-bus';
@@ -38,6 +39,7 @@ import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
 import { CreateColorDto } from './dtos/create-color.dto';
 import { CreateCustomizationDto } from './dtos/create-customization.dto';
 
+@ApiTags('Customizations')
 @Controller({
     path: 'customizations',
     version: '1',

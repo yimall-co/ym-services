@@ -1,10 +1,12 @@
+import { Uuid } from 'shared/domain/value-object/uuid';
+import { CreatedAt } from 'shared/domain/value-object/created-at';
+import { UpdatedAt } from 'shared/domain/value-object/updated-at';
 import { AggregateRoot } from 'shared/domain/aggregate-root';
 
-import { OfferId } from 'vm/shared/domain/offer-id';
-import { ShopId } from 'vm/shared/domain/shop-id';
-
-import { OfferType, OfferTypes } from './value-object/offer-type';
-import { OfferSchedulingType, SchedulingTypes } from './value-object/offer-scheduling-type';
+import { offerTypes, OfferTypes } from './enum/offer-types';
+import { schedulingTypes, SchedulingTypes } from './enum/scheduling-types';
+import { OfferType } from './value-object/offer-type';
+import { OfferSchedulingType } from './value-object/offer-scheduling-type';
 import { OfferTitle } from './value-object/offer-title';
 import { OfferSlug } from './value-object/offer-slug';
 import { OfferDescription } from './value-object/offer-description';
@@ -15,13 +17,6 @@ import { OfferStock } from './value-object/offer-stock';
 import { OfferDiscount } from './value-object/offer-discount';
 import { OfferStartDate } from './value-object/offer-start-date';
 import { OfferEndDate } from './value-object/offer-end-date';
-import { OfferIsActive } from './value-object/offer-is-active';
-import { OfferIsRemoved } from './value-object/offer-is-removed';
-import { OfferCreatedAt } from './value-object/offer-created-at';
-import { OfferUpdatedAt } from './value-object/offer-updated-at';
-import { OfferCategoryId } from './value-object/offer-category-id';
-import { OfferSubCategoryId } from './value-object/offer-subcategory-id';
-import { OfferWorkspaceId } from './value-object/offer-workspace-id';
 
 export interface OfferPrimitives {
     id: string;
@@ -43,12 +38,11 @@ export interface OfferPrimitives {
     updatedAt: Date;
     categoryId: string;
     subcategoryId: string;
-    shopId: string;
     workspaceId: string;
 }
 
 export class Offer extends AggregateRoot<OfferPrimitives> {
-    private readonly id: OfferId;
+    private readonly id: Uuid;
     private type: OfferType;
     private schedulingType: OfferSchedulingType;
     private duration: OfferDuration;
@@ -61,17 +55,16 @@ export class Offer extends AggregateRoot<OfferPrimitives> {
     private discount: OfferDiscount;
     private startDate: OfferStartDate;
     private endDate: OfferEndDate;
-    private isActive: OfferIsActive;
-    private isRemoved: OfferIsRemoved;
-    private readonly createdAt: OfferCreatedAt;
-    private updatedAt: OfferUpdatedAt;
-    private categoryId: OfferCategoryId;
-    private subcategoryId: OfferSubCategoryId;
-    private shopId: ShopId;
-    private workspaceId: OfferWorkspaceId;
+    private isActive: boolean;
+    private isRemoved: boolean;
+    private readonly createdAt: CreatedAt;
+    private updatedAt: UpdatedAt;
+    private categoryId: Uuid;
+    private subcategoryId: Uuid;
+    private workspaceId: Uuid;
 
     constructor(
-        id: OfferId,
+        id: Uuid,
         type: OfferType,
         schedulingType: OfferSchedulingType,
         duration: OfferDuration,
@@ -84,14 +77,13 @@ export class Offer extends AggregateRoot<OfferPrimitives> {
         discount: OfferDiscount,
         startDate: OfferStartDate,
         endDate: OfferEndDate,
-        isActive: OfferIsActive,
-        isRemoved: OfferIsRemoved,
-        createdAt: OfferCreatedAt,
-        updatedAt: OfferUpdatedAt,
-        categoryId: OfferCategoryId,
-        subcategoryId: OfferSubCategoryId,
-        shopId: ShopId,
-        workspaceId: OfferWorkspaceId,
+        isActive: boolean,
+        isRemoved: boolean,
+        createdAt: CreatedAt,
+        updatedAt: UpdatedAt,
+        categoryId: Uuid,
+        subcategoryId: Uuid,
+        workspaceId: Uuid,
     ) {
         super();
 
@@ -114,7 +106,6 @@ export class Offer extends AggregateRoot<OfferPrimitives> {
         this.updatedAt = updatedAt;
         this.categoryId = categoryId;
         this.subcategoryId = subcategoryId;
-        this.shopId = shopId;
         this.workspaceId = workspaceId;
     }
 
@@ -129,14 +120,14 @@ export class Offer extends AggregateRoot<OfferPrimitives> {
         discount: OfferDiscount,
         startDate: OfferStartDate,
         endDate: OfferEndDate,
-        categoryId: OfferCategoryId,
-        subcategoryId: OfferSubCategoryId,
-        workspaceId: OfferWorkspaceId,
+        categoryId: Uuid,
+        subcategoryId: Uuid,
+        workspaceId: Uuid,
     ): Offer {
         return new Offer(
-            OfferId.random(),
+            Uuid.random(),
             type,
-            new OfferSchedulingType(SchedulingTypes.PROVIDER),
+            new OfferSchedulingType(schedulingTypes.PROVIDER),
             new OfferDuration(0),
             title,
             slug,
@@ -147,20 +138,19 @@ export class Offer extends AggregateRoot<OfferPrimitives> {
             discount,
             startDate,
             endDate,
-            new OfferIsActive(true),
-            new OfferIsRemoved(false),
-            new OfferCreatedAt(new Date()),
-            new OfferUpdatedAt(new Date()),
+            true,
+            false,
+            CreatedAt.now(),
+            UpdatedAt.now(),
             categoryId,
             subcategoryId,
-            new ShopId(''),
             workspaceId,
         );
     }
 
     static fromPrimitives(primitives: OfferPrimitives): Offer {
         return new Offer(
-            new OfferId(primitives.id),
+            new Uuid(primitives.id),
             new OfferType(primitives.type),
             new OfferSchedulingType(primitives.schedulingType),
             new OfferDuration(primitives.duration),
@@ -173,19 +163,94 @@ export class Offer extends AggregateRoot<OfferPrimitives> {
             new OfferDiscount(primitives.discount),
             new OfferStartDate(primitives.startDate),
             new OfferEndDate(primitives.endDate),
-            new OfferIsActive(primitives.isActive),
-            new OfferIsRemoved(primitives.isRemoved),
-            new OfferCreatedAt(primitives.createdAt),
-            new OfferUpdatedAt(primitives.updatedAt),
-            new OfferCategoryId(primitives.categoryId),
-            new OfferSubCategoryId(primitives.subcategoryId),
-            new ShopId(primitives.shopId),
-            new OfferWorkspaceId(primitives.workspaceId),
+            primitives.isActive,
+            primitives.isRemoved,
+            new CreatedAt(primitives.createdAt),
+            new UpdatedAt(primitives.updatedAt),
+            new Uuid(primitives.categoryId),
+            new Uuid(primitives.subcategoryId),
+            new Uuid(primitives.workspaceId),
         );
     }
 
-    getId(): OfferId {
+    getId(): Uuid {
         return this.id;
+    }
+
+    getType(): OfferType {
+        return this.type;
+    }
+
+    getSchedulingType(): OfferSchedulingType {
+        return this.schedulingType;
+    }
+
+    getDuration(): OfferDuration {
+        return this.duration;
+    }
+
+    getTitle(): OfferTitle {
+        return this.title;
+    }
+
+    getSlug(): OfferSlug {
+        return this.slug;
+    }
+
+    getDescription(): OfferDescription {
+        return this.description;
+    }
+
+    getBanner(): OfferBanner {
+        return this.banner;
+    }
+
+    getPrice(): OfferPrice {
+        return this.price;
+    }
+
+    getStock(): OfferStock {
+        return this.stock;
+    }
+
+    getDiscount(): OfferDiscount {
+        return this.discount;
+    }
+
+    getStartDate(): OfferStartDate {
+        return this.startDate;
+    }
+
+    getEndDate(): OfferEndDate {
+        return this.endDate;
+    }
+
+    getIsActive(): boolean {
+        return this.isActive;
+    }
+
+    getIsRemoved(): boolean {
+        return this.isRemoved;
+    }
+
+    getCreatedAt(): CreatedAt {
+        return this.createdAt;
+    }
+
+    getUpdatedAt(): UpdatedAt {
+        return this.updatedAt;
+    }
+
+    getCategoryId(): Uuid {
+        return this.categoryId;
+    }
+
+    getSubcategoryId(): Uuid {
+        return this.subcategoryId;
+    }
+
+    getWorkspaceId(): Uuid {
+        return this.workspaceId;
     }
 
     toPrimitives(): OfferPrimitives {
@@ -203,18 +268,17 @@ export class Offer extends AggregateRoot<OfferPrimitives> {
             discount: this.discount.value,
             startDate: this.startDate.value,
             endDate: this.endDate.value,
-            isActive: this.isActive.value,
-            isRemoved: this.isRemoved.value,
+            isActive: this.isActive,
+            isRemoved: this.isRemoved,
             createdAt: this.createdAt.value,
             updatedAt: this.updatedAt.value,
             categoryId: this.categoryId.value,
             subcategoryId: this.subcategoryId.value,
-            shopId: this.shopId.value,
             workspaceId: this.workspaceId.value,
         };
     }
 
     private touch(): void {
-        this.updatedAt = new OfferUpdatedAt(new Date());
+        this.updatedAt = UpdatedAt.now();
     }
 }

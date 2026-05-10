@@ -1,17 +1,9 @@
-import { StringValueObject } from 'shared/domain/value-object/string.value-object';
+import { EnumValueObject } from 'shared/domain/value-object/enum.value-object';
 
-export class SocialMediaPlatform extends StringValueObject {
-    private static readonly PLATFORMS = ['facebook', 'instagram', 'twitter', 'linkedin', 'youtube'];
+import { socialPlatforms, SocialPlatform } from '../enum/social-platforms';
 
-    constructor(value: string) {
-        super(value);
-
-        this.ensureIsValidPlatform();
-    }
-
-    private ensureIsValidPlatform() {
-        if (!SocialMediaPlatform.PLATFORMS.includes(this.value)) {
-            throw new Error('Invalid platform');
-        }
+export class SocialMediaPlatform extends EnumValueObject<SocialPlatform> {
+    constructor(value: SocialPlatform) {
+        super(value, Object.values(socialPlatforms));
     }
 }

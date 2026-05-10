@@ -2,9 +2,9 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { sql, relations } from 'drizzle-orm';
 
-import { customizationColors } from 'wm/customization-color/infrastructure/persistence/drizzle/customization-colors.table';
+import { colors } from 'shared/infrastructure/persistence/drizzle/schema';
 
-export const customizationColorVariants = p.pgTable(
+export const variants = p.pgTable(
     'customization_color_variants',
     {
         id: p.uuid('id').primaryKey().defaultRandom(),
@@ -24,7 +24,7 @@ export const customizationColorVariants = p.pgTable(
         colorId: p
             .uuid('color_id')
             .notNull()
-            .references(() => customizationColors.id),
+            .references(() => colors.id),
     },
     (table) => [
         p.index().on(table.code),
@@ -36,12 +36,9 @@ export const customizationColorVariants = p.pgTable(
     ],
 );
 
-export const customizationColorVariantsRelations = relations(
-    customizationColorVariants,
-    ({ one }) => ({
-        color: one(customizationColors, {
-            fields: [customizationColorVariants.colorId],
-            references: [customizationColors.id],
-        }),
+export const variantsRelations = relations(variants, ({ one }) => ({
+    color: one(colors, {
+        fields: [variants.colorId],
+        references: [colors.id],
     }),
-);
+}));

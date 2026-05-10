@@ -3,62 +3,46 @@ import { Module } from '@nestjs/common';
 import { JwtModule, JwtSecretRequestType } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
+import { JwtStrategy } from 'presentation/shared/strategies/jwt.strategy';
+
 import { AuthController } from './auth.controller';
-import {
-    accountRepositoryProvider,
-    createAccountCommandHandlerProvider,
-    createUserCommandHandlerProvider,
-    getUserByEmailQueryHandlerProvider,
-    userUnitOfWorkProvider,
-} from './adapters';
-import { JwtStrategy } from './strategies/jwt.strategy';
-
-const passportModule = PassportModule.register({
-    defaultStrategy: 'jwt',
-});
-
-const jwtModule = JwtModule.registerAsync({
-    inject: [ConfigService],
-    useFactory: (configService: ConfigService) => {
-        const jwtSecret = configService.getOrThrow<string>('jwt.accessSecret');
-        const jwtPublicKey = configService.getOrThrow<string>('jwt.accessPublicKey');
-        const jwtPrivateKey = configService.getOrThrow<string>('jwt.accessPrivateKey');
-
-        return {
-            signOptions: {
-                // expiresIn: '2h', // TODO: set to this.
-                expiresIn: '7d', // just for testing
-                algorithm: 'RS256',
-            },
-            secretOrKeyProvider: (requestType: JwtSecretRequestType) => {
-                switch (requestType) {
-                    case JwtSecretRequestType.SIGN:
-                        return jwtPrivateKey;
-                    case JwtSecretRequestType.VERIFY:
-                        return jwtPublicKey;
-                    default:
-                        return jwtSecret;
-                }
-            },
-        };
-    },
-});
+import { AuthAdapterModule } from './adapters/auth-adapter.module';
 
 @Module({
-    imports: [passportModule, jwtModule],
     controllers: [AuthController],
-    providers: [
-        JwtStrategy,
-        userUnitOfWorkProvider,
-        accountRepositoryProvider,
-        getUserByEmailQueryHandlerProvider,
-        createUserCommandHandlerProvider,
-        createAccountCommandHandlerProvider,
+    providers: [JwtStrategy],
+    imports: [
+        AuthAdapterModule,
+        PassportModule.register({
+            defaultStrategy: 'jwt',
+        }),
+        JwtModule.registerAsync({
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => {
+                const jwtSecret = configService.getOrThrow<string>('jwt.accessSecret');
+                const jwtPublicKey = configService.getOrThrow<string>('jwt.accessPublicKey');
+                const jwtPrivateKey = configService.getOrThrow<string>('jwt.accessPrivateKey');
+
+                return {
+                    signOptions: {
+                        // expiresIn: '2h', // TODO: set to this.
+                        expiresIn: '7d', // just for testing
+                        algorithm: 'RS256',
+                    },
+                    secretOrKeyProvider: (requestType: JwtSecretRequestType) => {
+                        switch (requestType) {
+                            case JwtSecretRequestType.SIGN:
+                                return jwtPrivateKey;
+                            case JwtSecretRequestType.VERIFY:
+                                return jwtPublicKey;
+                            default:
+                                return jwtSecret;
+                        }
+                    },
+                };
+            },
+        }),
     ],
-    exports: [
-        getUserByEmailQueryHandlerProvider,
-        createUserCommandHandlerProvider,
-        createAccountCommandHandlerProvider,
-    ],
+    exports: [AuthAdapterModule, JwtStrategy],
 })
 export class AuthModule { }

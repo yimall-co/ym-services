@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Command } from 'shared/domain/command';
 
-import { ColorValue } from 'wm/customization-color/domain/value-object/customization-color-value';
+import { ColorValue } from 'wm/customization-color/domain/enum/color-values';
 
 export class CreateCustomizationColorCommand extends Command {
     readonly label: string;

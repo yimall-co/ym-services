@@ -1,11 +1,11 @@
-import { customizationColors } from 'shared/infrastructure/persistence/drizzle/schema';
+import { colors } from 'shared/infrastructure/persistence/drizzle/schema';
 
 import { Customization } from 'wm/customization/domain/customization';
 
 import { customizations } from '../persistence/drizzle/customizations.table';
 
 type CustomizationWithColors = typeof customizations.$inferSelect & {
-    colors: Array<typeof customizationColors.$inferSelect>;
+    colors: Array<typeof colors.$inferSelect>;
 };
 
 export class CustomizationMapper {

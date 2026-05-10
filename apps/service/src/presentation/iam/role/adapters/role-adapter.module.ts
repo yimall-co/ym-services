@@ -18,6 +18,7 @@ import {
 } from './constants';
 
 @Module({
+    imports: [],
     providers: [
         {
             provide: ROLE_REPOSITORY,

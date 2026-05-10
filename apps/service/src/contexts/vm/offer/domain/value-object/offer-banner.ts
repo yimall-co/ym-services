@@ -1,3 +1,3 @@
-import { Url } from 'shared/domain/value-object/url';
+import { OptionalUrl } from 'shared/domain/value-object/optional-url';
 
-export class OfferBanner extends Url { }
+export class OfferBanner extends OptionalUrl { }

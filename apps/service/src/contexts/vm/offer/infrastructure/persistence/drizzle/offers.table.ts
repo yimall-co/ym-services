@@ -2,15 +2,19 @@ import * as p from 'drizzle-orm/pg-core';
 
 import { sql, relations } from 'drizzle-orm';
 
-import { shops } from 'vm/shop/infrastructure/persistence/drizzle/shops.table';
-import { shopOffers } from 'vm/shop-offer/infrastructure/persistence/drizzle/shop-offers.table';
-import { offerImages } from 'vm/offer-image/infrastructure/persistence/drizzle/offer-images.table';
-import { offerOptionGroups } from 'vm/offer-option-group/infrastructure/persistence/drizzle/offer-option-groups.table';
-import { workspaces } from 'wm/workspace/infrastructure/persistence/drizzle/workspaces.table';
-import { categories } from 'lm/category/infrastructure/persistence/drizzle/categories.table';
-import { subcategories } from 'lm/subcategory/infrastructure/persistence/drizzle/subcategories.table';
-import { cartItems } from 'cm/cart-item/infrastructure/persistence/drizzle/cart-items.table';
-import { appointments } from 'bm/appointment/infrastructure/persistence/drizzle/appointments.table';
+import {
+    appointments,
+    cartItems,
+    categories,
+    offerImages,
+    offerOptionGroups,
+    shopOffers,
+    subcategories,
+    workspaces,
+} from 'shared/infrastructure/persistence/drizzle/schema';
+
+import { OfferTypes, offerTypes } from 'vm/offer/domain/enum/offer-types';
+import { SchedulingTypes, schedulingTypes } from 'vm/offer/domain/enum/scheduling-types';
 
 export const offers = p.pgTable(
     'offers',
@@ -18,13 +22,17 @@ export const offers = p.pgTable(
         id: p.uuid('id').primaryKey().defaultRandom(),
         type: p
             .text('type', {
-                enum: ['product', 'service'],
+                enum: Object.values(offerTypes) as unknown as [string, ...string[]],
             })
-            .default('product')
+            .$type<OfferTypes>()
+            .default(offerTypes.PRODUCT)
             .notNull(),
-        schedulingType: p.text('scheduling_type', {
-            enum: ['provider', 'capacity'],
-        }),
+        schedulingType: p
+            .text('scheduling_type', {
+                enum: Object.values(schedulingTypes) as unknown as [string, ...string[]],
+            })
+            .$type<SchedulingTypes>()
+            .notNull(),
         duration: p.smallint('duration'),
         title: p.text('title').notNull(),
         slug: p.text('slug').notNull(),
@@ -42,7 +50,7 @@ export const offers = p.pgTable(
             .timestamp('end_date')
             .$default(() => new Date(9999, 11, 31))
             .notNull(),
-        isActive: p.boolean('is_active').default(true),
+        isActive: p.boolean('is_active').default(true).notNull(),
         isRemoved: p.boolean('is_removed').default(false).notNull(),
         createdAt: p.timestamp('created_at').defaultNow().notNull(),
         updatedAt: p
@@ -54,10 +62,10 @@ export const offers = p.pgTable(
             .uuid('category_id')
             .notNull()
             .references(() => categories.id),
-        subcategoryId: p.uuid('subcategory_id').references(() => subcategories.id),
-        shopId: p
-            .uuid('shop_id') //TODO: pending to remove?
-            .references(() => shops.id),
+        subcategoryId: p.uuid('subcategory_id').references(() => subcategories.id, {
+            onDelete: 'cascade',
+            onUpdate: 'cascade',
+        }),
         workspaceId: p
             .uuid('workspace_id')
             .notNull()

@@ -40,6 +40,7 @@
         "@nestjs/cache-manager": "catalog:nestjs",
         "@nestjs/throttler": "catalog:nestjs",
         "@nestjs/passport": "catalog:nestjs",
+        "@nestjs/schedule": "catalog:nestjs",
         "@fastify/helmet": "catalog:fastify",
         "@fastify/compress": "catalog:fastify",
         "@fastify/static": "catalog:fastify",

@@ -1,4 +1,4 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 
 import { CustomizationController } from './customization.controller';
 import {
@@ -31,10 +31,4 @@ import {
         createCustomizationColorCommandHandlerProvider,
     ],
 })
-export class CustomizationModule {
-    static forRoot(): DynamicModule {
-        return {
-            module: CustomizationModule,
-        };
-    }
-}
+export class CustomizationModule { }

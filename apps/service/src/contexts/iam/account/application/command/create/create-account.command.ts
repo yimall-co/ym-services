@@ -1,12 +1,10 @@
 import { Command } from 'shared/domain/command';
 
-import { AccountProvider } from 'iam/account/domain/value-object/account-provider-id';
-
-type Provider = keyof typeof AccountProvider;
+import { AccountProviders } from 'iam/account/domain/enum/account-providers';
 
 export class CreateAccountCommand extends Command {
     readonly accountId: string;
-    readonly providerId: Provider;
+    readonly provider: AccountProviders;
     readonly accessToken: string;
     readonly refreshToken: string;
     readonly idToken: string;
@@ -18,7 +16,7 @@ export class CreateAccountCommand extends Command {
 
     constructor(
         accountId: string,
-        providerId: Provider,
+        provider: AccountProviders,
         accessToken: string,
         refreshToken: string,
         idToken: string,
@@ -31,7 +29,7 @@ export class CreateAccountCommand extends Command {
         super();
 
         this.accountId = accountId;
-        this.providerId = providerId;
+        this.provider = provider;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.idToken = idToken;

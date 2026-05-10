@@ -11,11 +11,11 @@ import {
     Max,
 } from 'class-validator';
 
-import { OfferTypes } from 'vm/offer/domain/value-object/offer-type';
+import { offerTypes, type OfferTypes } from 'vm/offer/domain/enum/offer-types';
 
 export class CreateOfferDto {
     @ApiProperty()
-    @IsEnum(OfferTypes)
+    @IsEnum(offerTypes)
     type: OfferTypes;
 
     @ApiProperty()

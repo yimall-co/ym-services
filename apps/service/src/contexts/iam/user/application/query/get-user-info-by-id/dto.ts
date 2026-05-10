@@ -1,5 +1,5 @@
-import { Gender } from 'iam/profiles/domain/value-object/profile-gender';
-import { Pronoun } from 'iam/profiles/domain/value-object/profile-pronoun';
+import { Gender } from 'iam/profiles/domain/enum/gender';
+import { Pronoun } from 'iam/profiles/domain/enum/pronoun';
 
 export interface UserInfoByIdDto {
     id: string;
