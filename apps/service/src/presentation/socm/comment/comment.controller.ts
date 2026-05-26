@@ -14,10 +14,10 @@ import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swag
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { CommentateOnCommand } from 'socm/comment/application/command/commentate-on/command';
-import { CommentateOnResultDto } from 'socm/comment/application/command/commentate-on/dto';
+import { CommentateOnCommand } from 'core/social/comment/application/command/commentate-on/command';
+import { CommentateOnResultDto } from 'core/social/comment/application/command/commentate-on/dto';
 
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
 
 import { CreateCommentDto } from './dtos/create-comment.dto';
 

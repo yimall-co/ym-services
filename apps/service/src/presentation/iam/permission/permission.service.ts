@@ -2,10 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { CreatePermissionCommand } from 'iam/permission/application/command/create-permission/command';
-import { CreatePermissionResultDto } from 'iam/permission/application/command/create-permission/dto';
+import { CreatePermissionCommand } from 'core/iam/permission/application/command/create-permission/command';
+import { CreatePermissionResultDto } from 'core/iam/permission/application/command/create-permission/dto';
 
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
 
 import { CreatePermissionDto } from './dtos/create-permission.dto';
 

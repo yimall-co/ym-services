@@ -14,13 +14,8 @@ import { minutesToSeconds, secondsToMilliseconds } from 'date-fns';
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { GetUserByEmailQuery } from 'iam/user/application/query/get-user-by-email/query';
-import { UserByEmailDto } from 'iam/user/application/query/get-user-by-email/dto';
-import { CreateUserCommand } from 'iam/user/application/command/create-user/command';
-import { CreateUserResultDto } from 'iam/user/application/command/create-user/dto';
-import { CreateAccountDto } from 'iam/account/application/command/create/create-account.dto';
 
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
 
 import { SignInDto } from './dtos/sign-in.dto';
 import { SignUpDto } from './dtos/sign-up.dto';

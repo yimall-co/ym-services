@@ -2,18 +2,16 @@ import { Provider, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 import { CustomizationQueryRepository } from 'wm/customization/application/query/customization-query.repository';
-import { CustomizationColorRepository } from 'wm/customization-color/domain/customization-color.repository';
-import { DrizzleCustomizationRepository } from 'wm/customization/infrastructure/persistence/drizzle-customization.repository';
 import { DrizzleCustomizationQueryRepository } from 'wm/customization/infrastructure/persistence/drizzle-customization-query.repository';
 import { GetCustomizationByWorkspaceQueryHandler } from 'wm/customization/application/query/get-customization-by-workspace/handler';
 import { GetCustomizationByIdQueryHandler } from 'wm/customization/application/query/get-customization-by-id/handler';
-import { CreateCustomizationColorCommandHandler } from 'wm/customization-color/application/command/create-customization-color/handler';
-import { DrizzleCustomizationColorRepository } from 'wm/customization-color/infrastructure/persistence/drizzle-customization-color.repository';
+import { CreateColorCommandHandler } from 'wm/color/application/command/create-color/handler';
+import { DrizzleColorRepository } from 'wm/color/infrastructure/persistence/drizzle-color.repository';
 import { CustomizationUnitOfWork } from 'wm/customization/infrastructure/persistence/customization.uow';
 import { CreateCustomizationCommandHandler } from 'wm/customization/application/command/create-customization/handler';
-import { CustomizationColorUnitOfWork } from 'wm/customization-color/infrastructure/persistence/customization-color.uow';
+import { ColorUnitOfWork } from 'wm/color/infrastructure/persistence/color.uow';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import {
     CREATE_CUSTOMIZATION_COLOR_COMMAND_HANDLER,
@@ -38,8 +36,7 @@ export const customizationUnitOfWorkProvider: Provider = {
 export const customizationColorUnitOfWorkProvider: Provider = {
     provide: CUSTOMIZATION_COLOR_UNIT_OF_WORK,
     inject: [DRIZZLE_INSTANCE],
-    useFactory: (database: NodePgDatabase<typeof schema>) =>
-        new CustomizationColorUnitOfWork(database),
+    useFactory: (database: NodePgDatabase<typeof schema>) => new ColorUnitOfWork(database),
     scope: Scope.DEFAULT,
 };
 
@@ -54,8 +51,7 @@ export const customizationQueryRepositoryProvider: Provider = {
 export const customizationColorRepositoryProvider: Provider = {
     provide: CUSTOMIZATION_COLOR_REPOSITORY,
     inject: [DRIZZLE_INSTANCE],
-    useFactory: (database: NodePgDatabase<typeof schema>) =>
-        new DrizzleCustomizationColorRepository(database),
+    useFactory: (database: NodePgDatabase<typeof schema>) => new DrizzleColorRepository(database),
     scope: Scope.DEFAULT,
 };
 
@@ -86,7 +82,7 @@ export const createCustomizationCommandHandlerProvider: Provider = {
 export const createCustomizationColorCommandHandlerProvider: Provider = {
     provide: CREATE_CUSTOMIZATION_COLOR_COMMAND_HANDLER,
     inject: [CUSTOMIZATION_COLOR_UNIT_OF_WORK],
-    useFactory: (customizationColorUnitOfWork: CustomizationColorUnitOfWork) =>
-        new CreateCustomizationColorCommandHandler(customizationColorUnitOfWork),
+    useFactory: (customizationColorUnitOfWork: ColorUnitOfWork) =>
+        new CreateColorCommandHandler(customizationColorUnitOfWork),
     scope: Scope.REQUEST,
 };

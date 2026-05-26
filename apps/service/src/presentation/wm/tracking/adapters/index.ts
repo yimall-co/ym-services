@@ -6,7 +6,7 @@ import { VisitRepositoryScope } from 'wm/visit/application/visit.repository-scop
 import { CreateVisitCommandHandler } from 'wm/visit/application/command/create-visit/handler';
 import { DrizzleVisitUnitOfWork } from 'wm/visit/infrastructure/persistence/drizzle-visit.uow';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import { CREATE_VISIT_COMMAND_HANDLER, VISIT_UNIT_OF_WORK } from './constants';
 

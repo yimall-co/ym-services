@@ -30,11 +30,11 @@ import { CustomizationByWorkspaceDto } from 'wm/customization/application/query/
 import { GetCustomizationByWorkspaceQuery } from 'wm/customization/application/query/get-customization-by-workspace/query';
 import { CreateCustomizationResultDto } from 'wm/customization/application/command/create-customization/dto';
 import { CreateCustomizationCommand } from 'wm/customization/application/command/create-customization/command';
-import { CreateCustomizationColorResultDto } from 'wm/customization-color/application/command/create-customization-color/dto';
-import { CreateCustomizationColorCommand } from 'wm/customization-color/application/command/create-customization-color/command';
+import { CreateColorResultDto } from 'wm/color/application/command/create-color/dto';
+import { CreateColorCommand } from 'wm/color/application/command/create-color/command';
 
-import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
 
 import { CreateColorDto } from './dtos/create-color.dto';
 import { CreateCustomizationDto } from './dtos/create-customization.dto';
@@ -124,13 +124,8 @@ export class CustomizationController {
     ) {
         try {
             const { label, value, isDefault } = createColorDto;
-            const command = new CreateCustomizationColorCommand(
-                label,
-                value,
-                isDefault,
-                customizationId,
-            );
-            return await this.commandBus.dispatch<CreateCustomizationColorResultDto>(command);
+            const command = new CreateColorCommand(label, value, isDefault, customizationId);
+            return await this.commandBus.dispatch<CreateColorResultDto>(command);
         } catch (error: any) {
             this.logger.error(error.message);
             throw new BadRequestException();

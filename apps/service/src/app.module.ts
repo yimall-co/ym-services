@@ -1,4 +1,6 @@
+import KeyvRedis from '@keyv/redis';
 import path from 'node:path';
+import config from 'lib/config';
 
 import { Keyv } from 'keyv';
 import { CacheableMemory } from 'cacheable';
@@ -17,14 +19,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ScheduleModule, SchedulerRegistry } from '@nestjs/schedule';
 
-import KeyvRedis from '@keyv/redis';
-
-import config from 'lib/config';
+import { SharedModule } from 'src/common/shared.module';
+import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
+import { HttpCacheInterceptor } from 'src/common/interceptors/http-cache.interceptor';
 
 import { ApiModule } from 'presentation/api.module';
-import { SharedModule } from 'presentation/shared/shared.module';
-import { ResponseInterceptor } from 'presentation/shared/interceptors/response.interceptor';
-import { HttpCacheInterceptor } from 'presentation/shared/interceptors/http-cache.interceptor';
+
+import { AppController } from './app.controller';
 
 const configModule = ConfigModule.forRoot({
     cache: true,
@@ -112,6 +113,7 @@ const scheduleModule = ScheduleModule.forRoot({
 });
 
 @Module({
+    controllers: [AppController],
     imports: [
         configModule,
         i18nModule,
@@ -130,7 +132,9 @@ const scheduleModule = ScheduleModule.forRoot({
 export class AppModule implements OnModuleInit, OnApplicationBootstrap {
     constructor(private readonly schedulerRegistry: SchedulerRegistry) { }
 
-    onModuleInit() { }
+    onModuleInit() {
+        //
+    }
 
     onApplicationBootstrap() {
         // this.schedulerRegistry.getCronJob('');

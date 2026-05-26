@@ -15,11 +15,11 @@ import { ApiCreatedResponse, ApiUnprocessableEntityResponse } from '@nestjs/swag
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { CreateProfileCommand } from 'iam/profiles/application/command/create-profile/command';
-import { CreateProfileResultDto } from 'iam/profiles/application/command/create-profile/dto';
+import { CreateProfileCommand } from 'core/iam/profiles/application/command/create-profile/command';
+import { CreateProfileResultDto } from 'core/iam/profiles/application/command/create-profile/dto';
 
-import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
 
 import { CreateProfileDto } from './dtos/create-profile.dto';
 

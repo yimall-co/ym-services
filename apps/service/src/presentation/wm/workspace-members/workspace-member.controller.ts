@@ -15,8 +15,8 @@ import { ApiOkResponse } from '@nestjs/swagger';
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
-import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { AddMemberToWorkspaceDto } from './dtos/add-member-to-workspace.dto';
 import { AddMemberToWorkspaceCommand } from 'wm/workspace-member/application/command/add-member-to-workspace/command';
 import { AddMemberToWorkspaceResultDto } from 'wm/workspace-member/application/command/add-member-to-workspace/dto';

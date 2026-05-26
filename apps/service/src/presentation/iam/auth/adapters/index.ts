@@ -3,13 +3,13 @@ import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 import { UnitOfWork } from 'shared/infrastructure/unit-of-work';
 
-import { UserRepositoryScope } from 'iam/user/application/user.repository-scope';
-import { CreateUserCommandHandler } from 'iam/user/application/command/create-user/handler';
-import { GetUserByEmailQueryHandler } from 'iam/user/application/query/get-user-by-email/handler';
-import { DrizzleUserUnitOfWork } from 'iam/user/infrastructure/persistence/drizzle-user.uow';
-import { DrizzleAccountRepository } from 'iam/account/infrastructure/persistence/drizzle-account.repository';
+import { UserRepositoryScope } from 'core/iam/user/application/user.repository-scope';
+import { CreateUserCommandHandler } from 'core/iam/user/application/command/create-user/handler';
+import { GetUserByEmailQueryHandler } from 'core/iam/user/application/query/get-user-by-email/handler';
+import { DrizzleUserUnitOfWork } from 'core/iam/user/infrastructure/persistence/drizzle-user.uow';
+import { DrizzleAccountRepository } from 'core/iam/account/infrastructure/persistence/drizzle-account.repository';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import {
     ACCOUNT_REPOSITORY,

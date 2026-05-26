@@ -1,9 +1,9 @@
 import { Module, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
-import { DrizzleAccountRepository } from 'iam/account/infrastructure/persistence/drizzle-account.repository';
+import { DrizzleAccountRepository } from 'core/iam/account/infrastructure/persistence/drizzle-account.repository';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import { ACCOUNT_REPOSITORY } from './constants';
 

@@ -8,7 +8,7 @@ import { DrizzleSegmentQueryRepository } from 'wm/segment/infrastructure/drizzle
 import { CreateSegmentCommandHandler } from 'wm/segment/application/command/create-segment/handler';
 import { GetSegmentsByCriteriaQueryHandler } from 'wm/segment/application/query/get-segments-by-criteria/handler';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import {
     CREATE_SEGMENT_COMMAND_HANDLER,

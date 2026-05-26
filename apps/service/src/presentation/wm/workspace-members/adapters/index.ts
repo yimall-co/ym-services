@@ -1,4 +1,4 @@
-import { DRIZZLE_INSTANCE } from "presentation/shared/adapters/constants";
+import { DRIZZLE_INSTANCE } from "src/common/adapters/constants";
 import { ADD_MEMBER_TO_WORKSPACE_COMMAND_HANDLER, WORKSPACE_MEMBER_QUERY_REPOSITORY, WORKSPACE_MEMBER_REPOSITORY, WORKSPACE_MEMBER_UNIT_OF_WORK } from "./constants";
 import { Provider, Scope } from "@nestjs/common";
 import { DrizzleWorkspaceMemberUnitOfWork } from "wm/workspace-member/infrastructure/persistence/drizzle/drizzle-workspace-member.uow";
@@ -14,7 +14,7 @@ export const workspaceMemberUnitOfWorkProvider: Provider = {
     useFactory: (database: NodePgDatabase<typeof schema>) =>
         new DrizzleWorkspaceMemberUnitOfWork(database),
     scope: Scope.REQUEST,
-};  
+};
 
 export const workspaceMemberRepositoryProvider: Provider = {
     provide: WORKSPACE_MEMBER_REPOSITORY,

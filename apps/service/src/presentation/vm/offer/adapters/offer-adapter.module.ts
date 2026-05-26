@@ -1,13 +1,13 @@
 import { Module, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
-import { CreateOfferCommandHandler } from 'vm/offer/application/command/create-offer/handler';
-import { GetOffersByShopQueryHandler } from 'vm/offer/application/query/get-offers-by-shop/handler';
-import { GetOffersByWorkspaceQueryHandler } from 'vm/offer/application/query/get-offers-by-workspace/handler';
-import { DrizzleOfferRepository } from 'vm/offer/infrastructure/persistence/drizzle-offer.repository';
-import { DrizzleOfferQueryRepository } from 'vm/offer/infrastructure/persistence/drizzle-offer-query.repository';
+import { CreateOfferCommandHandler } from 'core/sales/offer/application/command/create-offer/handler';
+import { GetOffersByShopQueryHandler } from 'core/sales/offer/application/query/get-offers-by-shop/handler';
+import { GetOffersByWorkspaceQueryHandler } from 'core/sales/offer/application/query/get-offers-by-workspace/handler';
+import { DrizzleOfferRepository } from 'core/sales/offer/infrastructure/persistence/drizzle-offer.repository';
+import { DrizzleOfferQueryRepository } from 'core/sales/offer/infrastructure/persistence/drizzle-offer-query.repository';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import {
     OFFER_REPOSITORY,

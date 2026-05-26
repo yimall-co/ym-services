@@ -20,15 +20,15 @@ import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkRe
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { ShopBySlugDto } from 'vm/shop/application/query/get-shop-by-slug/dto';
-import { GetShopBySlugQuery } from 'vm/shop/application/query/get-shop-by-slug/query';
-import { ShopByWorkspaceDto } from 'vm/shop/application/query/get-shops-by-workspace/dto';
-import { GetShopsByWorkspaceQuery } from 'vm/shop/application/query/get-shops-by-workspace/query';
-import { CreateShopCommand } from 'vm/shop/application/command/create-shop/command';
-import { CreateShopResultDto } from 'vm/shop/application/command/create-shop/dto';
+import { ShopBySlugDto } from 'core/sales/shop/application/query/get-shop-by-slug/dto';
+import { GetShopBySlugQuery } from 'core/sales/shop/application/query/get-shop-by-slug/query';
+import { ShopByWorkspaceDto } from 'core/sales/shop/application/query/get-shops-by-workspace/dto';
+import { GetShopsByWorkspaceQuery } from 'core/sales/shop/application/query/get-shops-by-workspace/query';
+import { CreateShopCommand } from 'core/sales/shop/application/command/create-shop/command';
+import { CreateShopResultDto } from 'core/sales/shop/application/command/create-shop/dto';
 
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
-import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 import { CreateShopDto } from './dtos/create-shop.dto';
 

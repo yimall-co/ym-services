@@ -7,7 +7,7 @@ import {
     eventSubscribersProvider,
     queryBusProvider,
     queryHandlersProvider,
-} from './shared/adapters';
+} from '../common/adapters';
 
 import { IdentityAccessManagementModule } from './iam/iam.module';
 import { SocialManagementModule } from './socm/socm.module';

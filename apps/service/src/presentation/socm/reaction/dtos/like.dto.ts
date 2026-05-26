@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsUUID } from 'class-validator';
 
-import { reactionTargets, type ReactionTargets } from 'socm/reaction/domain/enum/reaction-targets';
+import { reactionTargets, type ReactionTargets } from 'core/social/reaction/domain/enum/reaction-targets';
 
 export class LikeDto {
     @ApiProperty()

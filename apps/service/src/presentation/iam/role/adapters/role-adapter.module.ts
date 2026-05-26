@@ -1,13 +1,13 @@
 import { Module, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
-import { DrizzleRoleRepository } from 'iam/role/infrastructure/persistence/drizzle-role.repository';
-import { DrizzleRoleUnitOfWork } from 'iam/role/infrastructure/persistence/drizzle-role.uow';
-import { CreateRoleCommandHandler } from 'iam/role/application/command/create-role/handler';
-import { UpdateRoleCommandHandler } from 'iam/role/application/command/update-role/handler';
-import { AddPermissionToRoleCommandHandler } from 'iam/role/application/command/add-permission-to-role/handler';
+import { DrizzleRoleRepository } from 'core/iam/role/infrastructure/persistence/drizzle-role.repository';
+import { DrizzleRoleUnitOfWork } from 'core/iam/role/infrastructure/persistence/drizzle-role.uow';
+import { CreateRoleCommandHandler } from 'core/iam/role/application/command/create-role/handler';
+import { UpdateRoleCommandHandler } from 'core/iam/role/application/command/update-role/handler';
+import { AddPermissionToRoleCommandHandler } from 'core/iam/role/application/command/add-permission-to-role/handler';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import {
     ADD_PERMISSION_TO_ROLE_COMMAND_HANDLER,

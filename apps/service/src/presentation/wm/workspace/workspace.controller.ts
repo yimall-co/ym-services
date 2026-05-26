@@ -35,18 +35,18 @@ import { GetWorkspacesQuery } from 'wm/workspace/application/query/get-workspace
 import { PaginatedWorkspace } from 'wm/workspace/application/query/workspace-query.repository';
 import { WorkspaceByIdDto } from 'wm/workspace/application/query/get-workspace-by-id/dto';
 import { GetWorkspaceByIdQuery } from 'wm/workspace/application/query/get-workspace-by-id/query';
-import { CategoryByWorkspaceIdDto } from 'lm/category/application/query/get-categories-by-workspace-id/dto';
-import { GetCategoriesByWorkspaceIdQuery } from 'lm/category/application/query/get-categories-by-workspace-id/query';
-import { GeolocationByWorkspaceDto } from 'vm/geolocation/application/query/get-geolocations-by-workspace/dto';
-import { GetGeolocationsByWorkspaceQuery } from 'vm/geolocation/application/query/get-geolocations-by-workspace/query';
+import { CategoryByWorkspaceIdDto } from 'core/sales/category/application/query/get-categories-by-workspace-id/dto';
+import { GetCategoriesByWorkspaceIdQuery } from 'core/sales/category/application/query/get-categories-by-workspace-id/query';
+import { GeolocationByWorkspaceDto } from 'core/location/geolocation/application/query/get-geolocations-by-workspace/dto';
+import { GetGeolocationsByWorkspaceQuery } from 'core/location/geolocation/application/query/get-geolocations-by-workspace/query';
 import { CreateWorkspaceResultDto } from 'wm/workspace/application/command/create-workspace/dto';
 import { CreateWorkspaceCommand } from 'wm/workspace/application/command/create-workspace/command';
 import { UpdateWorkspaceResultDto } from 'wm/workspace/application/command/update-workspace/dto';
 import { UpdateWorkspaceCommand } from 'wm/workspace/application/command/update-workspace/command';
 
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
-import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
-import { Public } from 'presentation/shared/decorators/public-route.decorator';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { Public } from 'src/common/decorators/public.decorator';
 
 import { CreateWorkspaceDto } from './dtos/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dtos/update-workspace.dto';

@@ -18,8 +18,8 @@ import type { CommandBus } from 'shared/domain/command-bus';
 import { CreateVisitResultDto } from 'wm/visit/application/command/create-visit/dto';
 import { CreateVisitCommand } from 'wm/visit/application/command/create-visit/command';
 
-import { Public } from 'presentation/shared/decorators/public-route.decorator';
-import { QUERY_BUS, COMMAND_BUS } from 'presentation/shared/adapters/constants';
+import { Public } from 'src/common/decorators/public.decorator';
+import { QUERY_BUS, COMMAND_BUS } from 'src/common/adapters/constants';
 
 import { VisitedDto } from './dtos/visited.dto';
 

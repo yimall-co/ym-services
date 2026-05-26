@@ -1,16 +1,16 @@
 import { Module, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
-import { AddRoleToUserCommandHandler } from 'iam/user/application/command/add-role-to-user/handler';
-import { DrizzleUserUnitOfWork } from 'iam/user/infrastructure/persistence/drizzle-user.uow';
-import { DrizzleUserRepository } from 'iam/user/infrastructure/persistence/drizzle-user.repository';
-import { DrizzleUserQueryRepository } from 'iam/user/infrastructure/persistence/drizzle-user-query.repository';
-import { GetUserByIdQueryHandler } from 'iam/user/application/query/get-user-by-id/handler';
-import { GetUserInfoByIdQueryHandler } from 'iam/user/application/query/get-user-info-by-id/handler';
+import { AddRoleToUserCommandHandler } from 'core/iam/user/application/command/add-role-to-user/handler';
+import { DrizzleUserUnitOfWork } from 'core/iam/user/infrastructure/persistence/drizzle-user.uow';
+import { DrizzleUserRepository } from 'core/iam/user/infrastructure/persistence/drizzle-user.repository';
+import { DrizzleUserQueryRepository } from 'core/iam/user/infrastructure/persistence/drizzle-user-query.repository';
+import { GetUserByIdQueryHandler } from 'core/iam/user/application/query/get-user-by-id/handler';
+import { GetUserInfoByIdQueryHandler } from 'core/iam/user/application/query/get-user-info-by-id/handler';
 import { GetWorkspacesByUserIdQueryHandler } from 'wm/workspace/application/query/get-workspaces-by-user-id/handler';
 import { WorkspaceQueryRepository } from 'wm/workspace/application/query/workspace-query.repository';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 import { WORKSPACE_QUERY_REPOSITORY } from 'presentation/wm/workspace/adapters/constants';
 import { WorkspaceAdapterModule } from 'presentation/wm/workspace/adapters/workspace-adapter.module';
 

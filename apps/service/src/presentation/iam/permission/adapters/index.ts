@@ -2,11 +2,11 @@ import { Provider, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 import { UnitOfWork } from 'shared/infrastructure/unit-of-work';
-import { PermissionRepositoryScope } from 'iam/permission/application/permission.repository-scope';
-import { CreatePermissionCommandHandler } from 'iam/permission/application/command/create-permission/handler';
-import { DrizzlePermissionUnitOfWork } from 'iam/permission/infrastructure/persistence/drizzle-permission.uow';
+import { PermissionRepositoryScope } from 'core/iam/permission/application/permission.repository-scope';
+import { CreatePermissionCommandHandler } from 'core/iam/permission/application/command/create-permission/handler';
+import { DrizzlePermissionUnitOfWork } from 'core/iam/permission/infrastructure/persistence/drizzle-permission.uow';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import { CREATE_PERMISSION_COMMAND_HANDLER, PERMISSION_UNIT_OF_WORK } from './constants';
 

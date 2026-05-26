@@ -33,10 +33,6 @@ async function bootstrap() {
         c: () => app.register(compress),
     });
 
-    // app.useGlobalFilters(
-    //     new GlobalException
-    // );
-
     const reflector = app.get(Reflector);
     const configService = app.get(ConfigService);
 

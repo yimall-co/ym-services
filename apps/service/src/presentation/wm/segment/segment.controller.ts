@@ -22,7 +22,7 @@ import {
     ApiQuery,
 } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 import { SegmentService } from './segment.service';
 import { CreateSegmentDto } from './dtos/create-segment.dto';

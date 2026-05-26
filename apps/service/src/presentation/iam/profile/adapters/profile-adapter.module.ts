@@ -1,10 +1,10 @@
 import { Module, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
-import { CreateProfileCommandHandler } from 'iam/profiles/application/command/create-profile/handler';
-import { DrizzleProfileUnitOfWork } from 'iam/profiles/infrastructure/persistence/drizzle-profile.uow';
+import { CreateProfileCommandHandler } from 'core/iam/profiles/application/command/create-profile/handler';
+import { DrizzleProfileUnitOfWork } from 'core/iam/profiles/infrastructure/persistence/drizzle-profile.uow';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import { CREATE_PROFILE_COMMAND_HANDLER, PROFILE_UNIT_OF_WORK } from './constants';
 

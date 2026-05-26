@@ -26,15 +26,15 @@ import {
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { PaginatedOffer } from 'vm/offer/application/query/offer-query.repository';
-import { OfferByShopDto } from 'vm/offer/application/query/get-offers-by-shop/dto';
-import { CreateOfferCommand } from 'vm/offer/application/command/create-offer/command';
-import { CreateOfferResultDto } from 'vm/offer/application/command/create-offer/dto';
-import { GetOffersByShopQuery } from 'vm/offer/application/query/get-offers-by-shop/query';
-import { OfferByWorkspaceDto } from 'vm/offer/application/query/get-offers-by-workspace/dto';
-import { GetOffersByWorkspaceQuery } from 'vm/offer/application/query/get-offers-by-workspace/query';
+import { PaginatedOffer } from 'core/sales/offer/application/query/offer-query.repository';
+import { OfferByShopDto } from 'core/sales/offer/application/query/get-offers-by-shop/dto';
+import { CreateOfferCommand } from 'core/sales/offer/application/command/create-offer/command';
+import { CreateOfferResultDto } from 'core/sales/offer/application/command/create-offer/dto';
+import { GetOffersByShopQuery } from 'core/sales/offer/application/query/get-offers-by-shop/query';
+import { OfferByWorkspaceDto } from 'core/sales/offer/application/query/get-offers-by-workspace/dto';
+import { GetOffersByWorkspaceQuery } from 'core/sales/offer/application/query/get-offers-by-workspace/query';
 
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
 
 import { CreateOfferDto } from './dtos/create-offer.dto';
 

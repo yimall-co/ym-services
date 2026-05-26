@@ -1,17 +1,17 @@
 import { Module, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
-import { DrizzleGeolocationUnitOfWork } from 'vm/geolocation/infrastructure/persistence/drizzle-geolocation.uow';
+import { DrizzleGeolocationUnitOfWork } from 'core/location/geolocation/infrastructure/persistence/drizzle-geolocation.uow';
 import { DrizzleWorkspaceUnitOfWork } from 'wm/workspace/infrastructure/persistence/drizzle-workspace.uow';
 import { DrizzleWorkspaceRepository } from 'wm/workspace/infrastructure/persistence/drizzle-workspace.repository';
 import { DrizzleWorkspaceQueryRepository } from 'wm/workspace/infrastructure/persistence/drizzle-workspace-query.repository';
 import { GetWorkspacesQueryHandler } from 'wm/workspace/application/query/get-workspaces/handler';
 import { GetWorkspaceByIdQueryHandler } from 'wm/workspace/application/query/get-workspace-by-id/handler';
-import { GetGeolocationsByWorkspaceQueryHandler } from 'vm/geolocation/application/query/get-geolocations-by-workspace/handler';
+import { GetGeolocationsByWorkspaceQueryHandler } from 'core/location/geolocation/application/query/get-geolocations-by-workspace/handler';
 import { CreateWorkspaceCommandHandler } from 'wm/workspace/application/command/create-workspace/handler';
 import { UpdateWorkspaceCommandHandler } from 'wm/workspace/application/command/update-workspace/handler';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import {
     CREATE_WORKSPACE_COMMAND_HANDLER,

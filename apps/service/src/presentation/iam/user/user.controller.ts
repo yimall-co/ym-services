@@ -19,17 +19,17 @@ import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTa
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { GetUserByIdQuery } from 'iam/user/application/query/get-user-by-id/query';
-import { UserByIdDto } from 'iam/user/application/query/get-user-by-id/dto';
-import { GetUserInfoByIdQuery } from 'iam/user/application/query/get-user-info-by-id/query';
-import { UserInfoByIdDto } from 'iam/user/application/query/get-user-info-by-id/dto';
+import { GetUserByIdQuery } from 'core/iam/user/application/query/get-user-by-id/query';
+import { UserByIdDto } from 'core/iam/user/application/query/get-user-by-id/dto';
+import { GetUserInfoByIdQuery } from 'core/iam/user/application/query/get-user-info-by-id/query';
+import { UserInfoByIdDto } from 'core/iam/user/application/query/get-user-info-by-id/dto';
 import { GetWorkspacesByUserIdQuery } from 'wm/workspace/application/query/get-workspaces-by-user-id/query';
 import { WorkspaceByUserDto } from 'wm/workspace/application/query/get-workspaces-by-user-id/dto';
-import { AddRoleToUserCommand } from 'iam/user/application/command/add-role-to-user/command';
-import { AddRoleToUserResultDto } from 'iam/user/application/command/add-role-to-user/dto';
+import { AddRoleToUserCommand } from 'core/iam/user/application/command/add-role-to-user/command';
+import { AddRoleToUserResultDto } from 'core/iam/user/application/command/add-role-to-user/dto';
 
-import { User } from 'presentation/shared/decorators/user.decorator';
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+import { User } from 'src/common/decorators/user.decorator';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
 
 import { AddRoleToUserDto } from './dtos/add-role-to-user.dto';
 

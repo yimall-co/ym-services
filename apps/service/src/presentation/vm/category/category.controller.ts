@@ -23,17 +23,17 @@ import {
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { CategoryByIdDto } from 'lm/category/application/query/get-category-by-id/dto';
-import { GetCategoryByIdQuery } from 'lm/category/application/query/get-category-by-id/query';
-import { CategoryBySlugDto } from 'lm/category/application/query/get-category-by-slug/dto';
-import { GetCategoryBySlugQuery } from 'lm/category/application/query/get-category-by-slug/query';
-import { CategoryByWorkspaceIdDto } from 'lm/category/application/query/get-categories-by-workspace-id/dto';
-import { GetCategoriesByWorkspaceIdQuery } from 'lm/category/application/query/get-categories-by-workspace-id/query';
-import { CreateCategoryResultDto } from 'lm/category/application/command/create-category/dto';
-import { CreateCategoryCommand } from 'lm/category/application/command/create-category/command';
+import { CategoryByIdDto } from 'core/sales/category/application/query/get-category-by-id/dto';
+import { GetCategoryByIdQuery } from 'core/sales/category/application/query/get-category-by-id/query';
+import { CategoryBySlugDto } from 'core/sales/category/application/query/get-category-by-slug/dto';
+import { GetCategoryBySlugQuery } from 'core/sales/category/application/query/get-category-by-slug/query';
+import { CategoryByWorkspaceIdDto } from 'core/sales/category/application/query/get-categories-by-workspace-id/dto';
+import { GetCategoriesByWorkspaceIdQuery } from 'core/sales/category/application/query/get-categories-by-workspace-id/query';
+import { CreateCategoryResultDto } from 'core/sales/category/application/command/create-category/dto';
+import { CreateCategoryCommand } from 'core/sales/category/application/command/create-category/command';
 
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
-import { JwtAuthGuard } from 'presentation/shared/guards/jwt-auth.guard';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 import { CreateCategoryDto } from './dtos/create-category.dto';
 

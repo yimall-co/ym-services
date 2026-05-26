@@ -7,7 +7,7 @@ import { SegmentByCriteriaDto } from 'wm/segment/application/query/get-segments-
 import { GetSegmentsByCriteriaQuery } from 'wm/segment/application/query/get-segments-by-criteria/query';
 import { CreateSegmentCommand } from 'wm/segment/application/command/create-segment/command';
 
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
 
 import { CreateSegmentDto } from './dtos/create-segment.dto';
 import { GetSegmentsByCriteriaDto } from './dtos/get-segments-by-criteria.dto';

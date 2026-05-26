@@ -1,7 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
 
-import { commentTargets, type CommentTargets } from 'socm/comment/domain/enum/comment-targets';
+import {
+    commentTargets,
+    type CommentTarget,
+} from 'core/social/comment/domain/enum/comment-targets';
 
 export class CreateCommentDto {
     @ApiProperty()
@@ -16,7 +19,7 @@ export class CreateCommentDto {
 
     @ApiProperty()
     @IsEnum(commentTargets)
-    targetType: CommentTargets;
+    targetType: CommentTarget;
 
     @ApiProperty()
     @IsUUID('4')

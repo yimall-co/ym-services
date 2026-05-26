@@ -11,7 +11,7 @@ import {
     Max,
 } from 'class-validator';
 
-import { offerTypes, type OfferTypes } from 'vm/offer/domain/enum/offer-types';
+import { offerTypes, type OfferTypes } from 'core/sales/offer/domain/enum/offer-types';
 
 export class CreateOfferDto {
     @ApiProperty()

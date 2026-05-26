@@ -18,38 +18,20 @@
             "lib/*": [
                 "./src/lib/*"
             ],
-            "bm/*": [
-                "./src/contexts/bm/*"
+            "core/*": [
+                "./src/core/*"
             ],
-            "cm/*": [
-                "./src/contexts/cm/*"
-            ],
-            "iam/*": [
-                "./src/contexts/iam/*"
-            ],
-            "lm/*": [
-                "./src/contexts/lm/*"
+            "common/*": [
+                "./src/common/*"
             ],
             "shared/*": [
-                "./src/contexts/shared/*"
-            ],
-            "sm/*": [
-                "./src/contexts/sm/*"
-            ],
-            "vm/*": [
-                "./src/contexts/vm/*"
-            ],
-            "wm/*": [
-                "./src/contexts/wm/*"
-            ],
-            "mkm/*": [
-                "./src/contexts/mkm/*"
-            ],
-            "socm/*": [
-                "./src/contexts/socm/*"
+                "./src/core/shared/*"
             ],
             "presentation/*": [
                 "./src/presentation/*"
+            ],
+            "wm/*": [
+                "./src/core/wm/*"
             ]
         },
         "incremental": true,

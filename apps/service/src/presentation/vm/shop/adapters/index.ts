@@ -1,15 +1,15 @@
 import { Provider, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
-import { ShopQueryRepository } from 'vm/shop/application/query/shop-query.repository';
-import { DrizzleShopRepository } from 'vm/shop/infrastructure/persistence/drizzle-shop.repository';
-import { DrizzleShopQueryRepository } from 'vm/shop/infrastructure/persistence/drizzle-shop-query.repository';
-import { GetShopBySlugQueryHandler } from 'vm/shop/application/query/get-shop-by-slug/handler';
-import { GetShopsByWorkspaceQueryHandler } from 'vm/shop/application/query/get-shops-by-workspace/handler';
-import { DrizzleShopUnitOfWork } from 'vm/shop/infrastructure/persistence/drizzle-shop.uow';
-import { CreateShopCommandHandler } from 'vm/shop/application/command/create-shop/handler';
+import { ShopQueryRepository } from 'core/sales/shop/application/query/shop-query.repository';
+import { DrizzleShopRepository } from 'core/sales/shop/infrastructure/persistence/drizzle-shop.repository';
+import { DrizzleShopQueryRepository } from 'core/sales/shop/infrastructure/persistence/drizzle-shop-query.repository';
+import { GetShopBySlugQueryHandler } from 'core/sales/shop/application/query/get-shop-by-slug/handler';
+import { GetShopsByWorkspaceQueryHandler } from 'core/sales/shop/application/query/get-shops-by-workspace/handler';
+import { DrizzleShopUnitOfWork } from 'core/sales/shop/infrastructure/persistence/drizzle-shop.uow';
+import { CreateShopCommandHandler } from 'core/sales/shop/application/command/create-shop/handler';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import {
     CREATE_SHOP_COMMAND_HANDLER,

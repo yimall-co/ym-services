@@ -1,16 +1,16 @@
 import { Provider, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
-import { CategoryQueryRepository } from 'lm/category/application/query/category-query.repository';
-import { GetCategoryBySlugQueryHandler } from 'lm/category/application/query/get-category-by-slug/handler';
-import { DrizzleCategoryRepository } from 'lm/category/infrastructure/persistence/drizzle-category.repository';
-import { DrizzleCategoryQueryRepository } from 'lm/category/infrastructure/persistence/drizzle-category-query.repository';
-import { GetCategoryByIdQueryHandler } from 'lm/category/application/query/get-category-by-id/handler';
-import { GetCategoriesByWorkspaceIdQueryHandler } from 'lm/category/application/query/get-categories-by-workspace-id/handler';
-import { DrizzleCategoryUnitOfWork } from 'lm/category/infrastructure/persistence/drizzle-category.uow';
-import { CreateCategoryCommandHandler } from 'lm/category/application/command/create-category/handler';
+import { CategoryQueryRepository } from 'core/sales/category/application/query/category-query.repository';
+import { GetCategoryBySlugQueryHandler } from 'core/sales/category/application/query/get-category-by-slug/handler';
+import { DrizzleCategoryRepository } from 'core/sales/category/infrastructure/persistence/drizzle-category.repository';
+import { DrizzleCategoryQueryRepository } from 'core/sales/category/infrastructure/persistence/drizzle-category-query.repository';
+import { GetCategoryByIdQueryHandler } from 'core/sales/category/application/query/get-category-by-id/handler';
+import { GetCategoriesByWorkspaceIdQueryHandler } from 'core/sales/category/application/query/get-categories-by-workspace-id/handler';
+import { DrizzleCategoryUnitOfWork } from 'core/sales/category/infrastructure/persistence/drizzle-category.uow';
+import { CreateCategoryCommandHandler } from 'core/sales/category/application/command/create-category/handler';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import {
     CATEGORY_QUERY_REPOSITORY,

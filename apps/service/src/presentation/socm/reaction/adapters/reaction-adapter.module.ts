@@ -1,10 +1,10 @@
 import { Module, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
-import { LikeCommandHandler } from 'socm/reaction/application/command/like/handler';
-import { DrizzleReactionUnitOfWork } from 'socm/reaction/infrastructure/persistence/drizzle-reaction.uow';
+import { LikeCommandHandler } from 'core/social/reaction/application/command/like/handler';
+import { DrizzleReactionUnitOfWork } from 'core/social/reaction/infrastructure/persistence/drizzle-reaction.uow';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 
 import { LIKE_COMMAND_HANDLER, REACTION_UNIT_OF_WORK } from './constants';
 

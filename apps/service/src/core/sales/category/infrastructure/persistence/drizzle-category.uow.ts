@@ -1,0 +1,24 @@
+import { NodePgDatabase } from 'drizzle-orm/node-postgres';
+
+import { UnitOfWork } from 'shared/infrastructure/unit-of-work';
+
+import { CategoryRepositoryScope } from 'core/sales/category/application/category.repository-scope';
+
+import { DrizzleCategoryRepositoryScope } from './drizzle-category.repository-scope';
+
+export class DrizzleCategoryUnitOfWork implements UnitOfWork<CategoryRepositoryScope> {
+    constructor(
+        private readonly db: NodePgDatabase<
+            Schema
+        >,
+    ) { }
+
+    withTransaction<T>(fn: (scope: CategoryRepositoryScope) => Promise<T>): Promise<T> {
+        return this.db.transaction(async (tx) => {
+            const scope = new DrizzleCategoryRepositoryScope(tx);
+            const result = await fn(scope);
+
+            return result;
+        });
+    }
+}

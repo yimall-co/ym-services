@@ -1,14 +1,14 @@
 import { Module, Scope } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
-import { OfferRepository } from 'vm/offer/domain/offer.repository';
+import { OfferRepository } from 'core/sales/offer/domain/offer.repository';
 import { WorkspaceRepository } from 'wm/workspace/domain/workspace.repository';
-import { CommentateOnCommandHandler } from 'socm/comment/application/command/commentate-on/handler';
-import { CommentTargetExistenceCheckerAcl } from 'socm/comment/infrastructure/acl/comment-target.existence-checker.acl';
-import { DrizzleCommentRepository } from 'socm/comment/infrastructure/persistence/drizzle-comment.repository';
-import { DrizzleCommentUnitOfWork } from 'socm/comment/infrastructure/persistence/drizzle-comment.uow';
+import { CommentateOnCommandHandler } from 'core/social/comment/application/command/commentate-on/handler';
+import { CommentTargetExistenceCheckerAcl } from 'core/social/comment/infrastructure/acl/comment-target.existence-checker.acl';
+import { DrizzleCommentRepository } from 'core/social/comment/infrastructure/persistence/drizzle-comment.repository';
+import { DrizzleCommentUnitOfWork } from 'core/social/comment/infrastructure/persistence/drizzle-comment.uow';
 
-import { DRIZZLE_INSTANCE } from 'presentation/shared/adapters/constants';
+import { DRIZZLE_INSTANCE } from 'src/common/adapters/constants';
 import { OFFER_REPOSITORY } from 'presentation/vm/offer/adapters/constants';
 import { WORKSPACE_REPOSITORY } from 'presentation/wm/workspace/adapters/constants';
 import { OfferAdapterModule } from 'presentation/vm/offer/adapters/offer-adapter.module';

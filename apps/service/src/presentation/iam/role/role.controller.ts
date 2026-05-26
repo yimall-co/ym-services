@@ -21,12 +21,12 @@ import {
 
 import type { QueryBus } from 'shared/domain/query-bus';
 import type { CommandBus } from 'shared/domain/command-bus';
-import { CreateRoleCommand } from 'iam/role/application/command/create-role/command';
-import { CreateRoleResultDto } from 'iam/role/application/command/create-role/dto';
-import { AddPermissionToRoleCommand } from 'iam/role/application/command/add-permission-to-role/command';
-import { AddPermissionToRoleResultDto } from 'iam/role/application/command/add-permission-to-role/dto';
+import { CreateRoleCommand } from 'core/iam/role/application/command/create-role/command';
+import { CreateRoleResultDto } from 'core/iam/role/application/command/create-role/dto';
+import { AddPermissionToRoleCommand } from 'core/iam/role/application/command/add-permission-to-role/command';
+import { AddPermissionToRoleResultDto } from 'core/iam/role/application/command/add-permission-to-role/dto';
 
-import { COMMAND_BUS, QUERY_BUS } from 'presentation/shared/adapters/constants';
+import { COMMAND_BUS, QUERY_BUS } from 'src/common/adapters/constants';
 
 import { CreateRoleDto } from './dtos/create-role.dto';
 import { AddPermissionToRoleDto } from './dtos/add-permission-to-role.dto';
